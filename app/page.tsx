@@ -8,10 +8,13 @@ import MessagesSection from "@/components/wedding/MessagesSection";
 import WordsToRememberSection from "@/components/wedding/WordsToRememberSection";
 import ForeverSection from "@/components/wedding/ForeverSection";
 import EndingSection from "@/components/wedding/EndingSection";
+import FloatingControls from "@/components/wedding/FloatingControls";
 
 export default function Home() {
   return (
     <main className="overflow-x-hidden">
+      <FloatingControls />
+
       {/* 01 - MỞ CÂU CHUYỆN */}
       <OpenSection />
 
