@@ -9,6 +9,11 @@ import {
 } from "motion/react";
 
 import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
   wedding,
 } from "@/data/wedding";
 
@@ -17,7 +22,116 @@ type HeartCurtainProps = {
   onOpened?: () => void;
 };
 
+/* =========================================================
+   MAIN
+========================================================= */
+
 export default function HeartCurtain({
+  start,
+  onOpened,
+}: HeartCurtainProps) {
+  const [
+    isDesktop,
+    setIsDesktop,
+  ] = useState<boolean | null>(
+    null,
+  );
+
+  /* =====================================================
+      DETECT DEVICE
+
+      Desktop >= 768px
+      Mobile < 768px
+  ===================================================== */
+
+  useEffect(() => {
+    const media =
+      window.matchMedia(
+        "(min-width: 768px)",
+      );
+
+    const update =
+      () => {
+        setIsDesktop(
+          media.matches,
+        );
+      };
+
+    update();
+
+    media.addEventListener(
+      "change",
+      update,
+    );
+
+    return () => {
+      media.removeEventListener(
+        "change",
+        update,
+      );
+    };
+  }, []);
+
+  /*
+   * Trong vài mili giây đầu khi hydration
+   * chưa xác định breakpoint thì không render.
+   *
+   * OpenSection đang phủ toàn màn hình nên
+   * người dùng không nhìn thấy trạng thái này.
+   */
+  if (
+    isDesktop ===
+    null
+  ) {
+    return null;
+  }
+
+  /* =====================================================
+      DESKTOP
+
+      GIỮ NGUYÊN 100% VERSION CŨ.
+  ===================================================== */
+
+  if (isDesktop) {
+    return (
+      <DesktopHeartCurtain
+        start={start}
+        onOpened={
+          onOpened
+        }
+      />
+    );
+  }
+
+  /* =====================================================
+      MOBILE
+
+      Chưa bấm mở câu chuyện:
+      KHÔNG render curtain.
+
+      Đây chính là phần giúp giảm lag mobile.
+  ===================================================== */
+
+  if (!start) {
+    return null;
+  }
+
+  return (
+    <MobileHeartCurtain
+      onOpened={
+        onOpened
+      }
+    />
+  );
+}
+
+/* =========================================================
+   DESKTOP HEART CURTAIN
+
+   PHẦN NÀY GIỮ NGUYÊN CODE GỐC.
+========================================================= */
+
+function DesktopHeartCurtain({
   start,
   onOpened,
 }: HeartCurtainProps) {
@@ -30,7 +144,8 @@ export default function HeartCurtain({
         start
           ? {
               opacity: 0,
-              pointerEvents: "none",
+              pointerEvents:
+                "none",
             }
           : {
               opacity: 1,
@@ -142,8 +257,12 @@ export default function HeartCurtain({
           }}
           transition={{
             duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
+
+            repeat:
+              Infinity,
+
+            ease:
+              "easeInOut",
           }}
           className="
             wedding-glow-blue
@@ -180,8 +299,12 @@ export default function HeartCurtain({
           }}
           transition={{
             duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
+
+            repeat:
+              Infinity,
+
+            ease:
+              "easeInOut",
           }}
           className="
             wedding-glow-pink
@@ -272,8 +395,12 @@ export default function HeartCurtain({
           }}
           transition={{
             duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
+
+            repeat:
+              Infinity,
+
+            ease:
+              "easeInOut",
           }}
           className="
             text-wedding-blue
@@ -380,8 +507,12 @@ export default function HeartCurtain({
           }}
           transition={{
             duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
+
+            repeat:
+              Infinity,
+
+            ease:
+              "easeInOut",
           }}
           className="
             wedding-glow-green
@@ -418,8 +549,12 @@ export default function HeartCurtain({
           }}
           transition={{
             duration: 8.5,
-            repeat: Infinity,
-            ease: "easeInOut",
+
+            repeat:
+              Infinity,
+
+            ease:
+              "easeInOut",
           }}
           className="
             wedding-glow-pink
@@ -510,8 +645,12 @@ export default function HeartCurtain({
           }}
           transition={{
             duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
+
+            repeat:
+              Infinity,
+
+            ease:
+              "easeInOut",
           }}
           className="
             text-wedding-rose
@@ -565,7 +704,9 @@ export default function HeartCurtain({
         }
         transition={{
           duration: 1.3,
-          ease: "easeInOut",
+
+          ease:
+            "easeInOut",
         }}
         className="
           absolute
@@ -581,6 +722,7 @@ export default function HeartCurtain({
           -translate-x-1/2
 
           bg-gradient-to-b
+
           from-transparent
           via-white
           to-transparent
@@ -597,7 +739,8 @@ export default function HeartCurtain({
         initial={{
           opacity: 0,
           scale: 0.65,
-          filter: "blur(4px)",
+          filter:
+            "blur(4px)",
         }}
         animate={
           start
@@ -626,7 +769,8 @@ export default function HeartCurtain({
             : {
                 opacity: 1,
                 scale: 1,
-                filter: "blur(0px)",
+                filter:
+                  "blur(0px)",
               }
         }
         transition={{
@@ -639,7 +783,8 @@ export default function HeartCurtain({
             1,
           ],
 
-          ease: "easeInOut",
+          ease:
+            "easeInOut",
         }}
         className="
           absolute
@@ -658,9 +803,7 @@ export default function HeartCurtain({
           justify-center
         "
       >
-        {/* =================================================
-            GLOW XANH
-        ================================================= */}
+        {/* GLOW XANH */}
 
         <motion.div
           animate={
@@ -703,9 +846,7 @@ export default function HeartCurtain({
           "
         />
 
-        {/* =================================================
-            GLOW HỒNG
-        ================================================= */}
+        {/* GLOW HỒNG */}
 
         <motion.div
           animate={
@@ -751,9 +892,7 @@ export default function HeartCurtain({
           "
         />
 
-        {/* =================================================
-            VÒNG TIM
-        ================================================= */}
+        {/* VÒNG TIM */}
 
         <motion.div
           animate={
@@ -769,10 +908,14 @@ export default function HeartCurtain({
           }
           transition={{
             duration: 0.75,
-            repeat: start
-              ? 1
-              : 0,
-            ease: "easeInOut",
+
+            repeat:
+              start
+                ? 1
+                : 0,
+
+            ease:
+              "easeInOut",
           }}
           className="
             glass-wedding
@@ -796,8 +939,6 @@ export default function HeartCurtain({
             sm:w-[102px]
           "
         >
-          {/* INNER RING */}
-
           <div
             className="
               border-wedding-white
@@ -813,8 +954,6 @@ export default function HeartCurtain({
             "
           />
 
-          {/* HEART */}
-
           <motion.div
             animate={{
               scale: [
@@ -825,12 +964,18 @@ export default function HeartCurtain({
             }}
             transition={{
               duration: 1.8,
-              repeat: Infinity,
-              ease: "easeInOut",
+
+              repeat:
+                Infinity,
+
+              ease:
+                "easeInOut",
             }}
           >
             <Heart
-              strokeWidth={1.15}
+              strokeWidth={
+                1.15
+              }
               className="
                 text-wedding-rose
 
@@ -910,15 +1055,12 @@ export default function HeartCurtain({
           sm:top-[calc(50%+86px)]
         "
       >
-        {/* =================================================
-            EYEBROW
-        ================================================= */}
-
         <p
           className="
             text-wedding-blue
 
             text-[8px]
+
             font-semibold
 
             uppercase
@@ -928,12 +1070,11 @@ export default function HeartCurtain({
             sm:text-[10px]
           "
         >
-          {wedding.curtain.eyebrow}
+          {
+            wedding.curtain
+              .eyebrow
+          }
         </p>
-
-        {/* =================================================
-            TITLE
-        ================================================= */}
 
         <p
           className="
@@ -951,12 +1092,11 @@ export default function HeartCurtain({
             tracking-[-0.02em]
           "
         >
-          {wedding.curtain.title}
+          {
+            wedding.curtain
+              .title
+          }
         </p>
-
-        {/* =================================================
-            SUBTITLE
-        ================================================= */}
 
         <p
           className="
@@ -970,7 +1110,539 @@ export default function HeartCurtain({
             leading-none
           "
         >
-          {wedding.curtain.subtitle}
+          {
+            wedding.curtain
+              .subtitle
+          }
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* =========================================================
+   MOBILE HEART CURTAIN
+
+   RIÊNG CHO MOBILE.
+
+   - Không blur fullscreen.
+   - Không animation vô hạn.
+   - Không glow khổng lồ.
+   - Chủ yếu transform + opacity.
+========================================================= */
+
+function MobileHeartCurtain({
+  onOpened,
+}: {
+  onOpened?: () => void;
+}) {
+  const [
+    finished,
+    setFinished,
+  ] = useState(false);
+
+  if (finished) {
+    return null;
+  }
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 1,
+      }}
+      animate={{
+        opacity: 0,
+      }}
+      transition={{
+        delay: 1.45,
+        duration: 0.2,
+        ease: "easeOut",
+      }}
+      onAnimationComplete={() => {
+        setFinished(
+          true,
+        );
+
+        onOpened?.();
+      }}
+      className="
+        pointer-events-none
+
+        absolute
+        inset-0
+
+        z-[50]
+
+        overflow-hidden
+
+        will-change-[opacity]
+      "
+    >
+      {/* =====================================================
+          LEFT
+      ===================================================== */}
+
+      <motion.div
+        initial={{
+          x: "0%",
+        }}
+        animate={{
+          x: "-105%",
+        }}
+        transition={{
+          delay: 0.3,
+
+          duration: 1.05,
+
+          ease: [
+            0.76,
+            0,
+            0.24,
+            1,
+          ],
+        }}
+        className="
+          wedding-curtain-left
+
+          absolute
+          inset-y-0
+          left-0
+
+          w-1/2
+
+          overflow-hidden
+
+          border-r
+          border-white/25
+
+          will-change-transform
+        "
+      >
+        <div
+          className="
+            absolute
+            inset-0
+
+            bg-[radial-gradient(circle_at_90%_50%,rgba(255,255,255,0.70),transparent_48%)]
+          "
+        />
+
+        <div
+          className="
+            wedding-divider-right
+
+            absolute
+
+            right-4
+            top-[14%]
+
+            h-[72%]
+            w-px
+
+            opacity-50
+          "
+        />
+      </motion.div>
+
+      {/* =====================================================
+          RIGHT
+      ===================================================== */}
+
+      <motion.div
+        initial={{
+          x: "0%",
+        }}
+        animate={{
+          x: "105%",
+        }}
+        transition={{
+          delay: 0.3,
+
+          duration: 1.05,
+
+          ease: [
+            0.76,
+            0,
+            0.24,
+            1,
+          ],
+        }}
+        className="
+          wedding-curtain-right
+
+          absolute
+          inset-y-0
+          right-0
+
+          w-1/2
+
+          overflow-hidden
+
+          border-l
+          border-white/25
+
+          will-change-transform
+        "
+      >
+        <div
+          className="
+            absolute
+            inset-0
+
+            bg-[radial-gradient(circle_at_10%_50%,rgba(255,255,255,0.70),transparent_48%)]
+          "
+        />
+
+        <div
+          className="
+            wedding-divider-left
+
+            absolute
+
+            left-4
+            top-[14%]
+
+            h-[72%]
+            w-px
+
+            opacity-50
+          "
+        />
+      </motion.div>
+
+      {/* =====================================================
+          CENTER LINE
+      ===================================================== */}
+
+      <motion.div
+        initial={{
+          opacity: 0.3,
+          scaleY: 0.65,
+        }}
+        animate={{
+          opacity: [
+            0.3,
+            0.85,
+            0,
+          ],
+
+          scaleY: [
+            0.65,
+            1,
+            1.08,
+          ],
+        }}
+        transition={{
+          duration: 1,
+          ease:
+            "easeInOut",
+        }}
+        className="
+          absolute
+
+          left-1/2
+          top-[10%]
+
+          z-[55]
+
+          h-[80%]
+          w-px
+
+          -translate-x-1/2
+
+          bg-gradient-to-b
+
+          from-transparent
+          via-white/90
+          to-transparent
+        "
+      />
+
+      {/* =====================================================
+          CENTER HEART
+      ===================================================== */}
+
+      <motion.div
+        initial={{
+          opacity: 0,
+          scale: 0.75,
+        }}
+        animate={{
+          opacity: [
+            0,
+            1,
+            1,
+            0,
+          ],
+
+          scale: [
+            0.75,
+            1,
+            1.05,
+            1.3,
+          ],
+        }}
+        transition={{
+          duration: 1.15,
+
+          times: [
+            0,
+            0.12,
+            0.72,
+            1,
+          ],
+
+          ease:
+            "easeInOut",
+        }}
+        className="
+          absolute
+
+          left-1/2
+          top-1/2
+
+          z-[60]
+
+          flex
+
+          -translate-x-1/2
+          -translate-y-1/2
+
+          items-center
+          justify-center
+
+          will-change-[opacity,transform]
+        "
+      >
+        {/* STATIC GLOW */}
+
+        <div
+          className="
+            wedding-glow-blue
+
+            pointer-events-none
+
+            absolute
+
+            h-28
+            w-28
+
+            rounded-full
+
+            opacity-20
+
+            blur-xl
+          "
+        />
+
+        <div
+          className="
+            wedding-glow-pink
+
+            pointer-events-none
+
+            absolute
+
+            h-20
+            w-20
+
+            translate-x-3
+            translate-y-3
+
+            rounded-full
+
+            opacity-15
+
+            blur-lg
+          "
+        />
+
+        {/* HEART FRAME */}
+
+        <motion.div
+          initial={{
+            scale: 0.95,
+          }}
+          animate={{
+            scale: [
+              0.95,
+              1.06,
+              1,
+            ],
+          }}
+          transition={{
+            duration: 0.65,
+
+            ease:
+              "easeOut",
+          }}
+          className="
+            glass-wedding
+            border-wedding-soft
+
+            relative
+
+            flex
+
+            h-[82px]
+            w-[82px]
+
+            items-center
+            justify-center
+
+            rounded-full
+
+            border
+
+            shadow-wedding-soft
+          "
+        >
+          <div
+            className="
+              border-wedding-white
+
+              pointer-events-none
+
+              absolute
+              inset-[5px]
+
+              rounded-full
+
+              border
+            "
+          />
+
+          <Heart
+            strokeWidth={
+              1.15
+            }
+            className="
+              text-wedding-rose
+
+              h-10
+              w-10
+            "
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* =====================================================
+          TEXT
+      ===================================================== */}
+
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 8,
+        }}
+        animate={{
+          opacity: [
+            0,
+            1,
+            1,
+            0,
+          ],
+
+          y: [
+            8,
+            0,
+            0,
+            -5,
+          ],
+        }}
+        transition={{
+          duration: 1.15,
+
+          times: [
+            0,
+            0.12,
+            0.74,
+            1,
+          ],
+
+          ease: [
+            0.22,
+            1,
+            0.36,
+            1,
+          ],
+        }}
+        className="
+          absolute
+
+          left-1/2
+          top-[calc(50%+68px)]
+
+          z-[60]
+
+          w-[90%]
+
+          max-w-xl
+
+          -translate-x-1/2
+
+          text-center
+
+          will-change-[opacity,transform]
+        "
+      >
+        <p
+          className="
+            text-wedding-blue
+
+            text-[8px]
+
+            font-semibold
+
+            uppercase
+
+            tracking-[0.28em]
+          "
+        >
+          {
+            wedding.curtain
+              .eyebrow
+          }
+        </p>
+
+        <p
+          className="
+            font-editorial
+            text-wedding-primary
+
+            mt-1
+
+            text-[1.45rem]
+
+            font-medium
+
+            leading-none
+
+            tracking-[-0.02em]
+          "
+        >
+          {
+            wedding.curtain
+              .title
+          }
+        </p>
+
+        <p
+          className="
+            font-script
+            text-wedding-rose
+
+            mt-1
+
+            text-[1.15rem]
+
+            leading-none
+          "
+        >
+          {
+            wedding.curtain
+              .subtitle
+          }
         </p>
       </motion.div>
     </motion.div>

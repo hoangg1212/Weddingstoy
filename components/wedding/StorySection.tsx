@@ -26,7 +26,7 @@ export default function StorySection() {
     useRef<HTMLElement>(null);
 
   /* =====================================================
-      TRẠNG THÁI STORY
+      STORY STATE
   ===================================================== */
 
   const [
@@ -39,8 +39,47 @@ export default function StorySection() {
     setCurtainOpened,
   ] = useState(false);
 
+  const [
+    isDesktop,
+    setIsDesktop,
+  ] = useState(false);
+
   /* =====================================================
-      NHẬN EVENT TỪ OPEN SECTION
+      SCREEN SIZE
+
+      Dùng để giảm số lượng heart particle trên mobile.
+  ===================================================== */
+
+  useEffect(() => {
+    const mediaQuery =
+      window.matchMedia(
+        "(min-width: 768px)",
+      );
+
+    const updateScreen =
+      () => {
+        setIsDesktop(
+          mediaQuery.matches,
+        );
+      };
+
+    updateScreen();
+
+    mediaQuery.addEventListener(
+      "change",
+      updateScreen,
+    );
+
+    return () => {
+      mediaQuery.removeEventListener(
+        "change",
+        updateScreen,
+      );
+    };
+  }, []);
+
+  /* =====================================================
+      EVENT FROM OPEN SECTION
   ===================================================== */
 
   useEffect(() => {
@@ -68,7 +107,8 @@ export default function StorySection() {
   const {
     scrollYProgress,
   } = useScroll({
-    target: sectionRef,
+    target:
+      sectionRef,
 
     offset: [
       "start start",
@@ -77,49 +117,58 @@ export default function StorySection() {
   });
 
   /* =====================================================
-      DESKTOP IMAGE
+      DESKTOP IMAGE PARALLAX
   ===================================================== */
 
   const desktopScale =
     useTransform(
       scrollYProgress,
+
       [
         0,
         1,
       ],
+
       [
         1,
-        1.07,
+        1.055,
       ],
     );
 
   const desktopY =
     useTransform(
       scrollYProgress,
+
       [
         0,
         1,
       ],
+
       [
-        "0%",
-        "4%",
+        "-1.5%",
+        "2.5%",
       ],
     );
 
   /* =====================================================
       MOBILE IMAGE
+
+      Chỉ zoom rất nhẹ.
+      KHÔNG Y parallax để giảm workload.
   ===================================================== */
 
   const mobileScale =
     useTransform(
       scrollYProgress,
+
       [
         0,
         1,
       ],
+
       [
         1,
-        1.035,
+        1.025,
       ],
     );
 
@@ -130,24 +179,28 @@ export default function StorySection() {
   const contentY =
     useTransform(
       scrollYProgress,
+
       [
         0,
         1,
       ],
+
       [
         "0%",
-        "-4%",
+        "-3%",
       ],
     );
 
   const contentOpacity =
     useTransform(
       scrollYProgress,
+
       [
         0,
         0.82,
         1,
       ],
+
       [
         1,
         1,
@@ -160,19 +213,25 @@ export default function StorySection() {
       ref={sectionRef}
       id="our-story"
       className="
-        bg-wedding
-
         relative
 
         min-h-[100svh]
 
         overflow-hidden
 
+        bg-[#1e2c31]
+
         md:min-h-dvh
       "
     >
       {/* =====================================================
           MOBILE BACKGROUND
+
+          QUAN TRỌNG:
+
+          - Không filter blur.
+          - Không y parallax.
+          - Chỉ opacity + scale.
       ===================================================== */}
 
       <motion.div
@@ -182,24 +241,15 @@ export default function StorySection() {
         }}
         initial={{
           opacity: 0,
-          filter:
-            "blur(10px)",
         }}
-        animate={
-          storyStarted
-            ? {
-              opacity: 1,
-              filter:
-                "blur(0px)",
-            }
-            : {
-              opacity: 0,
-              filter:
-                "blur(10px)",
-            }
-        }
+        animate={{
+          opacity:
+            storyStarted
+              ? 1
+              : 0,
+        }}
         transition={{
-          duration: 1.6,
+          duration: 0.7,
 
           ease: [
             0.22,
@@ -215,6 +265,8 @@ export default function StorySection() {
           z-0
 
           block
+
+          will-change-[opacity,transform]
 
           md:hidden
         "
@@ -237,44 +289,12 @@ export default function StorySection() {
 
       {/* =====================================================
           DESKTOP BACKGROUND
+
+          Có parallax nhưng dùng overscan để không
+          xuất hiện khe ảnh khi y thay đổi.
       ===================================================== */}
 
-      <motion.div
-        style={{
-          scale:
-            desktopScale,
-
-          y:
-            desktopY,
-        }}
-        initial={{
-          opacity: 0,
-          filter:
-            "blur(10px)",
-        }}
-        animate={
-          storyStarted
-            ? {
-              opacity: 1,
-              filter:
-                "blur(0px)",
-            }
-            : {
-              opacity: 0,
-              filter:
-                "blur(10px)",
-            }
-        }
-        transition={{
-          duration: 1.6,
-
-          ease: [
-            0.22,
-            1,
-            0.36,
-            1,
-          ],
-        }}
+      <div
         className="
           absolute
           inset-0
@@ -283,29 +303,77 @@ export default function StorySection() {
 
           hidden
 
+          overflow-hidden
+
           md:block
         "
       >
-        <Image
-          src={
-            wedding.story
-              .imageDesktop
+        <motion.div
+          style={{
+            scale:
+              desktopScale,
+
+            y:
+              desktopY,
+          }}
+          initial={{
+            opacity: 0,
+            filter:
+              "blur(7px)",
+          }}
+          animate={
+            storyStarted
+              ? {
+                  opacity: 1,
+
+                  filter:
+                    "blur(0px)",
+                }
+              : {
+                  opacity: 0,
+
+                  filter:
+                    "blur(7px)",
+                }
           }
-          alt={`${wedding.groom} và ${wedding.bride}`}
-          fill
-          priority
-          sizes="100vw"
+          transition={{
+            duration: 1.25,
+
+            ease: [
+              0.22,
+              1,
+              0.36,
+              1,
+            ],
+          }}
           className="
-            object-cover
-            object-center
+            absolute
+
+            -inset-y-[7%]
+            inset-x-0
+
+            will-change-[opacity,transform]
           "
-        />
-      </motion.div>
+        >
+          <Image
+            src={
+              wedding.story
+                .imageDesktop
+            }
+            alt={`${wedding.groom} và ${wedding.bride}`}
+            fill
+            priority
+            sizes="100vw"
+            className="
+              object-cover
+              object-center
+            "
+          />
+        </motion.div>
+      </div>
 
       {/* =====================================================
           OVERLAY
-
-          Giữ ảnh nhìn rõ nhưng bảo đảm text dễ đọc.
       ===================================================== */}
 
       <div
@@ -319,22 +387,77 @@ export default function StorySection() {
 
           bg-gradient-to-b
 
-          from-black/10
-          via-black/15
-          to-black/30
+          from-black/[0.08]
+          via-black/[0.16]
+          to-black/[0.34]
 
-          md:from-black/[0.08]
-          md:via-black/15
-          md:to-black/30
+          md:from-black/[0.07]
+          md:via-black/[0.14]
+          md:to-black/[0.32]
         "
       />
 
       {/* =====================================================
-          WEDDING COLOR GLOWS
+          MOBILE COLOR ATMOSPHERE
 
-          Xanh nước biển
-          + xanh kem
-          + hồng hoa
+          Mobile dùng glow tĩnh, nhỏ hơn,
+          blur thấp hơn.
+      ===================================================== */}
+
+      <div
+        className="
+          wedding-glow-blue
+
+          pointer-events-none
+
+          absolute
+
+          -left-[30%]
+          -top-[12%]
+
+          z-[2]
+
+          h-[75vw]
+          w-[75vw]
+
+          rounded-full
+
+          opacity-25
+
+          blur-[65px]
+
+          md:hidden
+        "
+      />
+
+      <div
+        className="
+          wedding-glow-pink
+
+          pointer-events-none
+
+          absolute
+
+          -bottom-[15%]
+          -right-[30%]
+
+          z-[2]
+
+          h-[72vw]
+          w-[72vw]
+
+          rounded-full
+
+          opacity-22
+
+          blur-[65px]
+
+          md:hidden
+        "
+      />
+
+      {/* =====================================================
+          DESKTOP COLOR ATMOSPHERE
       ===================================================== */}
 
       <div
@@ -350,17 +473,18 @@ export default function StorySection() {
 
           z-[2]
 
-          h-[65vw]
-          w-[65vw]
+          hidden
+
+          h-[45vw]
+          w-[45vw]
 
           rounded-full
 
-          opacity-45
+          opacity-35
 
-          blur-[140px]
+          blur-[135px]
 
-          md:h-[45vw]
-          md:w-[45vw]
+          md:block
         "
       />
 
@@ -377,17 +501,18 @@ export default function StorySection() {
 
           z-[2]
 
-          h-[65vw]
-          w-[65vw]
+          hidden
+
+          h-[45vw]
+          w-[45vw]
 
           rounded-full
 
-          opacity-40
+          opacity-30
 
-          blur-[140px]
+          blur-[135px]
 
-          md:h-[45vw]
-          md:w-[45vw]
+          md:block
         "
       />
 
@@ -399,24 +524,30 @@ export default function StorySection() {
 
           absolute
 
-          bottom-[5%]
+          bottom-[4%]
           left-[12%]
 
           z-[2]
 
-          h-[40vw]
-          w-[40vw]
+          hidden
+
+          h-[35vw]
+          w-[35vw]
 
           rounded-full
 
-          opacity-25
+          opacity-18
 
-          blur-[130px]
+          blur-[120px]
+
+          md:block
         "
       />
 
       {/* =====================================================
-          ÁNH SÁNG TRUNG TÂM
+          CENTER LIGHT
+
+          Mobile giảm blur.
       ===================================================== */}
 
       <div
@@ -430,20 +561,24 @@ export default function StorySection() {
 
           z-[2]
 
-          h-[60vh]
-          w-[95vw]
+          h-[48vh]
+          w-[90vw]
 
           -translate-x-1/2
           -translate-y-1/2
 
           rounded-full
 
-          bg-white/[0.04]
+          bg-white/[0.025]
 
-          blur-[100px]
+          blur-[45px]
 
           md:h-[70vh]
           md:w-[75vw]
+
+          md:bg-white/[0.035]
+
+          md:blur-[100px]
         "
       />
 
@@ -464,11 +599,21 @@ export default function StorySection() {
 
       {/* =====================================================
           HEART PARTICLES
+
+          Mobile:
+          LOW
+
+          Desktop:
+          MEDIUM
       ===================================================== */}
 
       {curtainOpened && (
         <HeartLayer
-          density="medium"
+          density={
+            isDesktop
+              ? "medium"
+              : "low"
+          }
         />
       )}
 
@@ -520,6 +665,7 @@ export default function StorySection() {
             mx-auto
 
             flex
+
             w-full
             max-w-6xl
 
@@ -537,24 +683,24 @@ export default function StorySection() {
           <motion.div
             initial={{
               opacity: 0,
-              scale: 0.5,
-              y: 12,
+              scale: 0.6,
+              y: 10,
             }}
             animate={
               curtainOpened
                 ? {
-                  opacity: 1,
-                  scale: 1,
-                  y: 0,
-                }
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                  }
                 : {
-                  opacity: 0,
-                  scale: 0.5,
-                  y: 12,
-                }
+                    opacity: 0,
+                    scale: 0.6,
+                    y: 10,
+                  }
             }
             transition={{
-              duration: 0.8,
+              duration: 0.7,
 
               ease: [
                 0.22,
@@ -568,12 +714,12 @@ export default function StorySection() {
               animate={
                 curtainOpened
                   ? {
-                    scale: [
-                      1,
-                      1.15,
-                      1,
-                    ],
-                  }
+                      scale: [
+                        1,
+                        1.14,
+                        1,
+                      ],
+                    }
                   : undefined
               }
               transition={{
@@ -592,7 +738,7 @@ export default function StorySection() {
 
                 text-2xl
 
-                drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]
+                drop-shadow-[0_2px_8px_rgba(0,0,0,0.28)]
 
                 sm:text-3xl
               "
@@ -608,27 +754,28 @@ export default function StorySection() {
           <motion.p
             initial={{
               opacity: 0,
-              y: 18,
+              y: 14,
             }}
             animate={
               curtainOpened
                 ? {
-                  opacity: 1,
-                  y: 0,
-                }
+                    opacity: 1,
+                    y: 0,
+                  }
                 : {
-                  opacity: 0,
-                  y: 18,
-                }
+                    opacity: 0,
+                    y: 14,
+                  }
             }
             transition={{
-              delay: 0.12,
-              duration: 0.8,
+              delay: 0.08,
+              duration: 0.7,
             }}
             className="
               mt-4
 
               text-[10px]
+
               font-semibold
 
               uppercase
@@ -637,7 +784,7 @@ export default function StorySection() {
 
               text-white/95
 
-              drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]
+              drop-shadow-[0_2px_8px_rgba(0,0,0,0.40)]
 
               sm:text-[11px]
               sm:tracking-[0.32em]
@@ -654,46 +801,35 @@ export default function StorySection() {
 
           {/* =================================================
               TITLE
+
+              Không blur title nữa.
+
+              Blur text lớn cũng rất tốn GPU trên mobile.
           ================================================= */}
 
           <motion.h2
             initial={{
               opacity: 0,
-
-              y: 34,
-
-              scale: 0.97,
-
-              filter:
-                "blur(8px)",
+              y: 28,
+              scale: 0.98,
             }}
             animate={
               curtainOpened
                 ? {
-                  opacity: 1,
-
-                  y: 0,
-
-                  scale: 1,
-
-                  filter:
-                    "blur(0px)",
-                }
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                  }
                 : {
-                  opacity: 0,
-
-                  y: 34,
-
-                  scale: 0.97,
-
-                  filter:
-                    "blur(8px)",
-                }
+                    opacity: 0,
+                    y: 28,
+                    scale: 0.98,
+                  }
             }
             transition={{
-              delay: 0.25,
+              delay: 0.18,
 
-              duration: 1.1,
+              duration: 0.95,
 
               ease: [
                 0.22,
@@ -721,7 +857,7 @@ export default function StorySection() {
 
               text-white
 
-              drop-shadow-[0_5px_25px_rgba(0,0,0,0.38)]
+              drop-shadow-[0_5px_24px_rgba(0,0,0,0.35)]
 
               sm:text-[clamp(3.8rem,11vw,6.2rem)]
 
@@ -747,17 +883,17 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                  opacity: 1,
-                  scaleX: 1,
-                }
+                    opacity: 1,
+                    scaleX: 1,
+                  }
                 : {
-                  opacity: 0,
-                  scaleX: 0,
-                }
+                    opacity: 0,
+                    scaleX: 0,
+                  }
             }
             transition={{
-              delay: 0.48,
-              duration: 0.9,
+              delay: 0.34,
+              duration: 0.75,
             }}
             className="
               mt-6
@@ -778,6 +914,7 @@ export default function StorySection() {
                 w-10
 
                 bg-gradient-to-r
+
                 from-transparent
                 to-white/80
 
@@ -803,6 +940,7 @@ export default function StorySection() {
                 w-10
 
                 bg-gradient-to-l
+
                 from-transparent
                 to-white/80
 
@@ -818,22 +956,22 @@ export default function StorySection() {
           <motion.p
             initial={{
               opacity: 0,
-              y: 20,
+              y: 16,
             }}
             animate={
               curtainOpened
                 ? {
-                  opacity: 1,
-                  y: 0,
-                }
+                    opacity: 1,
+                    y: 0,
+                  }
                 : {
-                  opacity: 0,
-                  y: 20,
-                }
+                    opacity: 0,
+                    y: 16,
+                  }
             }
             transition={{
-              delay: 0.58,
-              duration: 0.9,
+              delay: 0.44,
+              duration: 0.8,
             }}
             className="
               font-editorial
@@ -857,7 +995,7 @@ export default function StorySection() {
 
               text-white
 
-              drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)]
+              drop-shadow-[0_3px_14px_rgba(0,0,0,0.42)]
 
               sm:mt-6
             "
@@ -875,22 +1013,22 @@ export default function StorySection() {
           <motion.p
             initial={{
               opacity: 0,
-              y: 20,
+              y: 16,
             }}
             animate={
               curtainOpened
                 ? {
-                  opacity: 1,
-                  y: 0,
-                }
+                    opacity: 1,
+                    y: 0,
+                  }
                 : {
-                  opacity: 0,
-                  y: 20,
-                }
+                    opacity: 0,
+                    y: 16,
+                  }
             }
             transition={{
-              delay: 0.72,
-              duration: 0.9,
+              delay: 0.56,
+              duration: 0.8,
             }}
             className="
               mx-auto
@@ -902,13 +1040,14 @@ export default function StorySection() {
               px-1
 
               text-[13px]
+
               font-medium
 
               leading-6
 
               text-white/90
 
-              drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]
+              drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]
 
               sm:text-[15px]
               sm:leading-7
@@ -931,22 +1070,22 @@ export default function StorySection() {
           <motion.div
             initial={{
               opacity: 0,
-              y: 20,
+              y: 16,
             }}
             animate={
               curtainOpened
                 ? {
-                  opacity: 1,
-                  y: 0,
-                }
+                    opacity: 1,
+                    y: 0,
+                  }
                 : {
-                  opacity: 0,
-                  y: 20,
-                }
+                    opacity: 0,
+                    y: 16,
+                  }
             }
             transition={{
-              delay: 0.88,
-              duration: 0.9,
+              delay: 0.68,
+              duration: 0.8,
             }}
             className="
               font-editorial
@@ -969,7 +1108,7 @@ export default function StorySection() {
 
               text-white
 
-              drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)]
+              drop-shadow-[0_3px_14px_rgba(0,0,0,0.42)]
 
               sm:text-3xl
 
@@ -988,12 +1127,12 @@ export default function StorySection() {
               animate={
                 curtainOpened
                   ? {
-                    scale: [
-                      1,
-                      1.18,
-                      1,
-                    ],
-                  }
+                      scale: [
+                        1,
+                        1.18,
+                        1,
+                      ],
+                    }
                   : undefined
               }
               transition={{
@@ -1034,22 +1173,22 @@ export default function StorySection() {
           <motion.p
             initial={{
               opacity: 0,
-              y: 8,
+              y: 7,
             }}
             animate={
               curtainOpened
                 ? {
-                  opacity: 1,
-                  y: 0,
-                }
+                    opacity: 1,
+                    y: 0,
+                  }
                 : {
-                  opacity: 0,
-                  y: 8,
-                }
+                    opacity: 0,
+                    y: 7,
+                  }
             }
             transition={{
-              delay: 1.02,
-              duration: 1,
+              delay: 0.8,
+              duration: 0.85,
             }}
             className="
               mt-6
@@ -1057,6 +1196,7 @@ export default function StorySection() {
               max-w-xl
 
               text-[10px]
+
               font-medium
 
               leading-5
@@ -1065,7 +1205,7 @@ export default function StorySection() {
 
               text-white/85
 
-              drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]
+              drop-shadow-[0_2px_8px_rgba(0,0,0,0.42)]
 
               sm:text-xs
               sm:leading-6
