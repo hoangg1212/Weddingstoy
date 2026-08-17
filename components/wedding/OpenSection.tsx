@@ -65,27 +65,18 @@ export default function OpenSection() {
 
   function handleOpen() {
     /*
-     * Gọi trực tiếp trong click để giữ quyền autoplay
-     * trên mobile.
-     *
-     * KHÔNG await vì việc khởi tạo audio có thể làm
-     * animation đứng lại trên một số điện thoại.
+     * Phát nhạc song song.
+     * Không await.
      */
     void openInvitation();
 
     /*
-     * Bắt đầu đóng OpenSection ngay.
+     * Đóng màn Open.
      */
     setOpened(true);
 
     /*
-     * Đưa StorySection về đúng viewport.
-     *
-     * OpenSection vẫn đang fixed phủ màn hình,
-     * nên người dùng không nhìn thấy cú nhảy này.
-     *
-     * Không dùng smooth scroll để tránh GPU phải
-     * xử lý thêm animation scroll.
+     * Đưa StorySection về viewport ngay.
      */
     window.setTimeout(() => {
       const story =
@@ -104,18 +95,30 @@ export default function OpenSection() {
     }, 80);
 
     /*
-     * OpenSection exit mất khoảng 550ms.
+     * Mobile:
+     * mount HeartCurtain trước khi
+     * OpenSection fade xong.
      *
-     * Sau đó mới kích hoạt HeartCurtain,
-     * tránh 2 animation fullscreen chạy chồng nhau.
+     * Desktop:
+     * giữ timing hiện tại.
      */
-    window.setTimeout(() => {
-      window.dispatchEvent(
-        new Event(
-          "wedding-story-open",
-        ),
-      );
-    }, 600);
+    const isMobile =
+      window.matchMedia(
+        "(max-width: 767px)",
+      ).matches;
+
+    window.setTimeout(
+      () => {
+        window.dispatchEvent(
+          new Event(
+            "wedding-story-open",
+          ),
+        );
+      },
+      isMobile
+        ? 380
+        : 600,
+    );
   }
 
   return (

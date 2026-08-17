@@ -213,16 +213,17 @@ export default function StorySection() {
       ref={sectionRef}
       id="our-story"
       className="
-        relative
+    bg-wedding
 
-        min-h-[100svh]
+    relative
 
-        overflow-hidden
+    min-h-[100svh]
 
-        bg-[#1e2c31]
+    overflow-hidden
 
-        md:min-h-dvh
-      "
+    md:min-h-dvh
+    md:bg-[#1e2c31]
+  "
     >
       {/* =====================================================
           MOBILE BACKGROUND
@@ -324,17 +325,17 @@ export default function StorySection() {
           animate={
             storyStarted
               ? {
-                  opacity: 1,
+                opacity: 1,
 
-                  filter:
-                    "blur(0px)",
-                }
+                filter:
+                  "blur(0px)",
+              }
               : {
-                  opacity: 0,
+                opacity: 0,
 
-                  filter:
-                    "blur(7px)",
-                }
+                filter:
+                  "blur(7px)",
+              }
           }
           transition={{
             duration: 1.25,
@@ -689,15 +690,15 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                    opacity: 1,
-                    scale: 1,
-                    y: 0,
-                  }
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                }
                 : {
-                    opacity: 0,
-                    scale: 0.6,
-                    y: 10,
-                  }
+                  opacity: 0,
+                  scale: 0.6,
+                  y: 10,
+                }
             }
             transition={{
               duration: 0.7,
@@ -714,12 +715,12 @@ export default function StorySection() {
               animate={
                 curtainOpened
                   ? {
-                      scale: [
-                        1,
-                        1.14,
-                        1,
-                      ],
-                    }
+                    scale: [
+                      1,
+                      1.14,
+                      1,
+                    ],
+                  }
                   : undefined
               }
               transition={{
@@ -759,13 +760,13 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                    opacity: 1,
-                    y: 0,
-                  }
+                  opacity: 1,
+                  y: 0,
+                }
                 : {
-                    opacity: 0,
-                    y: 14,
-                  }
+                  opacity: 0,
+                  y: 14,
+                }
             }
             transition={{
               delay: 0.08,
@@ -816,15 +817,15 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                  }
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                }
                 : {
-                    opacity: 0,
-                    y: 28,
-                    scale: 0.98,
-                  }
+                  opacity: 0,
+                  y: 28,
+                  scale: 0.98,
+                }
             }
             transition={{
               delay: 0.18,
@@ -883,13 +884,13 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                    opacity: 1,
-                    scaleX: 1,
-                  }
+                  opacity: 1,
+                  scaleX: 1,
+                }
                 : {
-                    opacity: 0,
-                    scaleX: 0,
-                  }
+                  opacity: 0,
+                  scaleX: 0,
+                }
             }
             transition={{
               delay: 0.34,
@@ -961,13 +962,13 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                    opacity: 1,
-                    y: 0,
-                  }
+                  opacity: 1,
+                  y: 0,
+                }
                 : {
-                    opacity: 0,
-                    y: 16,
-                  }
+                  opacity: 0,
+                  y: 16,
+                }
             }
             transition={{
               delay: 0.44,
@@ -1018,13 +1019,13 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                    opacity: 1,
-                    y: 0,
-                  }
+                  opacity: 1,
+                  y: 0,
+                }
                 : {
-                    opacity: 0,
-                    y: 16,
-                  }
+                  opacity: 0,
+                  y: 16,
+                }
             }
             transition={{
               delay: 0.56,
@@ -1075,13 +1076,13 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                    opacity: 1,
-                    y: 0,
-                  }
+                  opacity: 1,
+                  y: 0,
+                }
                 : {
-                    opacity: 0,
-                    y: 16,
-                  }
+                  opacity: 0,
+                  y: 16,
+                }
             }
             transition={{
               delay: 0.68,
@@ -1127,12 +1128,12 @@ export default function StorySection() {
               animate={
                 curtainOpened
                   ? {
-                      scale: [
-                        1,
-                        1.18,
-                        1,
-                      ],
-                    }
+                    scale: [
+                      1,
+                      1.18,
+                      1,
+                    ],
+                  }
                   : undefined
               }
               transition={{
@@ -1178,13 +1179,13 @@ export default function StorySection() {
             animate={
               curtainOpened
                 ? {
-                    opacity: 1,
-                    y: 0,
-                  }
+                  opacity: 1,
+                  y: 0,
+                }
                 : {
-                    opacity: 0,
-                    y: 7,
-                  }
+                  opacity: 0,
+                  y: 7,
+                }
             }
             transition={{
               delay: 0.8,
