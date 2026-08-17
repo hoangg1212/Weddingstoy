@@ -1,7 +1,16 @@
 "use client";
 
-import { Heart } from "lucide-react";
-import { motion } from "motion/react";
+import {
+  Heart,
+} from "lucide-react";
+
+import {
+  motion,
+} from "motion/react";
+
+import {
+  wedding,
+} from "@/data/wedding";
 
 type HeartCurtainProps = {
   start: boolean;
@@ -14,7 +23,9 @@ export default function HeartCurtain({
 }: HeartCurtainProps) {
   return (
     <motion.div
-      initial={{ opacity: 1 }}
+      initial={{
+        opacity: 1,
+      }}
       animate={
         start
           ? {
@@ -27,7 +38,7 @@ export default function HeartCurtain({
       }
       transition={{
         opacity: {
-          delay: 1.75,
+          delay: 1.9,
           duration: 0.35,
         },
       }}
@@ -38,15 +49,18 @@ export default function HeartCurtain({
       }}
       className="
         pointer-events-none
+
         absolute
         inset-0
+
         z-[50]
+
         overflow-hidden
       "
     >
-      {/* ========================================
+      {/* =====================================================
           CÁNH TRÁI
-      ======================================== */}
+      ===================================================== */}
 
       <motion.div
         initial={{
@@ -62,59 +76,143 @@ export default function HeartCurtain({
               }
         }
         transition={{
-          delay: 0.72,
-          duration: 1.15,
-          ease: [0.76, 0, 0.24, 1],
+          delay: 0.62,
+          duration: 1.22,
+          ease: [
+            0.76,
+            0,
+            0.24,
+            1,
+          ],
         }}
         className="
+          wedding-curtain-left
+          border-wedding-light
+
           absolute
           inset-y-0
           left-0
+
           w-1/2
+
           overflow-hidden
 
           border-r
-          border-[#BDAA98]/30
 
-          bg-gradient-to-br
-          from-[#FAF7F1]
-          via-[#F1E7DC]
-          to-[#E7D6C7]
-
-          shadow-[20px_0_70px_rgba(73,54,40,0.08)]
+          shadow-[20px_0_80px_rgba(62,93,105,0.09)]
         "
       >
-        {/* ánh sáng */}
+        {/* ÁNH SÁNG */}
+
         <div
           className="
             absolute
-            -right-[30%]
+
+            -right-[32%]
             top-1/2
 
-            h-[70vh]
-            w-[70vh]
+            h-[75vh]
+            w-[75vh]
 
             -translate-y-1/2
 
             rounded-full
 
-            bg-white/50
+            bg-white/65
 
-            blur-[100px]
+            blur-[110px]
           "
         />
 
-        {/* hoa văn mờ */}
+        {/* XANH NƯỚC BIỂN */}
+
+        <motion.div
+          animate={{
+            scale: [
+              1,
+              1.08,
+              1,
+            ],
+
+            opacity: [
+              0.28,
+              0.5,
+              0.28,
+            ],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            wedding-glow-blue
+
+            absolute
+
+            -left-[35%]
+            -top-[18%]
+
+            h-[65vh]
+            w-[65vh]
+
+            rounded-full
+
+            blur-[120px]
+          "
+        />
+
+        {/* HỒNG HOA */}
+
+        <motion.div
+          animate={{
+            scale: [
+              1,
+              1.12,
+              1,
+            ],
+
+            x: [
+              0,
+              12,
+              0,
+            ],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            wedding-glow-pink
+
+            absolute
+
+            -bottom-[22%]
+            left-[5%]
+
+            h-[48vh]
+            w-[48vh]
+
+            rounded-full
+
+            blur-[105px]
+          "
+        />
+
+        {/* ÁNH TRẮNG */}
+
         <div
           className="
             absolute
             inset-0
 
-            bg-[radial-gradient(circle_at_80%_50%,rgba(255,255,255,0.65),transparent_45%)]
+            bg-[radial-gradient(circle_at_82%_50%,rgba(255,255,255,0.82),transparent_43%)]
           "
         />
 
-        {/* line trang trí */}
+        {/* LINE */}
+
         <motion.div
           initial={{
             opacity: 0,
@@ -122,34 +220,85 @@ export default function HeartCurtain({
           animate={
             start
               ? {
-                  opacity: [0, 0.5, 0],
+                  opacity: [
+                    0,
+                    0.65,
+                    0,
+                  ],
                 }
               : {
-                  opacity: 0.35,
+                  opacity: 0.4,
                 }
           }
           transition={{
-            duration: 1.3,
+            duration: 1.35,
           }}
           className="
-            absolute
-            right-7
-            top-[15%]
+            wedding-divider-right
 
-            h-[70%]
+            absolute
+
+            right-6
+            top-[14%]
+
+            h-[72%]
             w-px
 
-            bg-gradient-to-b
-            from-transparent
-            via-[#BBA590]/50
-            to-transparent
+            sm:right-8
           "
         />
+
+        {/* HEART DECORATION */}
+
+        <motion.span
+          animate={{
+            y: [
+              0,
+              -12,
+              0,
+            ],
+
+            rotate: [
+              -6,
+              4,
+              -6,
+            ],
+
+            opacity: [
+              0.12,
+              0.24,
+              0.12,
+            ],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            text-wedding-blue
+
+            absolute
+
+            bottom-[18%]
+            left-[16%]
+
+            hidden
+
+            font-editorial
+
+            text-6xl
+
+            md:block
+          "
+        >
+          ♡
+        </motion.span>
       </motion.div>
 
-      {/* ========================================
+      {/* =====================================================
           CÁNH PHẢI
-      ======================================== */}
+      ===================================================== */}
 
       <motion.div
         initial={{
@@ -165,56 +314,142 @@ export default function HeartCurtain({
               }
         }
         transition={{
-          delay: 0.72,
-          duration: 1.15,
-          ease: [0.76, 0, 0.24, 1],
+          delay: 0.62,
+          duration: 1.22,
+          ease: [
+            0.76,
+            0,
+            0.24,
+            1,
+          ],
         }}
         className="
+          wedding-curtain-right
+          border-wedding-light
+
           absolute
           inset-y-0
           right-0
+
           w-1/2
+
           overflow-hidden
 
           border-l
-          border-[#BDAA98]/30
 
-          bg-gradient-to-bl
-          from-[#FAF7F1]
-          via-[#F1E7DC]
-          to-[#E7D6C7]
-
-          shadow-[-20px_0_70px_rgba(73,54,40,0.08)]
+          shadow-[-20px_0_80px_rgba(62,93,105,0.09)]
         "
       >
-        {/* ánh sáng */}
+        {/* ÁNH SÁNG */}
+
         <div
           className="
             absolute
-            -left-[30%]
+
+            -left-[32%]
             top-1/2
 
-            h-[70vh]
-            w-[70vh]
+            h-[75vh]
+            w-[75vh]
 
             -translate-y-1/2
 
             rounded-full
 
-            bg-white/50
+            bg-white/65
 
-            blur-[100px]
+            blur-[110px]
           "
         />
+
+        {/* XANH KEM */}
+
+        <motion.div
+          animate={{
+            scale: [
+              1,
+              1.08,
+              1,
+            ],
+
+            opacity: [
+              0.3,
+              0.5,
+              0.3,
+            ],
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            wedding-glow-green
+
+            absolute
+
+            -right-[28%]
+            -top-[18%]
+
+            h-[60vh]
+            w-[60vh]
+
+            rounded-full
+
+            blur-[115px]
+          "
+        />
+
+        {/* HỒNG HOA */}
+
+        <motion.div
+          animate={{
+            scale: [
+              1,
+              1.1,
+              1,
+            ],
+
+            x: [
+              0,
+              -12,
+              0,
+            ],
+          }}
+          transition={{
+            duration: 8.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            wedding-glow-pink
+
+            absolute
+
+            -bottom-[22%]
+            right-[2%]
+
+            h-[50vh]
+            w-[50vh]
+
+            rounded-full
+
+            blur-[110px]
+          "
+        />
+
+        {/* ÁNH TRẮNG */}
 
         <div
           className="
             absolute
             inset-0
 
-            bg-[radial-gradient(circle_at_20%_50%,rgba(255,255,255,0.65),transparent_45%)]
+            bg-[radial-gradient(circle_at_18%_50%,rgba(255,255,255,0.82),transparent_43%)]
           "
         />
+
+        {/* LINE */}
 
         <motion.div
           initial={{
@@ -223,34 +458,140 @@ export default function HeartCurtain({
           animate={
             start
               ? {
-                  opacity: [0, 0.5, 0],
+                  opacity: [
+                    0,
+                    0.65,
+                    0,
+                  ],
                 }
               : {
-                  opacity: 0.35,
+                  opacity: 0.4,
                 }
           }
           transition={{
-            duration: 1.3,
+            duration: 1.35,
           }}
           className="
-            absolute
-            left-7
-            top-[15%]
+            wedding-divider-left
 
-            h-[70%]
+            absolute
+
+            left-6
+            top-[14%]
+
+            h-[72%]
             w-px
 
-            bg-gradient-to-b
-            from-transparent
-            via-[#BBA590]/50
-            to-transparent
+            sm:left-8
           "
         />
+
+        {/* HEART DECORATION */}
+
+        <motion.span
+          animate={{
+            y: [
+              0,
+              -14,
+              0,
+            ],
+
+            rotate: [
+              6,
+              -4,
+              6,
+            ],
+
+            opacity: [
+              0.12,
+              0.26,
+              0.12,
+            ],
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            text-wedding-rose
+
+            absolute
+
+            right-[16%]
+            top-[20%]
+
+            hidden
+
+            font-editorial
+
+            text-7xl
+
+            md:block
+          "
+        >
+          ♡
+        </motion.span>
       </motion.div>
 
-      {/* ========================================
+      {/* =====================================================
+          ĐƯỜNG SÁNG GIỮA
+      ===================================================== */}
+
+      <motion.div
+        initial={{
+          opacity: 0.35,
+          scaleY: 0.6,
+        }}
+        animate={
+          start
+            ? {
+                opacity: [
+                  0.35,
+                  0.95,
+                  0,
+                ],
+
+                scaleY: [
+                  0.6,
+                  1,
+                  1.2,
+                ],
+              }
+            : {
+                opacity: 0.35,
+                scaleY: 0.7,
+              }
+        }
+        transition={{
+          duration: 1.3,
+          ease: "easeInOut",
+        }}
+        className="
+          absolute
+
+          left-1/2
+          top-[8%]
+
+          z-[55]
+
+          h-[84%]
+          w-px
+
+          -translate-x-1/2
+
+          bg-gradient-to-b
+          from-transparent
+          via-white
+          to-transparent
+
+          shadow-[0_0_25px_rgba(255,255,255,0.9)]
+        "
+      />
+
+      {/* =====================================================
           TRÁI TIM TRUNG TÂM
-      ======================================== */}
+      ===================================================== */}
 
       <motion.div
         initial={{
@@ -261,8 +602,20 @@ export default function HeartCurtain({
         animate={
           start
             ? {
-                opacity: [0, 1, 1, 0],
-                scale: [0.65, 1, 1.08, 1.5],
+                opacity: [
+                  0,
+                  1,
+                  1,
+                  0,
+                ],
+
+                scale: [
+                  0.65,
+                  1,
+                  1.08,
+                  1.5,
+                ],
+
                 filter: [
                   "blur(4px)",
                   "blur(0px)",
@@ -277,17 +630,27 @@ export default function HeartCurtain({
               }
         }
         transition={{
-          duration: 1.45,
+          duration: 1.55,
+
+          times: [
+            0,
+            0.12,
+            0.72,
+            1,
+          ],
+
           ease: "easeInOut",
         }}
         className="
           absolute
+
           left-1/2
           top-1/2
 
           z-[60]
 
           flex
+
           -translate-x-1/2
           -translate-y-1/2
 
@@ -295,58 +658,132 @@ export default function HeartCurtain({
           justify-center
         "
       >
-        {/* glow */}
+        {/* =================================================
+            GLOW XANH
+        ================================================= */}
+
         <motion.div
           animate={
             start
               ? {
-                  scale: [0.7, 1.3, 1.8],
-                  opacity: [0, 0.25, 0],
+                  scale: [
+                    0.7,
+                    1.35,
+                    1.9,
+                  ],
+
+                  opacity: [
+                    0,
+                    0.38,
+                    0,
+                  ],
                 }
               : {
                   scale: 1,
-                  opacity: 0.15,
+                  opacity: 0.18,
                 }
           }
           transition={{
-            duration: 1.4,
+            duration: 1.5,
           }}
           className="
+            wedding-glow-blue
+
             absolute
 
-            h-36
-            w-36
+            h-40
+            w-40
 
             rounded-full
 
-            bg-[#D9BDA8]/40
-
             blur-3xl
 
-            sm:h-44
-            sm:w-44
+            sm:h-52
+            sm:w-52
           "
         />
+
+        {/* =================================================
+            GLOW HỒNG
+        ================================================= */}
 
         <motion.div
           animate={
             start
               ? {
-                  scale: [1, 1.12, 1],
+                  scale: [
+                    0.6,
+                    1.2,
+                    1.65,
+                  ],
+
+                  opacity: [
+                    0,
+                    0.28,
+                    0,
+                  ],
+                }
+              : {
+                  scale: 1,
+                  opacity: 0.12,
+                }
+          }
+          transition={{
+            duration: 1.55,
+          }}
+          className="
+            wedding-glow-pink
+
+            absolute
+
+            h-32
+            w-32
+
+            translate-x-4
+            translate-y-4
+
+            rounded-full
+
+            blur-3xl
+
+            sm:h-40
+            sm:w-40
+          "
+        />
+
+        {/* =================================================
+            VÒNG TIM
+        ================================================= */}
+
+        <motion.div
+          animate={
+            start
+              ? {
+                  scale: [
+                    1,
+                    1.12,
+                    1,
+                  ],
                 }
               : undefined
           }
           transition={{
-            duration: 0.7,
-            repeat: start ? 1 : 0,
+            duration: 0.75,
+            repeat: start
+              ? 1
+              : 0,
             ease: "easeInOut",
           }}
           className="
+            glass-wedding
+            border-wedding-soft
+
             relative
 
             flex
-            h-[82px]
-            w-[82px]
+
+            h-[84px]
+            w-[84px]
 
             items-center
             justify-center
@@ -354,79 +791,188 @@ export default function HeartCurtain({
             rounded-full
 
             border
-            border-[#B79E89]/40
 
-            bg-white/45
-
-            shadow-[0_15px_50px_rgba(96,68,49,0.12)]
-
-            backdrop-blur-xl
-
-            sm:h-[96px]
-            sm:w-[96px]
+            sm:h-[102px]
+            sm:w-[102px]
           "
         >
-          <Heart
-            strokeWidth={1.25}
+          {/* INNER RING */}
+
+          <div
             className="
-              h-10
-              w-10
+              border-wedding-white
 
-              text-[#A88870]
+              pointer-events-none
 
-              sm:h-12
-              sm:w-12
+              absolute
+              inset-[5px]
+
+              rounded-full
+
+              border
             "
           />
+
+          {/* HEART */}
+
+          <motion.div
+            animate={{
+              scale: [
+                1,
+                1.12,
+                1,
+              ],
+            }}
+            transition={{
+              duration: 1.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <Heart
+              strokeWidth={1.15}
+              className="
+                text-wedding-rose
+
+                h-10
+                w-10
+
+                sm:h-12
+                sm:w-12
+              "
+            />
+          </motion.div>
         </motion.div>
       </motion.div>
 
-      {/* ========================================
-          TEXT NHỎ
-      ======================================== */}
+      {/* =====================================================
+          NỘI DUNG
+      ===================================================== */}
 
-      <motion.p
+      <motion.div
         initial={{
           opacity: 0,
-          y: 10,
+          y: 8,
         }}
         animate={
           start
             ? {
-                opacity: [0, 1, 1, 0],
-                y: [10, 0, 0, -8],
+                opacity: [
+                  0,
+                  1,
+                  1,
+                  0,
+                ],
+
+                y: [
+                  8,
+                  0,
+                  0,
+                  -6,
+                ],
               }
             : {
                 opacity: 0,
               }
         }
         transition={{
-          duration: 1.3,
+          duration: 1.55,
+
+          times: [
+            0,
+            0.1,
+            0.78,
+            1,
+          ],
+
+          ease: [
+            0.22,
+            1,
+            0.36,
+            1,
+          ],
         }}
         className="
           absolute
+
           left-1/2
-          top-[calc(50%+75px)]
+          top-[calc(50%+70px)]
 
           z-[60]
 
+          w-[90%]
+          max-w-xl
+
           -translate-x-1/2
 
-          whitespace-nowrap
+          text-center
 
-          text-[10px]
-          font-semibold
-          uppercase
-
-          tracking-[0.3em]
-
-          text-[#7A685B]
-
-          sm:text-xs
+          sm:top-[calc(50%+86px)]
         "
       >
-        Câu chuyện bắt đầu
-      </motion.p>
+        {/* =================================================
+            EYEBROW
+        ================================================= */}
+
+        <p
+          className="
+            text-wedding-blue
+
+            text-[8px]
+            font-semibold
+
+            uppercase
+
+            tracking-[0.28em]
+
+            sm:text-[10px]
+          "
+        >
+          {wedding.curtain.eyebrow}
+        </p>
+
+        {/* =================================================
+            TITLE
+        ================================================= */}
+
+        <p
+          className="
+            font-editorial
+            text-wedding-primary
+
+            mt-1
+
+            text-[clamp(1.45rem,3vw,2.1rem)]
+
+            font-medium
+
+            leading-none
+
+            tracking-[-0.02em]
+          "
+        >
+          {wedding.curtain.title}
+        </p>
+
+        {/* =================================================
+            SUBTITLE
+        ================================================= */}
+
+        <p
+          className="
+            font-script
+            text-wedding-rose
+
+            mt-1
+
+            text-[clamp(1.15rem,2.4vw,1.65rem)]
+
+            leading-none
+          "
+        >
+          {wedding.curtain.subtitle}
+        </p>
+      </motion.div>
     </motion.div>
   );
 }

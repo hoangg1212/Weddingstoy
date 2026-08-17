@@ -14,7 +14,9 @@ import {
   useState,
 } from "react";
 
-import { wedding } from "@/data/wedding";
+import {
+  wedding,
+} from "@/data/wedding";
 
 import HeartLayer from "./HeartLayer";
 import HeartCurtain from "./HeartCurtain";
@@ -23,24 +25,24 @@ export default function StorySection() {
   const sectionRef =
     useRef<HTMLElement>(null);
 
-  /*
-   * storyStarted:
-   * bắt đầu hiệu ứng mở cửa
-   */
-  const [storyStarted, setStoryStarted] =
-    useState(false);
+  /* =====================================================
+      TRẠNG THÁI STORY
+  ===================================================== */
 
-  /*
-   * curtainOpened:
-   * khi cửa mở xong mới hiện content
-   * và trái tim nhỏ
-   */
-  const [curtainOpened, setCurtainOpened] =
-    useState(false);
+  const [
+    storyStarted,
+    setStoryStarted,
+  ] = useState(false);
 
-  /*
-   * Lắng nghe event từ OpenSection
-   */
+  const [
+    curtainOpened,
+    setCurtainOpened,
+  ] = useState(false);
+
+  /* =====================================================
+      NHẬN EVENT TỪ OPEN SECTION
+  ===================================================== */
+
   useEffect(() => {
     function handleStoryOpen() {
       setStoryStarted(true);
@@ -59,108 +61,169 @@ export default function StorySection() {
     };
   }, []);
 
-  /*
-   * Scroll animation
-   */
-  const { scrollYProgress } = useScroll({
+  /* =====================================================
+      SCROLL
+  ===================================================== */
+
+  const {
+    scrollYProgress,
+  } = useScroll({
     target: sectionRef,
+
     offset: [
       "start start",
       "end start",
     ],
   });
 
-  /* ============================
-      DESKTOP
-  ============================ */
+  /* =====================================================
+      DESKTOP IMAGE
+  ===================================================== */
 
-  const desktopScale = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [1, 1.07],
-  );
+  const desktopScale =
+    useTransform(
+      scrollYProgress,
+      [
+        0,
+        1,
+      ],
+      [
+        1,
+        1.07,
+      ],
+    );
 
-  const desktopY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", "4%"],
-  );
+  const desktopY =
+    useTransform(
+      scrollYProgress,
+      [
+        0,
+        1,
+      ],
+      [
+        "0%",
+        "4%",
+      ],
+    );
 
-  /* ============================
-      MOBILE
-  ============================ */
+  /* =====================================================
+      MOBILE IMAGE
+  ===================================================== */
 
-  const mobileScale = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [1, 1.035],
-  );
+  const mobileScale =
+    useTransform(
+      scrollYProgress,
+      [
+        0,
+        1,
+      ],
+      [
+        1,
+        1.035,
+      ],
+    );
 
-  /* ============================
-      CONTENT
-  ============================ */
+  /* =====================================================
+      CONTENT PARALLAX
+  ===================================================== */
 
-  const contentY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", "-4%"],
-  );
+  const contentY =
+    useTransform(
+      scrollYProgress,
+      [
+        0,
+        1,
+      ],
+      [
+        "0%",
+        "-4%",
+      ],
+    );
 
-  const contentOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.82, 1],
-    [1, 1, 0],
-  );
+  const contentOpacity =
+    useTransform(
+      scrollYProgress,
+      [
+        0,
+        0.82,
+        1,
+      ],
+      [
+        1,
+        1,
+        0,
+      ],
+    );
 
   return (
     <section
       ref={sectionRef}
       id="our-story"
       className="
+        bg-wedding
+
         relative
+
         min-h-[100svh]
+
         overflow-hidden
-        bg-[#F8F5EF]
+
         md:min-h-dvh
       "
     >
-      {/* ==========================================
+      {/* =====================================================
           MOBILE BACKGROUND
-      ========================================== */}
+      ===================================================== */}
 
       <motion.div
         style={{
-          scale: mobileScale,
+          scale:
+            mobileScale,
         }}
         initial={{
           opacity: 0,
-          filter: "blur(10px)",
+          filter:
+            "blur(10px)",
         }}
         animate={
           storyStarted
             ? {
               opacity: 1,
-              filter: "blur(0px)",
+              filter:
+                "blur(0px)",
             }
             : {
               opacity: 0,
-              filter: "blur(10px)",
+              filter:
+                "blur(10px)",
             }
         }
         transition={{
           duration: 1.6,
-          ease: [0.22, 1, 0.36, 1],
+
+          ease: [
+            0.22,
+            1,
+            0.36,
+            1,
+          ],
         }}
         className="
           absolute
           inset-0
+
           z-0
+
           block
+
           md:hidden
         "
       >
         <Image
-          src={wedding.story.imageMobile}
+          src={
+            wedding.story
+              .imageMobile
+          }
           alt={`${wedding.groom} và ${wedding.bride}`}
           fill
           priority
@@ -172,44 +235,62 @@ export default function StorySection() {
         />
       </motion.div>
 
-      {/* ==========================================
+      {/* =====================================================
           DESKTOP BACKGROUND
-      ========================================== */}
+      ===================================================== */}
 
       <motion.div
         style={{
-          scale: desktopScale,
-          y: desktopY,
+          scale:
+            desktopScale,
+
+          y:
+            desktopY,
         }}
         initial={{
           opacity: 0,
-          filter: "blur(10px)",
+          filter:
+            "blur(10px)",
         }}
         animate={
           storyStarted
             ? {
               opacity: 1,
-              filter: "blur(0px)",
+              filter:
+                "blur(0px)",
             }
             : {
               opacity: 0,
-              filter: "blur(10px)",
+              filter:
+                "blur(10px)",
             }
         }
         transition={{
           duration: 1.6,
-          ease: [0.22, 1, 0.36, 1],
+
+          ease: [
+            0.22,
+            1,
+            0.36,
+            1,
+          ],
         }}
         className="
           absolute
           inset-0
+
           z-0
+
           hidden
+
           md:block
         "
       >
         <Image
-          src={wedding.story.imageDesktop}
+          src={
+            wedding.story
+              .imageDesktop
+          }
           alt={`${wedding.groom} và ${wedding.bride}`}
           fill
           priority
@@ -221,96 +302,191 @@ export default function StorySection() {
         />
       </motion.div>
 
-      {/* ==========================================
+      {/* =====================================================
           OVERLAY
 
-          Rất nhẹ để giữ màu banner
-      ========================================== */}
+          Giữ ảnh nhìn rõ nhưng bảo đảm text dễ đọc.
+      ===================================================== */}
 
       <div
         className="
           pointer-events-none
+
           absolute
           inset-0
+
           z-[1]
 
           bg-gradient-to-b
 
-          from-black/[0.02]
-          via-black/[0.08]
-          to-black/[0.16]
+          from-black/10
+          via-black/15
+          to-black/30
 
-          md:from-black/[0.03]
-          md:via-black/[0.09]
-          md:to-black/[0.19]
+          md:from-black/[0.08]
+          md:via-black/15
+          md:to-black/30
         "
       />
 
-      {/* ==========================================
-          SOFT LIGHT
-      ========================================== */}
+      {/* =====================================================
+          WEDDING COLOR GLOWS
+
+          Xanh nước biển
+          + xanh kem
+          + hồng hoa
+      ===================================================== */}
+
+      <div
+        className="
+          wedding-glow-blue
+
+          pointer-events-none
+
+          absolute
+
+          -left-[22%]
+          -top-[20%]
+
+          z-[2]
+
+          h-[65vw]
+          w-[65vw]
+
+          rounded-full
+
+          opacity-45
+
+          blur-[140px]
+
+          md:h-[45vw]
+          md:w-[45vw]
+        "
+      />
+
+      <div
+        className="
+          wedding-glow-pink
+
+          pointer-events-none
+
+          absolute
+
+          -bottom-[25%]
+          -right-[20%]
+
+          z-[2]
+
+          h-[65vw]
+          w-[65vw]
+
+          rounded-full
+
+          opacity-40
+
+          blur-[140px]
+
+          md:h-[45vw]
+          md:w-[45vw]
+        "
+      />
+
+      <div
+        className="
+          wedding-glow-green
+
+          pointer-events-none
+
+          absolute
+
+          bottom-[5%]
+          left-[12%]
+
+          z-[2]
+
+          h-[40vw]
+          w-[40vw]
+
+          rounded-full
+
+          opacity-25
+
+          blur-[130px]
+        "
+      />
+
+      {/* =====================================================
+          ÁNH SÁNG TRUNG TÂM
+      ===================================================== */}
 
       <div
         className="
           pointer-events-none
+
           absolute
 
           left-1/2
           top-1/2
 
-          z-[1]
+          z-[2]
 
           h-[60vh]
-          w-[90vw]
+          w-[95vw]
 
           -translate-x-1/2
           -translate-y-1/2
 
           rounded-full
 
-          bg-white/[0.02]
+          bg-white/[0.04]
 
-          blur-[90px]
+          blur-[100px]
 
           md:h-[70vh]
-          md:w-[80vw]
+          md:w-[75vw]
         "
       />
 
-      {/* ==========================================
+      {/* =====================================================
           HEART CURTAIN
-
-          Chỉ xuất hiện lúc đầu
-      ========================================== */}
+      ===================================================== */}
 
       <HeartCurtain
-        start={storyStarted}
-        onOpened={() =>
-          setCurtainOpened(true)
+        start={
+          storyStarted
         }
+        onOpened={() => {
+          setCurtainOpened(
+            true,
+          );
+        }}
       />
 
-      {/* ==========================================
+      {/* =====================================================
           HEART PARTICLES
-
-          Chỉ chạy sau khi rèm mở xong
-      ========================================== */}
+      ===================================================== */}
 
       {curtainOpened && (
-        <HeartLayer density="medium" />
+        <HeartLayer
+          density="medium"
+        />
       )}
 
-      {/* ==========================================
+      {/* =====================================================
           CONTENT
-      ========================================== */}
+      ===================================================== */}
 
       <motion.div
         style={{
-          y: contentY,
-          opacity: contentOpacity,
+          y:
+            contentY,
+
+          opacity:
+            contentOpacity,
         }}
         className="
           relative
+
           z-10
 
           flex
@@ -333,8 +509,14 @@ export default function StorySection() {
           lg:px-12
         "
       >
+        {/* =================================================
+            CONTENT WRAPPER
+        ================================================= */}
+
         <div
           className="
+            relative
+
             mx-auto
 
             flex
@@ -342,15 +524,15 @@ export default function StorySection() {
             max-w-6xl
 
             flex-col
+
             items-center
 
             text-center
-            text-white
           "
         >
-          {/* =====================================
+          {/* =================================================
               HEART
-          ===================================== */}
+          ================================================= */}
 
           <motion.div
             initial={{
@@ -373,32 +555,60 @@ export default function StorySection() {
             }
             transition={{
               duration: 0.8,
-              ease: [0.22, 1, 0.36, 1],
+
+              ease: [
+                0.22,
+                1,
+                0.36,
+                1,
+              ],
             }}
-            className="
-              mb-4
-
-              text-[22px]
-
-              text-white
-
-              drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]
-
-              sm:text-2xl
-              md:text-3xl
-            "
           >
-            ♡
+            <motion.span
+              animate={
+                curtainOpened
+                  ? {
+                    scale: [
+                      1,
+                      1.15,
+                      1,
+                    ],
+                  }
+                  : undefined
+              }
+              transition={{
+                duration: 2.6,
+
+                repeat:
+                  Infinity,
+
+                ease:
+                  "easeInOut",
+              }}
+              className="
+                text-wedding-rose
+
+                inline-block
+
+                text-2xl
+
+                drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]
+
+                sm:text-3xl
+              "
+            >
+              ♡
+            </motion.span>
           </motion.div>
 
-          {/* =====================================
-              SMALL TITLE
-          ===================================== */}
+          {/* =================================================
+              EYEBROW
+          ================================================= */}
 
           <motion.p
             initial={{
               opacity: 0,
-              y: 20,
+              y: 18,
             }}
             animate={
               curtainOpened
@@ -408,96 +618,126 @@ export default function StorySection() {
                 }
                 : {
                   opacity: 0,
-                  y: 20,
+                  y: 18,
                 }
             }
             transition={{
-              delay: 0.15,
+              delay: 0.12,
               duration: 0.8,
             }}
             className="
-              mb-4
+              mt-4
 
               text-[10px]
-              font-bold
+              font-semibold
+
               uppercase
 
-              tracking-[0.25em]
+              tracking-[0.26em]
 
-              text-white
+              text-white/95
 
-              drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]
+              drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]
 
               sm:text-[11px]
-              sm:tracking-[0.3em]
+              sm:tracking-[0.32em]
 
-              md:mb-5
-              md:text-sm
+              md:mt-5
+              md:text-xs
             "
           >
-            Một hành trình của hai trái tim
+            {
+              wedding.story
+                .eyebrow
+            }
           </motion.p>
 
-          {/* =====================================
-              MAIN TITLE
-          ===================================== */}
+          {/* =================================================
+              TITLE
+          ================================================= */}
 
           <motion.h2
             initial={{
               opacity: 0,
-              y: 35,
-              filter: "blur(8px)",
+
+              y: 34,
+
               scale: 0.97,
+
+              filter:
+                "blur(8px)",
             }}
             animate={
               curtainOpened
                 ? {
                   opacity: 1,
+
                   y: 0,
-                  filter: "blur(0px)",
+
                   scale: 1,
+
+                  filter:
+                    "blur(0px)",
                 }
                 : {
                   opacity: 0,
-                  y: 35,
-                  filter: "blur(8px)",
+
+                  y: 34,
+
                   scale: 0.97,
+
+                  filter:
+                    "blur(8px)",
                 }
             }
             transition={{
-              delay: 0.3,
+              delay: 0.25,
+
               duration: 1.1,
-              ease: [0.22, 1, 0.36, 1],
+
+              ease: [
+                0.22,
+                1,
+                0.36,
+                1,
+              ],
             }}
             className="
               font-editorial
 
               mx-auto
-              max-w-[950px]
+
+              mt-4
+
+              max-w-[1000px]
 
               text-[clamp(3rem,13vw,5rem)]
 
               font-medium
 
-              leading-[0.88]
+              leading-[0.86]
 
-              tracking-[-0.035em]
+              tracking-[-0.04em]
 
               text-white
 
-              drop-shadow-[0_4px_22px_rgba(0,0,0,0.4)]
+              drop-shadow-[0_5px_25px_rgba(0,0,0,0.38)]
 
-              sm:text-[clamp(3.8rem,11vw,6rem)]
+              sm:text-[clamp(3.8rem,11vw,6.2rem)]
 
+              md:mt-5
               md:text-[clamp(4.5rem,9vw,8.5rem)]
             "
           >
-            {wedding.story.title}
+            {
+              wedding.story
+                .title
+            }
           </motion.h2>
 
-          {/* =====================================
-              LINE
-          ===================================== */}
+          {/* =================================================
+              DIVIDER
+          ================================================= */}
 
           <motion.div
             initial={{
@@ -516,32 +756,69 @@ export default function StorySection() {
                 }
             }
             transition={{
-              delay: 0.55,
+              delay: 0.48,
               duration: 0.9,
             }}
             className="
               mt-6
 
-              h-px
-              w-14
+              flex
 
-              origin-center
+              items-center
+              justify-center
 
-              bg-white/80
+              gap-3
 
-              sm:w-16
-              md:w-20
+              sm:mt-7
             "
-          />
+          >
+            <span
+              className="
+                h-px
+                w-10
 
-          {/* =====================================
-              DESCRIPTION
-          ===================================== */}
+                bg-gradient-to-r
+                from-transparent
+                to-white/80
+
+                sm:w-14
+              "
+            />
+
+            <span
+              className="
+                text-wedding-rose
+
+                text-xs
+
+                drop-shadow
+              "
+            >
+              ♡
+            </span>
+
+            <span
+              className="
+                h-px
+                w-10
+
+                bg-gradient-to-l
+                from-transparent
+                to-white/80
+
+                sm:w-14
+              "
+            />
+          </motion.div>
+
+          {/* =================================================
+              SUBTITLE
+          ================================================= */}
 
           <motion.p
             initial={{
               opacity: 0,
-              y: 22,
+              y: 20,
             }}
             animate={
               curtainOpened
@@ -551,47 +828,105 @@ export default function StorySection() {
                 }
                 : {
                   opacity: 0,
-                  y: 22,
+                  y: 20,
                 }
             }
             transition={{
-              delay: 0.65,
-              duration: 0.85,
+              delay: 0.58,
+              duration: 0.9,
+            }}
+            className="
+              font-editorial
+
+              mx-auto
+
+              mt-5
+
+              max-w-[760px]
+
+              px-1
+
+              text-[clamp(1.35rem,3.2vw,2rem)]
+
+              font-medium
+              italic
+
+              leading-[1.2]
+
+              tracking-[-0.01em]
+
+              text-white
+
+              drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)]
+
+              sm:mt-6
+            "
+          >
+            “{
+              wedding.story
+                .subtitle
+            }”
+          </motion.p>
+
+          {/* =================================================
+              DESCRIPTION
+          ================================================= */}
+
+          <motion.p
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={
+              curtainOpened
+                ? {
+                  opacity: 1,
+                  y: 0,
+                }
+                : {
+                  opacity: 0,
+                  y: 20,
+                }
+            }
+            transition={{
+              delay: 0.72,
+              duration: 0.9,
             }}
             className="
               mx-auto
 
-              mt-6
+              mt-5
 
-              max-w-[650px]
+              max-w-[680px]
 
               px-1
 
-              text-[14px]
-              font-semibold
+              text-[13px]
+              font-medium
 
               leading-6
 
-              text-white
+              text-white/90
 
-              drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]
+              drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]
 
-              sm:text-base
+              sm:text-[15px]
               sm:leading-7
 
-              md:mt-7
-              md:text-xl
+              md:mt-6
+              md:text-base
               md:leading-8
             "
           >
-            Một câu chuyện được viết nên từ
-            những lần gặp gỡ, những cái nắm tay
-            và những ngày bình yên có nhau.
+            {
+              wedding.story
+                .description
+            }
           </motion.p>
 
-          {/* =====================================
+          {/* =================================================
               NAMES
-          ===================================== */}
+          ================================================= */}
 
           <motion.div
             initial={{
@@ -610,7 +945,7 @@ export default function StorySection() {
                 }
             }
             transition={{
-              delay: 0.85,
+              delay: 0.88,
               duration: 0.9,
             }}
             className="
@@ -625,23 +960,28 @@ export default function StorySection() {
               justify-center
 
               text-[28px]
+
               font-semibold
 
               leading-tight
 
+              tracking-[-0.02em]
+
               text-white
 
-              drop-shadow-[0_3px_12px_rgba(0,0,0,0.5)]
+              drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)]
 
               sm:text-3xl
 
-              md:mt-9
+              md:mt-8
               md:flex-row
               md:text-4xl
             "
           >
             <span>
-              {wedding.groom}
+              {
+                wedding.groom
+              }
             </span>
 
             <motion.span
@@ -650,7 +990,7 @@ export default function StorySection() {
                   ? {
                     scale: [
                       1,
-                      1.16,
+                      1.18,
                       1,
                     ],
                   }
@@ -658,68 +998,86 @@ export default function StorySection() {
               }
               transition={{
                 duration: 2.4,
-                repeat: Infinity,
-                ease: "easeInOut",
+
+                repeat:
+                  Infinity,
+
+                ease:
+                  "easeInOut",
               }}
               className="
+                text-wedding-rose
+
                 my-1
 
                 text-xl
 
-                text-[#F8E7DC]
-
-                sm:text-2xl
-
                 md:mx-5
                 md:my-0
+                md:text-2xl
               "
             >
               ♡
             </motion.span>
 
             <span>
-              {wedding.bride}
+              {
+                wedding.bride
+              }
             </span>
           </motion.div>
 
-          {/* =====================================
-              END TEXT
-          ===================================== */}
+          {/* =================================================
+              CLOSING
+          ================================================= */}
 
           <motion.p
             initial={{
               opacity: 0,
+              y: 8,
             }}
             animate={
               curtainOpened
                 ? {
                   opacity: 1,
+                  y: 0,
                 }
                 : {
                   opacity: 0,
+                  y: 8,
                 }
             }
             transition={{
-              delay: 1.05,
+              delay: 1.02,
               duration: 1,
             }}
             className="
               mt-6
 
-              text-[11px]
-              font-semibold
+              max-w-xl
+
+              text-[10px]
+              font-medium
+
+              leading-5
 
               tracking-[0.04em]
 
-              text-white/95
+              text-white/85
 
-              drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]
+              drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]
 
               sm:text-xs
-              md:text-sm
+              sm:leading-6
+
+              md:mt-7
+              md:text-[13px]
             "
           >
-            Và câu chuyện ấy vẫn đang được viết tiếp...
+            {
+              wedding.story
+                .closing
+            }
           </motion.p>
         </div>
       </motion.div>

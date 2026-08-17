@@ -10,6 +10,10 @@ import {
   useState,
 } from "react";
 
+import {
+  wedding,
+} from "@/data/wedding";
+
 import HeartLayer from "./HeartLayer";
 
 import {
@@ -54,22 +58,17 @@ export default function OpenSection() {
 
   async function handleOpen() {
     /*
-     * QUAN TRỌNG:
-     *
-     * Phát nhạc ngay trong thao tác click.
-     * Điều này giúp tránh việc browser
-     * chặn autoplay.
+     * Phát nhạc ngay khi người dùng click.
      */
     await openInvitation();
 
     /*
-     * Bắt đầu đóng màn OPEN.
+     * Fade màn hình mở đầu.
      */
     setOpened(true);
 
     /*
-     * Sau khi màn hình bắt đầu fade,
-     * cuộn tới StorySection.
+     * Cuộn tới StorySection.
      */
     window.setTimeout(() => {
       document
@@ -79,11 +78,10 @@ export default function OpenSection() {
         ?.scrollIntoView({
           behavior: "smooth",
         });
-    }, 550);
+    }, 420);
 
     /*
-     * Kích hoạt HeartCurtain
-     * bên StorySection.
+     * Kích hoạt HeartCurtain.
      */
     window.setTimeout(() => {
       window.dispatchEvent(
@@ -91,7 +89,7 @@ export default function OpenSection() {
           "wedding-story-open",
         ),
       );
-    }, 850);
+    }, 450);
   }
 
   return (
@@ -118,9 +116,10 @@ export default function OpenSection() {
             ],
           }}
           className="
+            bg-wedding
+
             fixed
             inset-0
-
             z-[100]
 
             flex
@@ -131,13 +130,11 @@ export default function OpenSection() {
 
             overflow-hidden
 
-            bg-[#F9F6F0]
-
             md:min-h-dvh
           "
         >
           {/* =================================================
-              TRÁI TIM BAY
+              HEART LAYER
           ================================================= */}
 
           <HeartLayer
@@ -145,52 +142,123 @@ export default function OpenSection() {
           />
 
           {/* =================================================
-              BACKGROUND DECORATION
+              BACKGROUND GLOW
           ================================================= */}
 
-          {/* Ánh sáng góc trái */}
+          {/* XANH NƯỚC BIỂN */}
 
-          <div
+          <motion.div
+            animate={{
+              scale: [
+                1,
+                1.08,
+                1,
+              ],
+
+              x: [
+                0,
+                20,
+                0,
+              ],
+
+              y: [
+                0,
+                10,
+                0,
+              ],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
             className="
+              wedding-glow-blue
+
               pointer-events-none
 
               absolute
-              -left-[30%]
+              -left-[28%]
               -top-[25%]
 
-              h-[75vw]
-              w-[75vw]
+              h-[80vw]
+              w-[80vw]
 
               rounded-full
 
-              bg-[#E7D5CC]/35
+              opacity-70
 
-              blur-[130px]
+              blur-[140px]
             "
           />
 
-          {/* Ánh sáng góc phải */}
+          {/* HỒNG HOA */}
 
-          <div
+          <motion.div
+            animate={{
+              scale: [
+                1,
+                1.1,
+                1,
+              ],
+
+              x: [
+                0,
+                -15,
+                0,
+              ],
+
+              y: [
+                0,
+                -12,
+                0,
+              ],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
             className="
+              wedding-glow-pink
+
               pointer-events-none
 
               absolute
-              -bottom-[25%]
-              -right-[25%]
+              -bottom-[30%]
+              -right-[22%]
 
-              h-[70vw]
-              w-[70vw]
+              h-[72vw]
+              w-[72vw]
 
               rounded-full
 
-              bg-[#EDE4D7]/80
-
-              blur-[145px]
+              blur-[150px]
             "
           />
 
-          {/* Ánh sáng trung tâm */}
+          {/* XANH KEM */}
+
+          <div
+            className="
+              wedding-glow-green
+
+              pointer-events-none
+
+              absolute
+              bottom-[5%]
+              left-[5%]
+
+              h-[28rem]
+              w-[28rem]
+
+              rounded-full
+
+              blur-[125px]
+            "
+          />
+
+          {/* ÁNH SÁNG TRUNG TÂM */}
 
           <div
             className="
@@ -200,38 +268,152 @@ export default function OpenSection() {
               left-1/2
               top-1/2
 
-              h-[48vh]
-              w-[48vh]
+              h-[56vh]
+              w-[56vh]
 
               -translate-x-1/2
               -translate-y-1/2
 
               rounded-full
 
-              bg-white/55
+              bg-white/65
 
-              blur-[100px]
+              blur-[110px]
             "
           />
 
-          {/* Ánh champagne nhẹ */}
+          {/* =================================================
+              TRÁI TIM TRANG TRÍ
+          ================================================= */}
 
-          <div
+          <motion.span
+            aria-hidden="true"
+            animate={{
+              y: [
+                0,
+                -18,
+                0,
+              ],
+
+              rotate: [
+                -8,
+                4,
+                -8,
+              ],
+
+              opacity: [
+                0.14,
+                0.3,
+                0.14,
+              ],
+            }}
+            transition={{
+              duration: 7,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
             className="
+              text-wedding-blue
+
               pointer-events-none
 
               absolute
-              bottom-[5%]
-              left-[3%]
+              left-[9%]
+              top-[22%]
 
-              h-[28rem]
-              w-[28rem]
+              hidden
 
-              rounded-full
+              text-5xl
 
-              bg-[#E8D6D2]/20
+              md:block
+            "
+          >
+            ♡
+          </motion.span>
 
-              blur-[120px]
+          <motion.span
+            aria-hidden="true"
+            animate={{
+              y: [
+                0,
+                -22,
+                0,
+              ],
+
+              rotate: [
+                7,
+                -5,
+                7,
+              ],
+
+              opacity: [
+                0.14,
+                0.3,
+                0.14,
+              ],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="
+              text-wedding-rose
+
+              pointer-events-none
+
+              absolute
+              bottom-[19%]
+              right-[10%]
+
+              hidden
+
+              text-6xl
+
+              md:block
+            "
+          >
+            ♡
+          </motion.span>
+
+          {/* =================================================
+              KHUNG KÍNH
+          ================================================= */}
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              scale: 0.97,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            transition={{
+              duration: 1.4,
+            }}
+            className="
+              glass-wedding
+
+              pointer-events-none
+
+              absolute
+              inset-4
+
+              rounded-[2rem]
+
+              sm:inset-7
+              sm:rounded-[2.5rem]
+
+              md:inset-10
+
+              lg:left-1/2
+              lg:right-auto
+
+              lg:w-[88%]
+              lg:max-w-5xl
+
+              lg:-translate-x-1/2
             "
           />
 
@@ -265,18 +447,22 @@ export default function OpenSection() {
 
               flex
               w-full
-              max-w-6xl
+              max-w-5xl
 
               flex-col
 
               items-center
               justify-center
 
-              px-5
+              px-7
+              py-16
 
               text-center
 
-              sm:px-8
+              sm:px-10
+              sm:py-12
+
+              md:px-12
             "
           >
             {/* =================================================
@@ -293,7 +479,7 @@ export default function OpenSection() {
                 scale: 1,
               }}
               transition={{
-                delay: 0.12,
+                delay: 0.1,
                 duration: 0.8,
               }}
             >
@@ -301,26 +487,24 @@ export default function OpenSection() {
                 animate={{
                   scale: [
                     1,
-                    1.15,
+                    1.14,
                     1,
                   ],
                 }}
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  ease:
-                    "easeInOut",
+                  ease: "easeInOut",
                 }}
                 className="
-                  mb-5
+                  text-wedding-rose-deep
 
                   inline-block
 
-                  text-2xl
+                  text-xl
 
-                  text-[#A58C76]
-
-                  sm:text-3xl
+                  sm:text-2xl
+                  md:text-3xl
                 "
               >
                 ♡
@@ -328,7 +512,7 @@ export default function OpenSection() {
             </motion.div>
 
             {/* =================================================
-                SMALL TITLE
+                LABEL
             ================================================= */}
 
             <motion.p
@@ -341,31 +525,73 @@ export default function OpenSection() {
                 y: 0,
               }}
               transition={{
-                delay: 0.22,
+                delay: 0.2,
                 duration: 0.8,
               }}
               className="
-                mb-6
+                text-wedding-blue
+
+                mt-3
 
                 text-[10px]
                 font-semibold
 
                 uppercase
 
-                tracking-[0.32em]
+                tracking-[0.3em]
 
-                text-[#74685F]
-
+                sm:mt-4
                 sm:text-xs
-
-                md:text-sm
               "
             >
-              Chuyện của chúng mình
+              {wedding.open.label}
             </motion.p>
 
             {/* =================================================
-                COUPLE NAMES
+                QUOTE
+            ================================================= */}
+
+            <motion.p
+              initial={{
+                opacity: 0,
+                y: 12,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                delay: 0.3,
+                duration: 0.85,
+              }}
+              className="
+                font-editorial
+                text-wedding-blue
+
+                mt-3
+
+                max-w-2xl
+
+                text-[clamp(1.35rem,2.5vw,2rem)]
+
+                font-medium
+                italic
+
+                leading-[1.18]
+
+                tracking-[-0.015em]
+
+                lg:max-w-none
+                lg:whitespace-nowrap
+
+                xl:text-[2.1rem]
+              "
+            >
+              “{wedding.open.quote}”
+            </motion.p>
+
+            {/* =================================================
+                COUPLE
             ================================================= */}
 
             <motion.h1
@@ -378,7 +604,7 @@ export default function OpenSection() {
                 y: 0,
               }}
               transition={{
-                delay: 0.32,
+                delay: 0.38,
                 duration: 1,
                 ease: [
                   0.22,
@@ -390,6 +616,8 @@ export default function OpenSection() {
               className="
                 font-editorial
 
+                mt-5
+
                 flex
                 w-full
 
@@ -399,7 +627,7 @@ export default function OpenSection() {
 
                 text-center
 
-                text-[#2B2724]
+                sm:mt-6
               "
             >
               {/* CHÚ RỂ */}
@@ -408,26 +636,30 @@ export default function OpenSection() {
                 initial={{
                   opacity: 0,
                   y: 20,
+                  filter: "blur(4px)",
                 }}
                 animate={{
                   opacity: 1,
                   y: 0,
+                  filter: "blur(0px)",
                 }}
                 transition={{
-                  delay: 0.38,
-                  duration: 0.9,
+                  delay: 0.45,
+                  duration: 0.95,
                 }}
                 className="
-                  text-[clamp(3.4rem,9vw,7.4rem)]
+                  text-wedding-primary
+
+                  text-[clamp(3.2rem,8vw,7.3rem)]
 
                   font-medium
 
-                  leading-[0.88]
+                  leading-[0.86]
 
                   tracking-[-0.045em]
                 "
               >
-                Nguyễn Nam
+                {wedding.groom}
               </motion.span>
 
               {/* & */}
@@ -436,7 +668,7 @@ export default function OpenSection() {
                 initial={{
                   opacity: 0,
                   scale: 0.6,
-                  rotate: -6,
+                  rotate: -7,
                 }}
                 animate={{
                   opacity: 1,
@@ -444,23 +676,22 @@ export default function OpenSection() {
                   rotate: 0,
                 }}
                 transition={{
-                  delay: 0.62,
+                  delay: 0.65,
                   duration: 0.8,
                 }}
                 className="
                   font-script
+                  text-wedding-rose
 
-                  my-2
+                  my-1
 
-                  text-[clamp(2.8rem,6vw,5rem)]
+                  text-[clamp(2.7rem,5.5vw,5rem)]
 
                   font-normal
 
                   leading-none
 
-                  text-[#AD9077]
-
-                  sm:my-3
+                  sm:my-2
                 "
               >
                 &
@@ -472,31 +703,35 @@ export default function OpenSection() {
                 initial={{
                   opacity: 0,
                   y: 20,
+                  filter: "blur(4px)",
                 }}
                 animate={{
                   opacity: 1,
                   y: 0,
+                  filter: "blur(0px)",
                 }}
                 transition={{
-                  delay: 0.75,
-                  duration: 0.9,
+                  delay: 0.78,
+                  duration: 0.95,
                 }}
                 className="
-                  text-[clamp(3.4rem,9vw,7.4rem)]
+                  text-wedding-primary
+
+                  text-[clamp(3.2rem,8vw,7.3rem)]
 
                   font-medium
 
-                  leading-[0.88]
+                  leading-[0.86]
 
                   tracking-[-0.045em]
                 "
               >
-                Huỳnh Thư
+                {wedding.bride}
               </motion.span>
             </motion.h1>
 
             {/* =================================================
-                LINE
+                DIVIDER
             ================================================= */}
 
             <motion.div
@@ -510,21 +745,47 @@ export default function OpenSection() {
               }}
               transition={{
                 delay: 0.92,
-                duration: 0.95,
+                duration: 1,
               }}
               className="
-                mt-8
+                mt-6
 
-                h-px
-                w-16
+                flex
 
-                origin-center
+                items-center
+                justify-center
 
-                bg-[#B9A38F]
-
-                sm:w-20
+                gap-3
               "
-            />
+            >
+              <span
+                className="
+                  wedding-divider-left
+
+                  h-px
+                  w-10
+                "
+              />
+
+              <span
+                className="
+                  text-wedding-rose
+
+                  text-xs
+                "
+              >
+                ♡
+              </span>
+
+              <span
+                className="
+                  wedding-divider-right
+
+                  h-px
+                  w-10
+                "
+              />
+            </motion.div>
 
             {/* =================================================
                 DESCRIPTION
@@ -540,35 +801,33 @@ export default function OpenSection() {
                 y: 0,
               }}
               transition={{
-                delay: 0.98,
-                duration: 0.85,
+                delay: 1,
+                duration: 0.9,
               }}
               className="
-                mt-6
+                text-wedding-soft
+
+                mt-4
 
                 max-w-xl
 
-                px-2
-
-                text-[15px]
+                text-[13px]
                 font-medium
 
-                leading-7
+                leading-6
 
-                text-[#5B524B]
+                sm:mt-5
+                sm:text-[15px]
+                sm:leading-7
 
-                sm:text-[17px]
-                sm:leading-8
-
-                md:text-lg
+                md:text-base
               "
             >
-              Một hành trình dịu dàng,
-              được viết nên từ hai trái tim.
+              {wedding.open.description}
             </motion.p>
 
             {/* =================================================
-                OPEN BUTTON
+                BUTTON
             ================================================= */}
 
             <motion.button
@@ -585,7 +844,7 @@ export default function OpenSection() {
                 y: 0,
               }}
               transition={{
-                delay: 1.1,
+                delay: 1.12,
                 duration: 0.85,
               }}
               whileHover={{
@@ -596,95 +855,74 @@ export default function OpenSection() {
                 scale: 0.97,
               }}
               className="
+                wedding-button
+
                 group
                 relative
 
-                mt-9
+                mt-7
 
-                min-h-[58px]
+                min-h-[54px]
 
                 overflow-hidden
 
                 rounded-full
 
-                border
-                border-[#B49B84]/75
+                px-8
+                py-3.5
 
-                bg-white/65
-
-                px-9
-                py-4
-
-                text-[13px]
+                text-[11px]
                 font-semibold
 
                 uppercase
 
                 tracking-[0.15em]
 
-                text-[#40372F]
-
-                shadow-[0_14px_45px_rgba(89,68,52,0.10)]
-
-                backdrop-blur-xl
-
-                transition-all
-                duration-500
-
-                hover:border-[#A88B70]
-
-                hover:bg-white/90
-
-                hover:shadow-[0_18px_55px_rgba(89,68,52,0.14)]
-
-                sm:min-h-[62px]
-                sm:px-12
-                sm:text-sm
+                sm:min-h-[58px]
+                sm:px-11
+                sm:py-4
+                sm:text-[12px]
               "
             >
-              {/* =============================================
-                  GLOW
-              ============================================= */}
+              {/* GLOW */}
 
               <motion.span
                 aria-hidden="true"
                 animate={{
                   opacity: [
-                    0.15,
-                    0.42,
-                    0.15,
+                    0.12,
+                    0.4,
+                    0.12,
                   ],
+
                   scale: [
                     0.96,
-                    1.05,
+                    1.06,
                     0.96,
                   ],
                 }}
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  ease:
-                    "easeInOut",
+                  ease: "easeInOut",
                 }}
                 className="
+                  wedding-glow-blue
+
                   pointer-events-none
 
                   absolute
-                  -inset-[7px]
+                  -inset-[8px]
 
                   -z-10
 
                   rounded-full
 
-                  bg-[#D4BBA4]/30
-
                   blur-xl
                 "
               />
 
-              {/* =============================================
-                  LIGHT SWEEP
-              ============================================= */}
+              {/* LIGHT SWEEP */}
 
               <motion.span
                 aria-hidden="true"
@@ -698,11 +936,10 @@ export default function OpenSection() {
                   ],
                 }}
                 transition={{
-                  duration: 3.5,
+                  duration: 3.6,
                   repeat: Infinity,
                   repeatDelay: 1.7,
-                  ease:
-                    "easeInOut",
+                  ease: "easeInOut",
                 }}
                 className="
                   pointer-events-none
@@ -711,25 +948,25 @@ export default function OpenSection() {
                   top-0
 
                   h-full
-                  w-[35%]
+                  w-[34%]
 
                   -skew-x-[20deg]
 
                   bg-gradient-to-r
                   from-transparent
-                  via-white/80
+                  via-white/90
                   to-transparent
 
                   blur-[1px]
                 "
               />
 
-              {/* =============================================
-                  INNER BORDER
-              ============================================= */}
+              {/* INNER BORDER */}
 
               <span
                 className="
+                  border-wedding-white
+
                   pointer-events-none
 
                   absolute
@@ -738,13 +975,10 @@ export default function OpenSection() {
                   rounded-full
 
                   border
-                  border-white/65
                 "
               />
 
-              {/* =============================================
-                  HOVER BACKGROUND
-              ============================================= */}
+              {/* HOVER */}
 
               <span
                 className="
@@ -757,7 +991,7 @@ export default function OpenSection() {
 
                   rounded-full
 
-                  bg-[#F2E8DF]/50
+                  bg-white/25
 
                   transition-transform
                   duration-500
@@ -766,9 +1000,7 @@ export default function OpenSection() {
                 "
               />
 
-              {/* =============================================
-                  BUTTON CONTENT
-              ============================================= */}
+              {/* CONTENT */}
 
               <span
                 className="
@@ -784,7 +1016,7 @@ export default function OpenSection() {
                 "
               >
                 <span>
-                  Mở câu chuyện
+                  {wedding.open.button}
                 </span>
 
                 <motion.span
@@ -798,15 +1030,14 @@ export default function OpenSection() {
                   transition={{
                     duration: 2,
                     repeat: Infinity,
-                    ease:
-                      "easeInOut",
+                    ease: "easeInOut",
                   }}
                   className="
+                    text-wedding-rose
+
                     text-lg
 
                     font-normal
-
-                    text-[#A68D77]
                   "
                 >
                   ♡
@@ -830,22 +1061,24 @@ export default function OpenSection() {
                 duration: 1,
               }}
               className="
-                mt-5
+                text-wedding-muted
+
+                mt-4
 
                 flex
+
                 items-center
                 justify-center
 
                 gap-2
 
-                text-[10px]
+                text-[9px]
                 font-medium
 
-                tracking-[0.06em]
+                tracking-[0.04em]
 
-                text-[#80756C]
-
-                sm:text-xs
+                sm:mt-5
+                sm:text-[11px]
               "
             >
               <motion.span
@@ -859,20 +1092,19 @@ export default function OpenSection() {
                 transition={{
                   duration: 2.5,
                   repeat: Infinity,
-                  ease:
-                    "easeInOut",
+                  ease: "easeInOut",
                 }}
                 className="
-                  text-sm
+                  text-wedding-blue
 
-                  text-[#A58A73]
+                  text-sm
                 "
               >
                 ♪
               </motion.span>
 
               <span>
-                Chạm để mở câu chuyện và bắt đầu giai điệu
+                {wedding.open.musicHint}
               </span>
             </motion.p>
           </motion.div>
@@ -895,44 +1127,44 @@ export default function OpenSection() {
               duration: 1,
             }}
             className="
-              absolute
+              pointer-events-none
 
-              bottom-5
+              absolute
+              bottom-6
               left-1/2
 
               z-10
 
               -translate-x-1/2
 
-              sm:bottom-7
+              sm:bottom-8
             "
           >
             <motion.span
               animate={{
                 y: [
                   0,
-                  5,
+                  4,
                   0,
                 ],
 
                 opacity: [
-                  0.45,
+                  0.4,
                   0.8,
-                  0.45,
+                  0.4,
                 ],
               }}
               transition={{
-                duration: 2.5,
+                duration: 2.6,
                 repeat: Infinity,
-                ease:
-                  "easeInOut",
+                ease: "easeInOut",
               }}
               className="
+                text-wedding-rose
+
                 block
 
                 text-sm
-
-                text-[#A18E7D]
               "
             >
               ♡

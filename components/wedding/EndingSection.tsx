@@ -1,82 +1,191 @@
 "use client";
 
-import { motion } from "motion/react";
+import {
+  motion,
+} from "motion/react";
 
-import { wedding } from "@/data/wedding";
+import {
+  wedding,
+} from "@/data/wedding";
 
 export default function EndingSection() {
   return (
     <section
       id="ending"
       className="
+        bg-wedding-luxury
+    wedding-section
+    wedding-texture
+
         relative
+
+        -mt-px
+
         overflow-hidden
 
-        bg-gradient-to-b
-        from-[#F8F3EC]
-        via-[#FCFAF7]
-        to-white
-
         px-5
-        py-20
+        py-16
 
         sm:px-8
-        sm:py-24
+        sm:py-20
 
         md:px-10
+        md:py-24
 
+        lg:px-12
         lg:py-28
       "
     >
       {/* =====================================================
-          BACKGROUND DECORATION
+          TOP TRANSITION
+
+          Nối mềm từ ForeverSection xuống EndingSection.
       ===================================================== */}
 
       <div
         className="
           pointer-events-none
-          absolute
-          -left-[20%]
-          top-[5%]
 
-          h-[30rem]
-          w-[30rem]
+          absolute
+          inset-x-0
+          top-0
+
+          h-28
+
+          bg-gradient-to-b
+
+          from-[rgba(207,229,239,0.14)]
+          via-[rgba(237,245,244,0.08)]
+          to-transparent
+
+          sm:h-36
+        "
+      />
+
+      {/* =====================================================
+          BACKGROUND GLOWS
+      ===================================================== */}
+
+      <div
+        className="
+          wedding-glow-blue
+
+          pointer-events-none
+
+          absolute
+
+          -left-[20%]
+          top-[3%]
+
+          h-[34rem]
+          w-[34rem]
 
           rounded-full
 
-          bg-[#EAD9CF]/20
+          opacity-40
 
-          blur-[130px]
+          blur-[140px]
         "
       />
 
       <div
         className="
-          pointer-events-none
-          absolute
-          -right-[20%]
-          bottom-[5%]
+          wedding-glow-pink
 
-          h-[28rem]
-          w-[28rem]
+          pointer-events-none
+
+          absolute
+
+          -right-[20%]
+          bottom-[2%]
+
+          h-[32rem]
+          w-[32rem]
 
           rounded-full
 
-          bg-[#E9DED2]/25
+          opacity-32
 
-          blur-[130px]
+          blur-[140px]
+        "
+      />
+
+      <div
+        className="
+          wedding-glow-green
+
+          pointer-events-none
+
+          absolute
+
+          left-1/2
+          top-[46%]
+
+          h-[26rem]
+          w-[26rem]
+
+          -translate-x-1/2
+
+          rounded-full
+
+          opacity-28
+
+          blur-[125px]
         "
       />
 
       {/* =====================================================
-          MAIN CONTENT
+          BACKGROUND WORD
+      ===================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          font-editorial
+          text-wedding-blue
+
+          pointer-events-none
+
+          absolute
+
+          left-1/2
+          top-[46%]
+
+          hidden
+
+          -translate-x-1/2
+          -translate-y-1/2
+
+          whitespace-nowrap
+
+          text-[11rem]
+
+          font-medium
+
+          leading-none
+
+          tracking-[-0.075em]
+
+          opacity-[0.025]
+
+          lg:block
+        "
+      >
+        {
+          wedding.ending
+            .backgroundWord
+        }
+      </div>
+
+      {/* =====================================================
+          MAIN
       ===================================================== */}
 
       <motion.div
         initial={{
           opacity: 0,
-          y: 28,
-          scale: 0.98,
+          y: 26,
+          scale: 0.985,
         }}
         whileInView={{
           opacity: 1,
@@ -85,11 +194,17 @@ export default function EndingSection() {
         }}
         viewport={{
           once: true,
-          amount: 0.35,
+          amount: 0.3,
         }}
         transition={{
-          duration: 1.1,
-          ease: [0.22, 1, 0.36, 1],
+          duration: 1,
+
+          ease: [
+            0.22,
+            1,
+            0.36,
+            1,
+          ],
         }}
         className="
           relative
@@ -98,7 +213,7 @@ export default function EndingSection() {
           mx-auto
 
           w-full
-          max-w-5xl
+          max-w-6xl
 
           text-center
         "
@@ -125,19 +240,27 @@ export default function EndingSection() {
         >
           <motion.span
             animate={{
-              scale: [1, 1.14, 1],
+              scale: [
+                1,
+                1.14,
+                1,
+              ],
             }}
             transition={{
               duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
+
+              repeat:
+                Infinity,
+
+              ease:
+                "easeInOut",
             }}
             className="
+              text-wedding-rose
+
               inline-block
 
               text-2xl
-
-              text-[#A78A73]
 
               sm:text-3xl
             "
@@ -147,7 +270,7 @@ export default function EndingSection() {
         </motion.div>
 
         {/* =================================================
-            SMALL LABEL
+            EYEBROW
         ================================================= */}
 
         <motion.p
@@ -163,71 +286,153 @@ export default function EndingSection() {
             once: true,
           }}
           transition={{
-            delay: 0.1,
+            delay: 0.08,
             duration: 0.75,
           }}
           className="
-            mt-4
+            text-wedding-blue
+
+            mt-2
 
             text-[10px]
-            font-bold
+
+            font-semibold
+
             uppercase
 
             tracking-[0.3em]
 
-            text-[#8B7360]
-
             sm:text-xs
           "
         >
-          Khép lại một câu chuyện
+          {
+            wedding.ending
+              .eyebrow
+          }
         </motion.p>
 
         {/* =================================================
-            MAIN TITLE
+            TITLE
         ================================================= */}
 
-        <motion.h2
+        <motion.div
           initial={{
             opacity: 0,
-            y: 22,
-            filter: "blur(5px)",
+            y: 20,
+            filter:
+              "blur(5px)",
           }}
           whileInView={{
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
+            filter:
+              "blur(0px)",
           }}
           viewport={{
             once: true,
           }}
           transition={{
-            delay: 0.2,
+            delay: 0.16,
+
             duration: 1,
-            ease: [0.22, 1, 0.36, 1],
+
+            ease: [
+              0.22,
+              1,
+              0.36,
+              1,
+            ],
           }}
           className="
-    font-editorial
-    mx-auto
-    mt-4
-    max-w-[1050px]
+            font-editorial
+            text-wedding-primary
 
-    text-[clamp(2.5rem,6vw,6rem)]
+            mx-auto
 
-    font-medium
-    leading-[0.98]
-    tracking-[-0.045em]
-    text-[#302A26]
-  "
+            mt-3
+
+            font-medium
+
+            leading-[0.98]
+
+            tracking-[-0.045em]
+          "
         >
-          Cảm ơn bạn đã trở thành
-          <br className="hidden sm:block" />
-          {" "}
-          một phần trong câu chuyện
-          <br className="hidden sm:block" />
-          {" "}
-          của chúng mình.
-        </motion.h2>
+          {/* =========================================
+              MOBILE / TABLET
+
+              Tự xuống dòng theo màn hình.
+          ========================================= */}
+
+          <h2
+            className="
+              mx-auto
+
+              max-w-3xl
+
+              text-[clamp(2.7rem,9vw,4.8rem)]
+
+              lg:hidden
+            "
+          >
+            {
+              wedding.ending
+                .title
+            }
+          </h2>
+
+          {/* =========================================
+              DESKTOP
+
+              Cố định thành 3 hàng đẹp.
+          ========================================= */}
+
+          <h2
+            className="
+              hidden
+
+              lg:block
+
+              lg:text-[clamp(3.8rem,5.2vw,5.8rem)]
+            "
+          >
+            <span
+              className="
+                block
+                whitespace-nowrap
+              "
+            >
+              {
+                wedding.ending
+                  .titleLines[0]
+              }
+            </span>
+
+            <span
+              className="
+                block
+                whitespace-nowrap
+              "
+            >
+              {
+                wedding.ending
+                  .titleLines[1]
+              }
+            </span>
+
+            <span
+              className="
+                block
+                whitespace-nowrap
+              "
+            >
+              {
+                wedding.ending
+                  .titleLines[2]
+              }
+            </span>
+          </h2>
+        </motion.div>
 
         {/* =================================================
             DIVIDER
@@ -235,39 +440,67 @@ export default function EndingSection() {
 
         <motion.div
           initial={{
-            scaleX: 0,
             opacity: 0,
+            scaleX: 0,
           }}
           whileInView={{
-            scaleX: 1,
             opacity: 1,
+            scaleX: 1,
           }}
           viewport={{
             once: true,
           }}
           transition={{
-            delay: 0.4,
-            duration: 0.9,
+            delay: 0.3,
+            duration: 0.8,
           }}
           className="
             mx-auto
 
-            mt-7
+            mt-5
 
-            h-px
-            w-16
+            flex
 
-            origin-center
+            items-center
+            justify-center
 
-            bg-[#B79A82]
+            gap-3
           "
-        />
+        >
+          <span
+            className="
+              wedding-divider-left
+
+              h-px
+              w-10
+            "
+          />
+
+          <span
+            className="
+              text-wedding-rose
+
+              text-xs
+            "
+          >
+            ♡
+          </span>
+
+          <span
+            className="
+              wedding-divider-right
+
+              h-px
+              w-10
+            "
+          />
+        </motion.div>
 
         {/* =================================================
             SUBTITLE
         ================================================= */}
 
-        <motion.p
+        <motion.div
           initial={{
             opacity: 0,
             y: 14,
@@ -280,32 +513,77 @@ export default function EndingSection() {
             once: true,
           }}
           transition={{
-            delay: 0.5,
+            delay: 0.38,
             duration: 0.8,
           }}
           className="
-    font-editorial
-    mx-auto
-    mt-6
-    max-w-2xl
+            font-editorial
+            text-wedding-primary
 
-    text-[clamp(1.8rem,3vw,3rem)]
+            mx-auto
 
-    font-medium
+            mt-5
 
-    leading-[1.15]
-    sm:leading-[1.08]
+            font-medium
 
-    tracking-[-0.025em]
+            leading-[1.12]
 
-    text-[#514741]
-  "
+            tracking-[-0.025em]
+          "
         >
-          Và từ hôm nay, một hành trình mới
-          <br className="hidden sm:block" />
-          {" "}
-          chính thức bắt đầu.
-        </motion.p>
+          {/* MOBILE / TABLET */}
+
+          <p
+            className="
+              mx-auto
+
+              max-w-2xl
+
+              text-[clamp(1.8rem,6vw,2.8rem)]
+
+              lg:hidden
+            "
+          >
+            {
+              wedding.ending
+                .subtitle
+            }
+          </p>
+
+          {/* DESKTOP */}
+
+          <div
+            className="
+              hidden
+
+              lg:block
+
+              lg:text-[clamp(2.3rem,3vw,3rem)]
+            "
+          >
+            <p
+              className="
+                whitespace-nowrap
+              "
+            >
+              {
+                wedding.ending
+                  .subtitleLines[0]
+              }
+            </p>
+
+            <p
+              className="
+                whitespace-nowrap
+              "
+            >
+              {
+                wedding.ending
+                  .subtitleLines[1]
+              }
+            </p>
+          </div>
+        </motion.div>
 
         {/* =================================================
             DESCRIPTION
@@ -324,10 +602,12 @@ export default function EndingSection() {
             once: true,
           }}
           transition={{
-            delay: 0.6,
+            delay: 0.48,
             duration: 0.8,
           }}
           className="
+            text-wedding-soft
+
             mx-auto
 
             mt-4
@@ -335,21 +615,23 @@ export default function EndingSection() {
             max-w-xl
 
             text-sm
+
             font-medium
 
             leading-6
 
-            text-[#756B63]
-
             sm:text-[15px]
+            sm:leading-7
           "
         >
-          Cảm ơn vì đã dành thời gian để cùng chúng mình
-          đi qua những khoảnh khắc thật đẹp này.
+          {
+            wedding.ending
+              .description
+          }
         </motion.p>
 
         {/* =================================================
-            COUPLE NAMES
+            NAMES
         ================================================= */}
 
         <motion.div
@@ -365,55 +647,65 @@ export default function EndingSection() {
             once: true,
           }}
           transition={{
-            delay: 0.72,
+            delay: 0.58,
             duration: 0.85,
           }}
           className="
             font-editorial
+            text-wedding-primary
 
-            mt-7
+            mt-6
 
             flex
+
             flex-col
 
             items-center
             justify-center
 
-            gap-1
-
             text-3xl
+
             font-medium
 
             leading-none
 
-            text-[#372F2A]
+            tracking-[-0.025em]
 
             sm:text-4xl
 
             md:flex-row
-            md:gap-0
             md:text-5xl
           "
         >
           <span>
-            {wedding.groom}
+            {
+              wedding.groom
+            }
           </span>
 
           <motion.span
             animate={{
-              scale: [1, 1.16, 1],
+              scale: [
+                1,
+                1.17,
+                1,
+              ],
             }}
             transition={{
               duration: 2.5,
-              repeat: Infinity,
-              ease: "easeInOut",
+
+              repeat:
+                Infinity,
+
+              ease:
+                "easeInOut",
             }}
             className="
+              text-wedding-rose
+
               my-1
 
               text-xl
-
-              text-[#A98B73]
 
               md:mx-5
               md:my-0
@@ -424,17 +716,14 @@ export default function EndingSection() {
           </motion.span>
 
           <span>
-            {wedding.bride}
+            {
+              wedding.bride
+            }
           </span>
         </motion.div>
 
         {/* =================================================
-            FINAL MESSAGE
-        ================================================= */}
-
-
-        {/* =================================================
-            FINAL SMALL LINE
+            FINAL ORNAMENT
         ================================================= */}
 
         <motion.div
@@ -450,22 +739,50 @@ export default function EndingSection() {
             once: true,
           }}
           transition={{
-            delay: 0.95,
-            duration: 1,
+            delay: 0.72,
+            duration: 0.9,
           }}
           className="
             mx-auto
 
             mt-6
 
-            h-px
-            w-8
+            flex
 
-            origin-center
+            items-center
+            justify-center
 
-            bg-[#C6B3A3]
+            gap-2
           "
-        />
+        >
+          <span
+            className="
+              wedding-divider-left
+
+              h-px
+              w-6
+            "
+          />
+
+          <span
+            className="
+              text-wedding-rose
+
+              text-[9px]
+            "
+          >
+            ♡
+          </span>
+
+          <span
+            className="
+              wedding-divider-right
+
+              h-px
+              w-6
+            "
+          />
+        </motion.div>
       </motion.div>
     </section>
   );

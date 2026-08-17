@@ -8,40 +8,58 @@ import {
   wedding,
 } from "@/data/wedding";
 
+import HeartLayer from "./HeartLayer";
+
 /* =========================================================
-   WORD CARD
+   TYPES
 ========================================================= */
 
 type WordCardProps = {
-  word: string;
+  word: {
+    text: string;
+  };
+
   index: number;
+
   className?: string;
+
+  tone?: "blue" | "rose";
 };
+
+/* =========================================================
+   WORD CARD
+========================================================= */
 
 function WordCard({
   word,
   index,
   className = "",
+  tone = "blue",
 }: WordCardProps) {
   return (
     <motion.article
       initial={{
         opacity: 0,
-        y: 38,
-        filter: "blur(7px)",
+        y: 34,
+        filter:
+          "blur(7px)",
       }}
       whileInView={{
         opacity: 1,
         y: 0,
-        filter: "blur(0px)",
+        filter:
+          "blur(0px)",
       }}
       viewport={{
         once: true,
-        amount: 0.2,
+        amount: 0.18,
       }}
       transition={{
         duration: 0.95,
-        delay: index * 0.12,
+
+        delay:
+          index * 0.1,
+
         ease: [
           0.22,
           1,
@@ -53,41 +71,41 @@ function WordCard({
         y: -5,
       }}
       className={`
+        glass-wedding
+        border-wedding-soft
+        shadow-wedding-card
+
         group
+
         relative
 
         overflow-hidden
 
-        rounded-[1.8rem]
+        rounded-[1.5rem]
 
         border
-        border-[#CBB7A4]/45
 
-        bg-white/55
+        p-6
 
-        p-7
+        sm:rounded-[1.8rem]
+        sm:p-8
 
-        shadow-[0_25px_70px_rgba(72,54,42,0.08)]
-
-        backdrop-blur-xl
-
-        sm:p-9
-
-        lg:rounded-[2.2rem]
-        lg:p-11
+        lg:rounded-[2rem]
+        lg:p-9
 
         ${className}
       `}
     >
-      {/* ===============================================
-          BACKGROUND GLOW
-      =============================================== */}
+      {/* =================================================
+          GLOW
+      ================================================= */}
 
       <div
-        className="
+        className={`
           pointer-events-none
 
           absolute
+
           -right-24
           -top-24
 
@@ -96,40 +114,49 @@ function WordCard({
 
           rounded-full
 
-          bg-[#EBDDD2]/35
+          opacity-40
 
-          blur-[60px]
+          blur-[65px]
 
           transition-transform
+
           duration-1000
 
           group-hover:scale-125
-        "
+
+          ${tone === "rose"
+            ? "wedding-glow-pink"
+            : "wedding-glow-blue"
+          }
+        `}
       />
 
-      {/* ===============================================
+      {/* =================================================
           INNER BORDER
-      =============================================== */}
+      ================================================= */}
 
       <div
         className="
+          border-wedding-white
+
           pointer-events-none
 
           absolute
           inset-3
 
-          rounded-[1.4rem]
+          rounded-[1.15rem]
 
           border
-          border-white/75
 
-          lg:rounded-[1.75rem]
+          sm:rounded-[1.45rem]
+
+          lg:rounded-[1.65rem]
         "
       />
 
-      {/* ===============================================
-          NUMBER
-      =============================================== */}
+      {/* =================================================
+          TOP
+      ================================================= */}
 
       <div
         className="
@@ -142,23 +169,33 @@ function WordCard({
           justify-between
         "
       >
+        {/* NUMBER */}
+
         <p
-          className="
+          className={`
             text-[10px]
+
             font-semibold
 
             tracking-[0.25em]
 
-            text-[#927A66]
-
             sm:text-xs
-          "
+
+            ${tone === "rose"
+              ? "text-wedding-rose"
+              : "text-wedding-blue"
+            }
+          `}
         >
-          {String(index + 1).padStart(
+          {String(
+            index + 1,
+          ).padStart(
             2,
             "0",
           )}
         </p>
+
+        {/* HEART */}
 
         <motion.span
           animate={{
@@ -170,85 +207,97 @@ function WordCard({
           }}
           transition={{
             duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
+
+            repeat:
+              Infinity,
+
+            ease:
+              "easeInOut",
           }}
           className="
-            text-xl
+            text-wedding-rose
 
-            text-[#A98B72]
+            text-xl
           "
         >
           ♡
         </motion.span>
       </div>
 
-      {/* ===============================================
+      {/* =================================================
           QUOTE MARK
-      =============================================== */}
+      ================================================= */}
 
       <div
-        className="
+        className={`
           font-editorial
 
           relative
           z-10
 
-          mt-5
+          mt-4
 
           text-5xl
+
           leading-none
 
-          text-[#BCA38D]/70
-
           sm:text-6xl
-        "
+
+          ${tone === "rose"
+            ? "text-wedding-rose"
+            : "text-wedding-blue"
+          }
+
+          opacity-45
+        `}
       >
         “
       </div>
 
-      {/* ===============================================
+      {/* =================================================
           QUOTE
-      =============================================== */}
+      ================================================= */}
 
       <blockquote
         className="
           font-editorial
+          text-wedding-primary
 
           relative
           z-10
 
           -mt-2
 
-          text-[clamp(1.9rem,3vw,3.15rem)]
+          text-[clamp(1.8rem,3vw,3rem)]
 
           font-medium
 
           leading-[1.15]
 
-          tracking-[-0.025em]
-
-          text-[#342E29]
+          tracking-[-0.028em]
         "
       >
-        {word}
+        {
+          word.text
+        }
       </blockquote>
 
-      {/* ===============================================
+      {/* =================================================
           FOOTER
-      =============================================== */}
+      ================================================= */}
 
       <div
         className="
           relative
           z-10
 
-          mt-8
+          mt-6
 
           flex
 
           items-center
-          gap-4
+
+          gap-3
         "
       >
         <motion.div
@@ -263,35 +312,45 @@ function WordCard({
           }}
           transition={{
             delay:
-              0.3 +
-              index * 0.12,
+              0.25 +
+              index * 0.1,
+
             duration: 0.8,
           }}
-          className="
+          className={`
             h-px
-            w-10
+
+            w-9
 
             origin-left
 
-            bg-[#B89E87]
-          "
+            ${tone === "rose"
+              ? "wedding-divider-right"
+              : "wedding-divider-left"
+            }
+          `}
         />
 
         <p
           className="
-            text-[10px]
-            font-medium
+            text-wedding-muted
+
+            text-[9px]
+
+            font-semibold
 
             uppercase
 
-            tracking-[0.16em]
+            tracking-[0.15em]
 
-            text-[#85786E]
-
-            sm:text-xs
+            sm:text-[10px]
           "
         >
-          Một lời dành cho hành trình phía trước
+          {
+            wedding
+              .wordsSection
+              .cardFooter
+          }
         </p>
       </div>
     </motion.article>
@@ -299,7 +358,7 @@ function WordCard({
 }
 
 /* =========================================================
-   MAIN SECTION
+   SECTION
 ========================================================= */
 
 export default function WordsToRememberSection() {
@@ -307,41 +366,71 @@ export default function WordsToRememberSection() {
     <section
       id="words-to-remember"
       className="
+        bg-wedding-sage
+  wedding-section
+
         relative
+
+        -mt-px
+
         overflow-hidden
 
-        bg-[#FAF7F1]
-
         px-5
-        py-24
+        py-16
 
         sm:px-8
-        sm:py-28
+        sm:py-20
 
         md:px-10
+        md:py-24
 
         lg:px-12
-        lg:py-36
+        lg:py-28
       "
     >
       {/* =====================================================
-          BACKGROUND DECORATION
+          BACKGROUND
       ===================================================== */}
 
       <div
         className="
+          wedding-glow-blue
+
           pointer-events-none
 
           absolute
+
           -left-[18%]
-          top-[5%]
+          top-[3%]
+
+          h-[40rem]
+          w-[40rem]
+
+          rounded-full
+
+          opacity-40
+
+          blur-[145px]
+        "
+      />
+
+      <div
+        className="
+          wedding-glow-pink
+
+          pointer-events-none
+
+          absolute
+
+          -right-[18%]
+          bottom-[4%]
 
           h-[38rem]
           w-[38rem]
 
           rounded-full
 
-          bg-[#E8D7CD]/28
+          opacity-35
 
           blur-[145px]
         "
@@ -349,43 +438,58 @@ export default function WordsToRememberSection() {
 
       <div
         className="
+          wedding-glow-green
+
           pointer-events-none
 
           absolute
-          -right-[18%]
-          bottom-[5%]
 
-          h-[36rem]
-          w-[36rem]
+          left-1/2
+          top-[45%]
+
+          h-[30rem]
+          w-[30rem]
+
+          -translate-x-1/2
 
           rounded-full
 
-          bg-[#EADFD2]/35
+          opacity-30
 
-          blur-[145px]
+          blur-[130px]
         "
       />
 
       {/* =====================================================
-          DECORATIVE TEXT
+          HEARTS
+      ===================================================== */}
+
+      <HeartLayer
+        density="low"
+      />
+
+      {/* =====================================================
+          DECORATIVE WORD
       ===================================================== */}
 
       <div
         aria-hidden="true"
         className="
+          font-editorial
+          text-wedding-blue
+
           pointer-events-none
 
           absolute
+
           left-1/2
-          top-[32%]
+          top-[31%]
 
           hidden
 
           -translate-x-1/2
 
-          font-editorial
-
-          text-[15rem]
+          text-[14rem]
 
           font-medium
 
@@ -393,16 +497,20 @@ export default function WordsToRememberSection() {
 
           tracking-[-0.08em]
 
-          text-[#AF9278]/[0.025]
+          opacity-[0.025]
 
           lg:block
         "
       >
-        LOVE
+        {
+          wedding
+            .wordsSection
+            .backgroundWord
+        }
       </div>
 
       {/* =====================================================
-          MAIN
+          CONTENT
       ===================================================== */}
 
       <div
@@ -411,6 +519,7 @@ export default function WordsToRememberSection() {
           z-10
 
           mx-auto
+
           max-w-7xl
         "
       >
@@ -421,7 +530,7 @@ export default function WordsToRememberSection() {
         <motion.div
           initial={{
             opacity: 0,
-            y: 30,
+            y: 26,
           }}
           whileInView={{
             opacity: 1,
@@ -429,10 +538,11 @@ export default function WordsToRememberSection() {
           }}
           viewport={{
             once: true,
-            amount: 0.4,
+            amount: 0.35,
           }}
           transition={{
-            duration: 0.95,
+            duration: 0.9,
+
             ease: [
               0.22,
               1,
@@ -450,7 +560,7 @@ export default function WordsToRememberSection() {
         >
           {/* HEART */}
 
-          <motion.div
+          <motion.span
             animate={{
               scale: [
                 1,
@@ -460,108 +570,172 @@ export default function WordsToRememberSection() {
             }}
             transition={{
               duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
+
+              repeat:
+                Infinity,
+
+              ease:
+                "easeInOut",
             }}
             className="
-              text-2xl
+              text-wedding-rose
 
-              text-[#A78B73]
+              inline-block
+
+              text-2xl
             "
           >
             ♡
-          </motion.div>
+          </motion.span>
 
-          {/* LABEL */}
+          {/* EYEBROW */}
 
-          <p
+          <motion.p
+            initial={{
+              opacity: 0,
+              y: 12,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              delay: 0.05,
+              duration: 0.75,
+            }}
             className="
-              mt-5
+              text-wedding-blue
+
+              mt-2
 
               text-[10px]
-              font-bold
+
+              font-semibold
+
               uppercase
 
               tracking-[0.3em]
 
-              text-[#89715E]
-
               sm:text-xs
             "
           >
-            Những điều muốn giữ lại
-          </p>
+            {
+              wedding
+                .wordsSection
+                .eyebrow
+            }
+          </motion.p>
 
           {/* TITLE */}
 
           <motion.h2
             initial={{
               opacity: 0,
-              y: 22,
-              filter: "blur(5px)",
+
+              y: 20,
+
+              filter:
+                "blur(5px)",
             }}
             whileInView={{
               opacity: 1,
+
               y: 0,
-              filter: "blur(0px)",
+
+              filter:
+                "blur(0px)",
             }}
             viewport={{
               once: true,
             }}
             transition={{
-              delay: 0.12,
+              delay: 0.1,
               duration: 1,
             }}
             className="
               font-editorial
+              text-wedding-primary
 
-              mt-4
+              mt-3
 
-              text-[clamp(3.5rem,8vw,7rem)]
+              text-[clamp(3.4rem,8vw,7rem)]
 
               font-medium
 
-              leading-[0.9]
+              leading-[0.88]
 
               tracking-[-0.045em]
-
-              text-[#302A26]
             "
           >
-            Những lời để nhớ
+            {
+              wedding
+                .wordsSection
+                .title
+            }
           </motion.h2>
 
-          {/* LINE */}
+          {/* DIVIDER */}
 
           <motion.div
             initial={{
-              scaleX: 0,
               opacity: 0,
+              scaleX: 0,
             }}
             whileInView={{
-              scaleX: 1,
               opacity: 1,
+              scaleX: 1,
             }}
             viewport={{
               once: true,
             }}
             transition={{
-              delay: 0.3,
-              duration: 0.9,
+              delay: 0.2,
+              duration: 0.8,
             }}
             className="
               mx-auto
 
-              mt-6
+              mt-4
 
-              h-px
-              w-16
+              flex
 
-              origin-center
+              items-center
+              justify-center
 
-              bg-[#B79E88]
+              gap-3
             "
-          />
+          >
+            <span
+              className="
+                wedding-divider-left
+
+                h-px
+                w-10
+              "
+            />
+
+            <span
+              className="
+                text-wedding-rose
+
+                text-xs
+              "
+            >
+              ♡
+            </span>
+
+            <span
+              className="
+                wedding-divider-right
+
+                h-px
+                w-10
+              "
+            />
+          </motion.div>
 
           {/* DESCRIPTION */}
 
@@ -578,22 +752,23 @@ export default function WordsToRememberSection() {
               once: true,
             }}
             transition={{
-              delay: 0.4,
+              delay: 0.28,
               duration: 0.8,
             }}
             className="
+              text-wedding-soft
+
               mx-auto
 
-              mt-6
+              mt-4
 
               max-w-2xl
 
-              text-[15px]
+              text-[14px]
+
               font-medium
 
               leading-7
-
-              text-[#625950]
 
               sm:text-base
 
@@ -601,35 +776,40 @@ export default function WordsToRememberSection() {
               md:leading-8
             "
           >
-            Có những lời chỉ cần nghe một lần,
-            nhưng lại đủ để ở lại thật lâu trong
-            những năm tháng sau này.
+            {
+              wedding
+                .wordsSection
+                .description
+            }
           </motion.p>
         </motion.div>
 
         {/* =================================================
-            EDITORIAL QUOTE GRID
+            LUXURY LETTER GRID
         ================================================= */}
 
         <div
           className="
-            mt-16
+            mt-10
 
             grid
+
             grid-cols-1
 
             gap-6
 
+            sm:mt-12
+
             md:grid-cols-12
             md:gap-7
 
-            lg:mt-24
+            lg:mt-16
             lg:gap-8
           "
         >
-          {/* ===============================================
-              WORD 01
-          =============================================== */}
+          {/* =================================================
+              CARD 01
+          ================================================= */}
 
           {wedding.words[0] && (
             <WordCard
@@ -637,19 +817,20 @@ export default function WordsToRememberSection() {
                 wedding.words[0]
               }
               index={0}
+              tone="blue"
               className="
-                min-h-[330px]
+                min-h-[270px]
 
                 md:col-span-7
 
-                lg:min-h-[390px]
+                lg:min-h-[310px]
               "
             />
           )}
 
-          {/* ===============================================
-              WORD 02
-          =============================================== */}
+          {/* =================================================
+              CARD 02
+          ================================================= */}
 
           {wedding.words[1] && (
             <WordCard
@@ -657,21 +838,22 @@ export default function WordsToRememberSection() {
                 wedding.words[1]
               }
               index={1}
+              tone="rose"
               className="
-                min-h-[330px]
+                min-h-[270px]
 
                 md:col-span-5
-                md:mt-16
+                md:mt-10
 
-                lg:min-h-[390px]
-                lg:mt-20
+                lg:min-h-[310px]
+                lg:mt-12
               "
             />
           )}
 
-          {/* ===============================================
-              WORD 03
-          =============================================== */}
+          {/* =================================================
+              CARD 03
+          ================================================= */}
 
           {wedding.words[2] && (
             <WordCard
@@ -679,27 +861,28 @@ export default function WordsToRememberSection() {
                 wedding.words[2]
               }
               index={2}
+              tone="blue"
               className="
-                min-h-[300px]
+                min-h-[250px]
 
                 md:col-span-8
                 md:col-start-3
 
-                lg:min-h-[360px]
+                lg:min-h-[290px]
               "
             />
           )}
         </div>
 
         {/* =================================================
-            NẾU CÓ HƠN 3 LỜI CHÚC
+            EXTRA CARDS
         ================================================= */}
 
         {wedding.words.length >
           3 && (
-          <div
-            className="
-              mt-7
+            <div
+              className="
+              mt-6
 
               grid
 
@@ -710,28 +893,40 @@ export default function WordsToRememberSection() {
 
               lg:gap-8
             "
-          >
-            {wedding.words
-              .slice(3)
-              .map(
-                (
-                  word,
-                  index,
-                ) => (
-                  <WordCard
-                    key={`${word}-${index}`}
-                    word={word}
-                    index={
-                      index + 3
-                    }
-                    className="
-                      min-h-[300px]
+            >
+              {wedding.words
+                .slice(3)
+                .map(
+                  (
+                    word,
+                    index,
+                  ) => (
+                    <WordCard
+                      key={
+                        index
+                      }
+                      word={
+                        word
+                      }
+                      index={
+                        index + 3
+                      }
+                      tone={
+                        index % 2 ===
+                          0
+                          ? "rose"
+                          : "blue"
+                      }
+                      className="
+                      min-h-[250px]
+
+                      lg:min-h-[280px]
                     "
-                  />
-                ),
-              )}
-          </div>
-        )}
+                    />
+                  ),
+                )}
+            </div>
+          )}
 
         {/* =================================================
             CLOSING
@@ -740,7 +935,7 @@ export default function WordsToRememberSection() {
         <motion.div
           initial={{
             opacity: 0,
-            y: 28,
+            y: 24,
           }}
           whileInView={{
             opacity: 1,
@@ -748,7 +943,7 @@ export default function WordsToRememberSection() {
           }}
           viewport={{
             once: true,
-            amount: 0.4,
+            amount: 0.3,
           }}
           transition={{
             duration: 0.95,
@@ -756,16 +951,20 @@ export default function WordsToRememberSection() {
           className="
             mx-auto
 
-            mt-20
+            mt-12
 
             max-w-3xl
 
             text-center
 
-            lg:mt-28
+            sm:mt-14
+
+            lg:mt-16
           "
         >
-          <motion.div
+          {/* HEART */}
+
+          <motion.span
             animate={{
               scale: [
                 1,
@@ -775,50 +974,109 @@ export default function WordsToRememberSection() {
             }}
             transition={{
               duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
+
+              repeat:
+                Infinity,
+
+              ease:
+                "easeInOut",
             }}
             className="
-              text-xl
+              text-wedding-rose
 
-              text-[#A78B74]
+              inline-block
+
+              text-xl
             "
           >
             ♡
-          </motion.div>
+          </motion.span>
+
+          {/* CLOSING */}
 
           <p
             className="
-              font-editorial
+    font-editorial
+    text-wedding-primary
 
-              mx-auto
+    mx-auto
 
-              mt-5
+    mt-4
 
-              max-w-2xl
+    max-w-2xl
 
-              text-[clamp(2rem,4vw,3.2rem)]
+    text-[clamp(2rem,7vw,3rem)]
 
-              font-medium
+    font-medium
 
-              leading-[1.16]
+    leading-[1.16]
 
-              tracking-[-0.025em]
+    tracking-[-0.025em]
 
-              text-[#382F29]
-            "
+    lg:hidden
+  "
           >
-            Và mong rằng,
-            sau thật nhiều năm nữa,
-            chúng mình vẫn sẽ luôn
-            chọn nhau.
+            {
+              wedding
+                .wordsSection
+                .closingLines
+                .join(" ")
+            }
           </p>
+
+          {/* =============================================
+    DESKTOP
+    CỐ ĐỊNH ĐÚNG 2 HÀNG
+============================================= */}
+
+          <div
+            className="
+    font-editorial
+    text-wedding-primary
+
+    mx-auto
+
+    mt-4
+
+    hidden
+
+    font-medium
+
+    leading-[1.14]
+
+    tracking-[-0.025em]
+
+    lg:block
+
+    lg:text-[clamp(2.4rem,3.4vw,3.4rem)]
+  "
+          >
+            <p className="whitespace-nowrap">
+              {
+                wedding
+                  .wordsSection
+                  .closingLines[0]
+              }
+            </p>
+
+            <p className="whitespace-nowrap">
+              {
+                wedding
+                  .wordsSection
+                  .closingLines[1]
+              }
+            </p>
+          </div>
+
+          {/* DIVIDER */}
 
           <motion.div
             initial={{
+              opacity: 0,
               scaleX: 0,
             }}
             whileInView={{
+              opacity: 1,
               scaleX: 1,
             }}
             viewport={{
@@ -826,37 +1084,93 @@ export default function WordsToRememberSection() {
             }}
             transition={{
               delay: 0.2,
-              duration: 0.9,
+              duration: 0.8,
             }}
             className="
               mx-auto
 
-              mt-7
+              mt-5
 
-              h-px
-              w-14
+              flex
 
-              origin-center
+              items-center
+              justify-center
 
-              bg-[#B69C87]
-            "
-          />
-
-          <p
-            className="
-              font-editorial
-
-              mt-6
-
-              text-2xl
-              font-medium
-
-              text-[#433A34]
-
-              sm:text-3xl
+              gap-3
             "
           >
-            {wedding.groom}
+            <span
+              className="
+                wedding-divider-left
+
+                h-px
+                w-9
+              "
+            />
+
+            <span
+              className="
+                text-wedding-rose
+
+                text-xs
+              "
+            >
+              ♡
+            </span>
+
+            <span
+              className="
+                wedding-divider-right
+
+                h-px
+                w-9
+              "
+            />
+          </motion.div>
+
+          {/* NAMES */}
+
+          <motion.p
+            initial={{
+              opacity: 0,
+              y: 8,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              delay: 0.25,
+              duration: 0.8,
+            }}
+            className="
+              font-editorial
+              text-wedding-soft
+
+              mt-4
+
+              flex
+
+              flex-col
+
+              items-center
+              justify-center
+
+              text-2xl
+
+              sm:text-3xl
+
+              md:flex-row
+            "
+          >
+            <span>
+              {
+                wedding.groom
+              }
+            </span>
 
             <motion.span
               animate={{
@@ -868,24 +1182,31 @@ export default function WordsToRememberSection() {
               }}
               transition={{
                 duration: 2.7,
-                repeat: Infinity,
-                ease: "easeInOut",
+
+                repeat:
+                  Infinity,
+
+                ease:
+                  "easeInOut",
               }}
               className="
-                mx-3
+                text-wedding-rose
 
-                inline-block
+                my-1
 
-                text-lg
-
-                text-[#A78B74]
+                md:mx-4
+                md:my-0
               "
             >
               ♡
             </motion.span>
 
-            {wedding.bride}
-          </p>
+            <span>
+              {
+                wedding.bride
+              }
+            </span>
+          </motion.p>
         </motion.div>
       </div>
     </section>

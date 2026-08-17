@@ -14,7 +14,9 @@ import {
   ZoomIn,
 } from "lucide-react";
 
-import { wedding } from "@/data/wedding";
+import {
+  wedding,
+} from "@/data/wedding";
 
 import HeartLayer from "./HeartLayer";
 import ImageLightbox from "./ImageLightbox";
@@ -28,14 +30,22 @@ type Direction =
   | "right"
   | "up";
 
+type FrameTone =
+  | "blue"
+  | "rose";
+
 type PhotoProps = {
   src: string;
   alt: string;
+  title: string;
+
   index: number;
 
   className?: string;
 
   direction?: Direction;
+
+  frameTone?: FrameTone;
 
   priority?: boolean;
 
@@ -45,52 +55,61 @@ type PhotoProps = {
 };
 
 /* =========================================================
-   PHOTO ITEM
+   PHOTO
 ========================================================= */
 
 function Photo({
   src,
   alt,
+  title,
   index,
   className = "",
   direction = "up",
+  frameTone = "blue",
   priority = false,
   onOpen,
 }: PhotoProps) {
   const initial =
     direction === "left"
       ? {
-          opacity: 0,
-          x: -55,
-          filter: "blur(10px)",
-        }
+        opacity: 0,
+        x: -45,
+        filter:
+          "blur(8px)",
+      }
       : direction === "right"
         ? {
-            opacity: 0,
-            x: 55,
-            filter: "blur(10px)",
-          }
+          opacity: 0,
+          x: 45,
+          filter:
+            "blur(8px)",
+        }
         : {
-            opacity: 0,
-            y: 55,
-            filter: "blur(10px)",
-          };
+          opacity: 0,
+          y: 45,
+          filter:
+            "blur(8px)",
+        };
 
   return (
     <motion.div
-      initial={initial}
+      initial={
+        initial
+      }
       whileInView={{
         opacity: 1,
         x: 0,
         y: 0,
-        filter: "blur(0px)",
+        filter:
+          "blur(0px)",
       }}
       viewport={{
         once: true,
-        amount: 0.2,
+        amount: 0.18,
       }}
       transition={{
-        duration: 1.05,
+        duration: 1,
+
         ease: [
           0.22,
           1,
@@ -98,27 +117,47 @@ function Photo({
           1,
         ],
       }}
-      className={className}
+      className={`
+        wedding-photo-frame
+
+        ${frameTone === "rose"
+          ? "wedding-photo-frame-bride"
+          : ""
+        }
+
+        relative
+
+        ${className}
+      `}
     >
       <motion.button
         type="button"
-        onClick={() =>
-          onOpen(index)
+        onClick={() => {
+          onOpen(
+            index,
+          );
+        }}
+        aria-label={
+          title
         }
         whileHover={{
           y: -4,
         }}
         whileTap={{
-          scale: 0.995,
+          scale:
+            0.995,
         }}
         transition={{
           duration: 0.4,
         }}
-        aria-label={`Phóng to ${alt}`}
         className="
           group
-          relative
+
+          absolute
+          inset-0
+
           block
+
           h-full
           w-full
 
@@ -126,31 +165,28 @@ function Photo({
 
           overflow-hidden
 
-          rounded-[1.5rem]
-
-          bg-[#EEE6DD]
-
-          shadow-[0_24px_70px_rgba(70,52,40,0.10)]
-
-          sm:rounded-[1.8rem]
-
-          lg:rounded-[2rem]
+          rounded-[inherit]
         "
       >
-        {/* IMAGE */}
+        {/* =============================================
+            IMAGE
+        ============================================= */}
 
         <motion.div
           initial={{
-            scale: 1.045,
+            scale:
+              1.045,
           }}
           whileInView={{
-            scale: 1,
+            scale:
+              1,
           }}
           viewport={{
             once: true,
           }}
           transition={{
             duration: 1.5,
+
             ease: [
               0.22,
               1,
@@ -160,24 +196,37 @@ function Photo({
           }}
           className="
             relative
+
             h-full
             w-full
           "
         >
           <Image
-            src={src}
-            alt={alt}
+            src={
+              src
+            }
+            alt={
+              alt
+            }
             fill
-            priority={priority}
+            priority={
+              priority
+            }
             sizes="
-              (max-width: 768px) 100vw,
-              (max-width: 1200px) 60vw,
+              (max-width: 768px)
+              100vw,
+
+              (max-width: 1200px)
+              60vw,
+
               50vw
             "
             className="
               object-cover
+              object-center
 
               transition-transform
+
               duration-[1500ms]
 
               ease-out
@@ -187,46 +236,52 @@ function Photo({
           />
         </motion.div>
 
-        {/* SOFT OVERLAY */}
+        {/* =============================================
+            SOFT OVERLAY
+        ============================================= */}
 
         <div
           className="
             pointer-events-none
+
             absolute
             inset-0
 
             bg-gradient-to-t
 
-            from-black/[0.12]
+            from-black/[0.10]
             via-transparent
-            to-white/[0.03]
-
-            transition-colors
-            duration-700
+            to-white/[0.05]
           "
         />
 
-        {/* INNER BORDER */}
+        {/* =============================================
+            SOFT LIGHT
+        ============================================= */}
 
         <div
           className="
             pointer-events-none
 
             absolute
-            inset-3
 
-            rounded-[1.15rem]
+            -left-[20%]
+            -top-[15%]
 
-            border
-            border-white/40
+            h-[45%]
+            w-[60%]
 
-            sm:rounded-[1.45rem]
+            rounded-full
 
-            lg:rounded-[1.65rem]
+            bg-white/15
+
+            blur-[70px]
           "
         />
 
-        {/* ZOOM BUTTON */}
+        {/* =============================================
+            ZOOM
+        ============================================= */}
 
         <motion.span
           initial={{
@@ -244,12 +299,14 @@ function Photo({
             pointer-events-none
 
             absolute
+
             right-4
             top-4
 
-            z-10
+            z-20
 
             flex
+
             h-10
             w-10
 
@@ -259,17 +316,18 @@ function Photo({
             rounded-full
 
             border
-            border-white/45
+            border-white/55
 
-            bg-black/15
+            bg-white/10
 
             text-white
 
-            shadow-lg
+            shadow-[0_10px_30px_rgba(0,0,0,0.12)]
 
             backdrop-blur-xl
 
             transition-all
+
             duration-500
 
             group-hover:scale-105
@@ -286,7 +344,9 @@ function Photo({
         >
           <ZoomIn
             size={18}
-            strokeWidth={1.5}
+            strokeWidth={
+              1.5
+            }
           />
         </motion.span>
       </motion.button>
@@ -309,44 +369,19 @@ export default function PhotoStorySection() {
     setCurrentIndex,
   ] = useState(0);
 
-  /* =======================================================
-     DATA CHO LIGHTBOX
-  ======================================================= */
-
   const galleryImages =
-    wedding.gallery.map(
-      (
-        src,
-        index,
-      ) => ({
-        src,
-
-        alt: `Kỷ niệm ${
-          index + 1
-        } của Nguyễn Nam và Huỳnh Thư`,
-
-        title:
-          index === 0
-            ? "Một ngày thật đẹp"
-            : index === 1
-              ? "Những điều bình dị"
-              : index === 2
-                ? "Ngày mình có nhau"
-                : index === 3
-                  ? "Một khoảng trời riêng"
-                  : index === 4
-                    ? "Những nụ cười"
-                    : index === 5
-                      ? "Đi cùng nhau"
-                      : "Kỷ niệm của chúng mình",
-      }),
-    );
+    wedding.photoStory.images;
 
   function openLightbox(
     index: number,
   ) {
-    setCurrentIndex(index);
-    setLightboxOpen(true);
+    setCurrentIndex(
+      index,
+    );
+
+    setLightboxOpen(
+      true,
+    );
   }
 
   return (
@@ -354,60 +389,71 @@ export default function PhotoStorySection() {
       <section
         id="our-memories"
         className="
+          bg-wedding-pearl
+    wedding-section
+
           relative
+
+          -mt-px
+
           overflow-hidden
 
-          bg-[#F7F2EA]
-
           px-5
-          py-24
+          py-16
 
           sm:px-8
-          sm:py-28
+          sm:py-20
 
           md:px-10
+          md:py-24
 
           lg:px-12
-          lg:py-40
+          lg:py-28
         "
       >
         {/* =================================================
-            BACKGROUND DECORATION
+            BACKGROUND
         ================================================= */}
 
         <div
           className="
+            wedding-glow-blue
+
             pointer-events-none
 
             absolute
+
             -left-[20%]
-            top-[5%]
+            top-[3%]
 
             h-[42rem]
             w-[42rem]
 
             rounded-full
 
-            bg-[#E8D7CD]/25
+            opacity-40
 
-            blur-[140px]
+            blur-[145px]
           "
         />
 
         <div
           className="
+            wedding-glow-green
+
             pointer-events-none
 
             absolute
+
             -right-[20%]
-            top-[45%]
+            top-[38%]
 
-            h-[40rem]
-            w-[40rem]
+            h-[38rem]
+            w-[38rem]
 
             rounded-full
 
-            bg-[#E9DECF]/30
+            opacity-35
 
             blur-[140px]
           "
@@ -415,26 +461,25 @@ export default function PhotoStorySection() {
 
         <div
           className="
+            wedding-glow-pink
+
             pointer-events-none
 
             absolute
-            bottom-[5%]
-            left-[20%]
 
-            h-[30rem]
-            w-[30rem]
+            bottom-[4%]
+            left-[15%]
+
+            h-[34rem]
+            w-[34rem]
 
             rounded-full
 
-            bg-[#F0DDD7]/20
+            opacity-32
 
-            blur-[120px]
+            blur-[135px]
           "
         />
-
-        {/* =================================================
-            HEARTS
-        ================================================= */}
 
         <HeartLayer
           density="low"
@@ -461,7 +506,7 @@ export default function PhotoStorySection() {
           <motion.div
             initial={{
               opacity: 0,
-              y: 30,
+              y: 26,
             }}
             whileInView={{
               opacity: 1,
@@ -469,10 +514,11 @@ export default function PhotoStorySection() {
             }}
             viewport={{
               once: true,
-              amount: 0.5,
+              amount: 0.35,
             }}
             transition={{
               duration: 0.9,
+
               ease: [
                 0.22,
                 1,
@@ -490,46 +536,55 @@ export default function PhotoStorySection() {
           >
             {/* HEART */}
 
-            <motion.div
+            <motion.span
               animate={{
                 scale: [
                   1,
-                  1.12,
+                  1.13,
                   1,
                 ],
               }}
               transition={{
                 duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
+                repeat:
+                  Infinity,
+                ease:
+                  "easeInOut",
               }}
               className="
-                mb-5
+                text-wedding-rose
+
+                inline-block
 
                 text-2xl
-
-                text-[#A68A73]
               "
             >
               ♡
-            </motion.div>
+            </motion.span>
 
-            {/* SMALL TITLE */}
+            {/* EYEBROW */}
 
             <p
               className="
+                text-wedding-blue
+
+                mt-2
+
                 text-[10px]
-                font-bold
+
+                font-semibold
+
                 uppercase
 
                 tracking-[0.3em]
 
-                text-[#8B7461]
-
                 sm:text-xs
               "
             >
-              Album của chúng mình
+              {
+                wedding.photoStory
+                  .eyebrow
+              }
             </p>
 
             {/* TITLE */}
@@ -537,13 +592,17 @@ export default function PhotoStorySection() {
             <motion.h2
               initial={{
                 opacity: 0,
-                y: 22,
+
+                y: 20,
+
                 filter:
                   "blur(5px)",
               }}
               whileInView={{
                 opacity: 1,
+
                 y: 0,
+
                 filter:
                   "blur(0px)",
               }}
@@ -551,66 +610,96 @@ export default function PhotoStorySection() {
                 once: true,
               }}
               transition={{
-                delay: 0.1,
+                delay: 0.08,
                 duration: 1,
               }}
               className="
                 font-editorial
+                text-wedding-primary
 
-                mt-4
+                mt-3
 
                 text-[clamp(3.4rem,9vw,7.5rem)]
 
                 font-medium
 
-                leading-[0.9]
+                leading-[0.88]
 
                 tracking-[-0.04em]
-
-                text-[#2E2824]
               "
             >
-              Những ký ức
+              {
+                wedding.photoStory
+                  .title
+              }
             </motion.h2>
 
-            {/* LINE */}
+            {/* DIVIDER */}
 
             <motion.div
               initial={{
-                scaleX: 0,
                 opacity: 0,
+                scaleX: 0,
               }}
               whileInView={{
-                scaleX: 1,
                 opacity: 1,
+                scaleX: 1,
               }}
               viewport={{
                 once: true,
               }}
               transition={{
-                delay: 0.3,
-                duration: 0.9,
+                delay: 0.2,
+                duration: 0.8,
               }}
               className="
                 mx-auto
 
-                mt-6
+                mt-4
 
-                h-px
-                w-16
+                flex
 
-                origin-center
+                items-center
+                justify-center
 
-                bg-[#B69C86]
+                gap-3
               "
-            />
+            >
+              <span
+                className="
+                  wedding-divider-left
+
+                  h-px
+                  w-10
+                "
+              />
+
+              <span
+                className="
+                  text-wedding-rose
+
+                  text-xs
+                "
+              >
+                ♡
+              </span>
+
+              <span
+                className="
+                  wedding-divider-right
+
+                  h-px
+                  w-10
+                "
+              />
+            </motion.div>
 
             {/* DESCRIPTION */}
 
             <motion.p
               initial={{
                 opacity: 0,
-                y: 18,
+                y: 14,
               }}
               whileInView={{
                 opacity: 1,
@@ -620,22 +709,23 @@ export default function PhotoStorySection() {
                 once: true,
               }}
               transition={{
-                delay: 0.4,
+                delay: 0.28,
                 duration: 0.8,
               }}
               className="
+                text-wedding-soft
+
                 mx-auto
 
-                mt-6
+                mt-4
 
                 max-w-2xl
 
-                text-[15px]
+                text-[14px]
+
                 font-medium
 
                 leading-7
-
-                text-[#625850]
 
                 sm:text-base
 
@@ -643,35 +733,32 @@ export default function PhotoStorySection() {
                 md:leading-8
               "
             >
-              Có những khoảnh khắc chỉ đi qua một lần,
-              nhưng lại đủ đẹp để chúng mình muốn giữ
-              bên nhau thật lâu.
+              {
+                wedding.photoStory
+                  .description
+              }
             </motion.p>
           </motion.div>
 
           {/* =================================================
-              EDITORIAL GALLERY
+              GALLERY
           ================================================= */}
 
           <div
             className="
-              mt-16
+              mt-10
 
-              sm:mt-20
+              sm:mt-12
 
-              lg:mt-28
+              lg:mt-16
             "
           >
             {/* ===============================================
-                PHOTO 01
-                Ảnh hero
+                PHOTO 01 - HERO
             =============================================== */}
 
             <Photo
-              src={
-                wedding.gallery[0]
-              }
-              alt="Kỷ niệm đầu tiên"
+              {...galleryImages[0]}
               index={0}
               priority
               onOpen={
@@ -683,18 +770,24 @@ export default function PhotoStorySection() {
                 aspect-[4/5]
 
                 w-full
-                max-w-4xl
+                max-w-5xl
+
+                rounded-[1.6rem]
+
+                sm:rounded-[1.9rem]
 
                 md:aspect-[16/10]
               "
             />
 
-            {/* QUOTE */}
+            {/* ===============================================
+                QUOTE 01
+            =============================================== */}
 
             <motion.div
               initial={{
                 opacity: 0,
-                y: 25,
+                y: 22,
               }}
               whileInView={{
                 opacity: 1,
@@ -702,6 +795,7 @@ export default function PhotoStorySection() {
               }}
               viewport={{
                 once: true,
+                amount: 0.35,
               }}
               transition={{
                 duration: 0.9,
@@ -709,291 +803,15 @@ export default function PhotoStorySection() {
               className="
                 mx-auto
 
-                my-16
-
-                max-w-2xl
-
-                text-center
-
-                sm:my-20
-
-                lg:my-28
-              "
-            >
-              <p
-                className="
-                  font-editorial
-
-                  text-[clamp(2rem,4vw,3.2rem)]
-
-                  font-medium
-
-                  leading-[1.2]
-
-                  tracking-[-0.025em]
-
-                  text-[#392F29]
-                "
-              >
-                “Không phải ngày nào cũng đặc biệt,
-                nhưng khi có nhau, ngày nào cũng
-                trở thành một điều đáng nhớ.”
-              </p>
-
-              <div
-                className="
-                  mt-6
-
-                  text-lg
-
-                  text-[#A88D75]
-                "
-              >
-                ♡
-              </div>
-            </motion.div>
-
-            {/* ===============================================
-                PHOTO 02 + 03
-            =============================================== */}
-
-            <div
-              className="
-                grid
-
-                gap-8
-
-                md:grid-cols-12
-
-                md:items-start
-
-                lg:gap-12
-              "
-            >
-              {/* LEFT */}
-
-              <Photo
-                src={
-                  wedding.gallery[1]
-                }
-                alt="Một khoảnh khắc bình dị"
-                index={1}
-                direction="left"
-                onOpen={
-                  openLightbox
-                }
-                className="
-                  aspect-[4/5]
-
-                  md:col-span-5
-                "
-              />
-
-              {/* RIGHT */}
-
-              <Photo
-                src={
-                  wedding.gallery[2]
-                }
-                alt="Ngày mình có nhau"
-                index={2}
-                direction="right"
-                onOpen={
-                  openLightbox
-                }
-                className="
-                  aspect-[4/5]
-
-                  md:col-span-5
-                  md:col-start-8
-
-                  lg:mt-16
-                "
-              />
-            </div>
-
-            {/* ===============================================
-                TEXT BETWEEN
-            =============================================== */}
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                x: -25,
-              }}
-              whileInView={{
-                opacity: 1,
-                x: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.9,
-              }}
-              className="
-                my-20
-
-                max-w-xl
-
-                sm:my-24
-
-                lg:my-32
-                lg:ml-[8%]
-              "
-            >
-              <p
-                className="
-                  text-[10px]
-                  font-bold
-                  uppercase
-
-                  tracking-[0.3em]
-
-                  text-[#947B66]
-
-                  sm:text-xs
-                "
-              >
-                Chúng mình
-              </p>
-
-              <p
-                className="
-                  font-editorial
-
-                  mt-4
-
-                  text-[clamp(2.5rem,5vw,4.2rem)]
-
-                  font-medium
-
-                  leading-[1.05]
-
-                  tracking-[-0.03em]
-
-                  text-[#332C27]
-                "
-              >
-                Có nhau trong những ngày thật bình thường.
-              </p>
-
-              <div
-                className="
-                  mt-6
-
-                  h-px
-                  w-12
-
-                  bg-[#B49B86]
-                "
-              />
-            </motion.div>
-
-            {/* ===============================================
-                PHOTO 04
-            =============================================== */}
-
-            <Photo
-              src={
-                wedding.gallery[3]
-              }
-              alt="Một khoảng trời riêng"
-              index={3}
-              direction="right"
-              onOpen={
-                openLightbox
-              }
-              className="
-                ml-auto
-
-                aspect-[16/10]
-
-                w-full
-                max-w-5xl
-              "
-            />
-
-            {/* ===============================================
-                PHOTO 05 + 06
-            =============================================== */}
-
-            <div
-              className="
-                mt-16
-
-                grid
-
-                gap-8
-
-                md:grid-cols-2
-
-                lg:mt-28
-                lg:gap-16
-              "
-            >
-              <Photo
-                src={
-                  wedding.gallery[4]
-                }
-                alt="Những nụ cười"
-                index={4}
-                direction="left"
-                onOpen={
-                  openLightbox
-                }
-                className="
-                  aspect-[4/5]
-                "
-              />
-
-              <Photo
-                src={
-                  wedding.gallery[5]
-                }
-                alt="Đi cùng nhau"
-                index={5}
-                direction="right"
-                onOpen={
-                  openLightbox
-                }
-                className="
-                  aspect-[4/5]
-
-                  md:mt-20
-                "
-              />
-            </div>
-
-            {/* ===============================================
-                QUOTE 02
-            =============================================== */}
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 30,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 1,
-              }}
-              className="
-                mx-auto
-
-                my-20
+                my-12
 
                 max-w-3xl
 
                 text-center
 
-                lg:my-32
+                sm:my-14
+
+                lg:my-16
               "
             >
               <motion.span
@@ -1006,16 +824,19 @@ export default function PhotoStorySection() {
                 }}
                 transition={{
                   duration: 3,
-                  repeat: Infinity,
+                  repeat:
+                    Infinity,
                   ease:
                     "easeInOut",
                 }}
                 className="
-                  block
+                  text-wedding-rose
 
-                  text-xl
+                  mb-3
 
-                  text-[#A98C74]
+                  inline-block
+
+                  text-lg
                 "
               >
                 ♡
@@ -1024,37 +845,363 @@ export default function PhotoStorySection() {
               <p
                 className="
                   font-editorial
+                  text-wedding-primary
 
-                  mt-6
-
-                  text-[clamp(2.2rem,5vw,3.8rem)]
+                  text-[clamp(2rem,4vw,3.2rem)]
 
                   font-medium
 
                   leading-[1.2]
 
-                  tracking-[-0.03em]
-
-                  text-[#352E29]
+                  tracking-[-0.025em]
                 "
               >
-                “Sau này khi nhìn lại,
-                mong rằng chúng mình vẫn nhớ
-                mình đã từng hạnh phúc như thế nào.”
+                “{
+                  wedding.photoStory
+                    .firstQuote
+                }”
               </p>
             </motion.div>
 
             {/* ===============================================
-                PHOTO 07 - FINAL IMAGE
+                PHOTO 02 + 03
+            =============================================== */}
+
+            <div
+              className="
+                grid
+
+                gap-7
+
+                md:grid-cols-12
+                md:items-start
+
+                lg:gap-10
+              "
+            >
+              <Photo
+                {...galleryImages[1]}
+                index={1}
+                direction="left"
+                frameTone="blue"
+                onOpen={
+                  openLightbox
+                }
+                className="
+                  aspect-[4/5]
+
+                  rounded-[1.5rem]
+
+                  md:col-span-5
+
+                  sm:rounded-[1.8rem]
+                "
+              />
+
+              <Photo
+                {...galleryImages[2]}
+                index={2}
+                direction="right"
+                frameTone="rose"
+                onOpen={
+                  openLightbox
+                }
+                className="
+                  aspect-[4/5]
+
+                  rounded-[1.5rem]
+
+                  sm:rounded-[1.8rem]
+
+                  md:col-span-5
+                  md:col-start-8
+
+                  lg:mt-10
+                "
+              />
+            </div>
+
+            {/* ===============================================
+                EDITORIAL TEXT
+            =============================================== */}
+
+            <motion.div
+              initial={{
+                opacity: 0,
+                x: -20,
+              }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+              }}
+              viewport={{
+                once: true,
+                amount: 0.3,
+              }}
+              transition={{
+                duration: 0.9,
+              }}
+              className="
+                my-14
+
+                max-w-xl
+
+                sm:my-16
+
+                lg:my-20
+                lg:ml-[7%]
+              "
+            >
+              <p
+                className="
+                  text-wedding-blue
+
+                  text-[10px]
+
+                  font-semibold
+
+                  uppercase
+
+                  tracking-[0.3em]
+
+                  sm:text-xs
+                "
+              >
+                {
+                  wedding.photoStory
+                    .interludeEyebrow
+                }
+              </p>
+
+              <p
+                className="
+                  font-editorial
+                  text-wedding-primary
+
+                  mt-3
+
+                  text-[clamp(2.5rem,5vw,4.2rem)]
+
+                  font-medium
+
+                  leading-[1.03]
+
+                  tracking-[-0.035em]
+                "
+              >
+                {
+                  wedding.photoStory
+                    .interlude
+                }
+              </p>
+
+              <div
+                className="
+                  mt-5
+
+                  flex
+
+                  items-center
+
+                  gap-3
+                "
+              >
+                <span
+                  className="
+                    wedding-divider-left
+
+                    h-px
+                    w-12
+                  "
+                />
+
+                <span
+                  className="
+                    text-wedding-rose
+
+                    text-xs
+                  "
+                >
+                  ♡
+                </span>
+              </div>
+            </motion.div>
+
+            {/* ===============================================
+                PHOTO 04
             =============================================== */}
 
             <Photo
-              src={
-                wedding.gallery[6]
+              {...galleryImages[3]}
+              index={3}
+              direction="right"
+              frameTone="rose"
+              onOpen={
+                openLightbox
               }
-              alt="Kỷ niệm của chúng mình"
+              className="
+                ml-auto
+
+                aspect-[4/5]
+
+                w-full
+                max-w-5xl
+
+                rounded-[1.6rem]
+
+                sm:rounded-[1.9rem]
+
+                md:aspect-[16/10]
+              "
+            />
+
+            {/* ===============================================
+                PHOTO 05 + 06
+            =============================================== */}
+
+            <div
+              className="
+                mt-12
+
+                grid
+
+                gap-7
+
+                md:grid-cols-2
+
+                lg:mt-16
+                lg:gap-12
+              "
+            >
+              <Photo
+                {...galleryImages[4]}
+                index={4}
+                direction="left"
+                frameTone="blue"
+                onOpen={
+                  openLightbox
+                }
+                className="
+                  aspect-[4/5]
+
+                  rounded-[1.5rem]
+
+                  sm:rounded-[1.8rem]
+                "
+              />
+
+              <Photo
+                {...galleryImages[5]}
+                index={5}
+                direction="right"
+                frameTone="rose"
+                onOpen={
+                  openLightbox
+                }
+                className="
+                  aspect-[4/5]
+
+                  rounded-[1.5rem]
+
+                  sm:rounded-[1.8rem]
+
+                  md:mt-12
+                "
+              />
+            </div>
+
+            {/* ===============================================
+                QUOTE 02
+            =============================================== */}
+
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 24,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+                amount: 0.35,
+              }}
+              transition={{
+                duration: 0.95,
+              }}
+              className="
+                mx-auto
+
+                my-14
+
+                max-w-3xl
+
+                text-center
+
+                sm:my-16
+
+                lg:my-20
+              "
+            >
+              <motion.span
+                animate={{
+                  scale: [
+                    1,
+                    1.12,
+                    1,
+                  ],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat:
+                    Infinity,
+                  ease:
+                    "easeInOut",
+                }}
+                className="
+                  text-wedding-rose
+
+                  inline-block
+
+                  text-xl
+                "
+              >
+                ♡
+              </motion.span>
+
+              <p
+                className="
+                  font-editorial
+                  text-wedding-primary
+
+                  mt-4
+
+                  text-[clamp(2.2rem,5vw,3.8rem)]
+
+                  font-medium
+
+                  leading-[1.18]
+
+                  tracking-[-0.03em]
+                "
+              >
+                “{
+                  wedding.photoStory
+                    .secondQuote
+                }”
+              </p>
+            </motion.div>
+
+            {/* ===============================================
+                PHOTO 07
+            =============================================== */}
+
+            <Photo
+              {...galleryImages[6]}
               index={6}
               direction="up"
+              frameTone="blue"
               onOpen={
                 openLightbox
               }
@@ -1066,18 +1213,22 @@ export default function PhotoStorySection() {
                 w-full
                 max-w-6xl
 
+                rounded-[1.6rem]
+
+                sm:rounded-[1.9rem]
+
                 md:aspect-[16/10]
               "
             />
 
             {/* ===============================================
-                END TEXT
+                ENDING
             =============================================== */}
 
             <motion.div
               initial={{
                 opacity: 0,
-                y: 25,
+                y: 22,
               }}
               whileInView={{
                 opacity: 1,
@@ -1085,6 +1236,7 @@ export default function PhotoStorySection() {
               }}
               viewport={{
                 once: true,
+                amount: 0.3,
               }}
               transition={{
                 duration: 0.9,
@@ -1092,45 +1244,68 @@ export default function PhotoStorySection() {
               className="
                 mx-auto
 
-                mt-16
+                mt-12
 
-                max-w-2xl
+                max-w-3xl
 
                 text-center
 
-                lg:mt-24
+                sm:mt-14
+
+                lg:mt-16
               "
             >
-              <div
+              <motion.span
+                animate={{
+                  scale: [
+                    1,
+                    1.13,
+                    1,
+                  ],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat:
+                    Infinity,
+                  ease:
+                    "easeInOut",
+                }}
                 className="
+                  text-wedding-rose
+
+                  inline-block
+
                   text-xl
-                  text-[#A78A72]
                 "
               >
                 ♡
-              </div>
+              </motion.span>
 
               <p
                 className="
                   font-editorial
+                  text-wedding-primary
 
-                  mt-5
+                  mx-auto
 
-                  text-3xl
+                  mt-4
+
+                  text-[clamp(2rem,5vw,3.5rem)]
+
                   font-medium
 
-                  leading-tight
+                  leading-[1.1]
 
-                  text-[#332C27]
-
-                  sm:text-4xl
-
-                  md:text-5xl
+                  tracking-[-0.03em]
                 "
               >
-                Những ký ức này,
-                chúng mình sẽ cùng nhau giữ lấy.
+                {
+                  wedding.photoStory
+                    .ending
+                }
               </p>
+
+              {/* DIVIDER */}
 
               <motion.div
                 initial={{
@@ -1143,42 +1318,112 @@ export default function PhotoStorySection() {
                   once: true,
                 }}
                 transition={{
-                  delay: 0.25,
-                  duration: 0.9,
+                  delay: 0.2,
+                  duration: 0.8,
                 }}
                 className="
                   mx-auto
 
-                  mt-8
+                  mt-5
 
-                  h-px
-                  w-14
+                  flex
 
-                  origin-center
+                  items-center
+                  justify-center
 
-                  bg-[#B59B85]
+                  gap-3
                 "
-              />
+              >
+                <span
+                  className="
+                    wedding-divider-left
+
+                    h-px
+                    w-9
+                  "
+                />
+
+                <span
+                  className="
+                    text-wedding-rose
+
+                    text-xs
+                  "
+                >
+                  ♡
+                </span>
+
+                <span
+                  className="
+                    wedding-divider-right
+
+                    h-px
+                    w-9
+                  "
+                />
+              </motion.div>
+
+              {/* NAMES */}
 
               <p
                 className="
-                  mt-6
+                  font-editorial
+                  text-wedding-soft
 
-                  text-sm
-                  font-medium
+                  mt-4
 
-                  leading-7
+                  flex
 
-                  text-[#746A62]
+                  flex-col
 
-                  sm:text-base
+                  items-center
+                  justify-center
+
+                  text-xl
+
+                  sm:text-2xl
+
+                  md:flex-row
                 "
               >
-                Nguyễn Nam
-                <span className="mx-3 text-[#A68A73]">
-                  ♡
+                <span>
+                  {
+                    wedding.groom
+                  }
                 </span>
-                Huỳnh Thư
+
+                <motion.span
+                  animate={{
+                    scale: [
+                      1,
+                      1.15,
+                      1,
+                    ],
+                  }}
+                  transition={{
+                    duration: 2.6,
+                    repeat:
+                      Infinity,
+                    ease:
+                      "easeInOut",
+                  }}
+                  className="
+                    text-wedding-rose
+
+                    my-1
+
+                    md:mx-4
+                    md:my-0
+                  "
+                >
+                  ♡
+                </motion.span>
+
+                <span>
+                  {
+                    wedding.bride
+                  }
+                </span>
               </p>
             </motion.div>
           </div>
@@ -1202,11 +1447,11 @@ export default function PhotoStorySection() {
         onChange={
           setCurrentIndex
         }
-        onClose={() =>
+        onClose={() => {
           setLightboxOpen(
             false,
-          )
-        }
+          );
+        }}
       />
     </>
   );

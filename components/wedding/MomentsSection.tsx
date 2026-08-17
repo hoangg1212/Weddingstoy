@@ -13,9 +13,13 @@ import {
   useState,
 } from "react";
 
-import { ZoomIn } from "lucide-react";
+import {
+  ZoomIn,
+} from "lucide-react";
 
-import { wedding } from "@/data/wedding";
+import {
+  wedding,
+} from "@/data/wedding";
 
 import HeartLayer from "./HeartLayer";
 import ImageLightbox from "./ImageLightbox";
@@ -27,12 +31,14 @@ export default function MomentsSection() {
   const togetherRef =
     useRef<HTMLDivElement>(null);
 
-  /* ==========================================
+  /* =====================================================
       LIGHTBOX
-  ========================================== */
+  ===================================================== */
 
-  const [lightboxOpen, setLightboxOpen] =
-    useState(false);
+  const [
+    lightboxOpen,
+    setLightboxOpen,
+  ] = useState(false);
 
   const [
     lightboxIndex,
@@ -41,33 +47,29 @@ export default function MomentsSection() {
 
   const momentImages = [
     {
-      src: wedding.moments.first.image,
-      alt: "Khoảnh khắc đầu tiên của Nguyễn Nam và Huỳnh Thư",
-      title: "Khoảnh khắc đầu tiên",
+      src:
+        wedding.moments.first.image,
+
+      alt:
+        wedding.moments.first.alt,
+
+      title:
+        wedding.moments.first
+          .lightboxTitle,
     },
 
-    {
-      src: wedding.moments.little.images[0],
-      alt: "Kỷ niệm của Nguyễn Nam và Huỳnh Thư",
-      title: "Những điều nhỏ bé",
-    },
+    ...wedding.moments.little.images,
 
     {
-      src: wedding.moments.little.images[1],
-      alt: "Kỷ niệm của Nguyễn Nam và Huỳnh Thư",
-      title: "Những ngày có nhau",
-    },
+      src:
+        wedding.moments.together.image,
 
-    {
-      src: wedding.moments.little.images[2],
-      alt: "Kỷ niệm của Nguyễn Nam và Huỳnh Thư",
-      title: "Kỷ niệm của chúng mình",
-    },
+      alt:
+        wedding.moments.together.alt,
 
-    {
-      src: wedding.moments.together.image,
-      alt: "Nguyễn Nam và Huỳnh Thư bên nhau",
-      title: "Bên nhau",
+      title:
+        wedding.moments.together
+          .lightboxTitle,
     },
   ];
 
@@ -78,12 +80,17 @@ export default function MomentsSection() {
     setLightboxOpen(true);
   }
 
-  /* ==========================================
-      MOMENT 01 SCROLL
-  ========================================== */
+  /* =====================================================
+      MOMENT 01 - PARALLAX
+
+      QUAN TRỌNG:
+      Không di chuyển toàn bộ button nữa.
+      Chỉ di chuyển layer ảnh overscan bên trong.
+  ===================================================== */
 
   const {
-    scrollYProgress: firstProgress,
+    scrollYProgress:
+    firstProgress,
   } = useScroll({
     target: firstRef,
 
@@ -93,24 +100,27 @@ export default function MomentsSection() {
     ],
   });
 
-  const firstScale = useTransform(
-    firstProgress,
-    [0, 0.5, 1],
-    [1.08, 1, 1.06],
-  );
+  const firstScale =
+    useTransform(
+      firstProgress,
+      [0, 0.5, 1],
+      [1.06, 1, 1.05],
+    );
 
-  const firstY = useTransform(
-    firstProgress,
-    [0, 1],
-    ["-2%", "5%"],
-  );
+  const firstY =
+    useTransform(
+      firstProgress,
+      [0, 1],
+      ["-2.5%", "2.5%"],
+    );
 
-  /* ==========================================
-      MOMENT 03 SCROLL
-  ========================================== */
+  /* =====================================================
+      MOMENT 03 - PARALLAX
+  ===================================================== */
 
   const {
-    scrollYProgress: togetherProgress,
+    scrollYProgress:
+    togetherProgress,
   } = useScroll({
     target: togetherRef,
 
@@ -120,170 +130,264 @@ export default function MomentsSection() {
     ],
   });
 
-  const togetherScale = useTransform(
-    togetherProgress,
-    [0, 0.5, 1],
-    [1.07, 1, 1.06],
-  );
+  const togetherScale =
+    useTransform(
+      togetherProgress,
+      [0, 0.5, 1],
+      [1.05, 1, 1.05],
+    );
 
-  const togetherY = useTransform(
-    togetherProgress,
-    [0, 1],
-    ["-2%", "4%"],
-  );
+  const togetherY =
+    useTransform(
+      togetherProgress,
+      [0, 1],
+      ["-2.5%", "2.5%"],
+    );
 
   return (
     <>
       <section
         id="our-moments"
         className="
+           bg-wedding-sage
+  wedding-section
+          relative
+
+          -mt-px
+
           overflow-hidden
-          bg-[#F8F5EF]
         "
       >
-        {/* =============================================
-            01 - KHOẢNH KHẮC ĐẦU TIÊN
-        ============================================= */}
+        {/* =================================================
+            MOMENT 01
+            KHOẢNH KHẮC ĐẦU TIÊN
+        ================================================= */}
 
         <div
           ref={firstRef}
           className="
             relative
+
             min-h-[100svh]
+
             overflow-hidden
-            bg-[#25201C]
+
+            bg-wedding
+
             md:min-h-dvh
           "
         >
-          {/* IMAGE */}
+          {/* =============================================
+              FULLSCREEN IMAGE BUTTON
+          ============================================= */}
 
-          <motion.button
+          <button
             type="button"
             onClick={() =>
               openLightbox(0)
             }
-            aria-label="Phóng to ảnh khoảnh khắc đầu tiên"
-            style={{
-              scale: firstScale,
-              y: firstY,
-            }}
+            aria-label={
+              wedding.moments.first
+                .lightboxTitle
+            }
             className="
               group
+
               absolute
               inset-0
 
+              z-0
+
               cursor-zoom-in
 
-              text-left
+              overflow-hidden
             "
           >
-            <Image
-              src={
-                wedding.moments.first
-                  .image
-              }
-              alt="Khoảnh khắc đầu tiên"
-              fill
-              sizes="100vw"
-              className="
-                object-cover
-                object-center
+            {/* =========================================
+                OVERSCAN IMAGE
 
-                transition-transform
-                duration-[1600ms]
+                Layer lớn hơn section để khi
+                parallax không bị lộ viền đen.
+            ========================================= */}
 
-                group-hover:scale-[1.015]
-              "
-            />
+            <motion.div
+              style={{
+                scale:
+                  firstScale,
 
-            {/* ICON ZOOM */}
-            <span
+                y:
+                  firstY,
+              }}
               className="
                 absolute
-                right-5
-                top-5
-                z-10
 
-                flex
-                h-11
-                w-11
-
-                items-center
-                justify-center
-
-                rounded-full
-
-                border
-                border-white/40
-
-                bg-black/15
-
-                text-white
-
-                opacity-100
-
-                backdrop-blur-md
-
-                transition-all
-                duration-500
-
-                group-hover:bg-white/20
-
-                sm:right-8
-                sm:top-8
-
-                md:opacity-0
-                md:group-hover:opacity-100
+                -inset-y-[8%]
+                inset-x-0
               "
             >
-              <ZoomIn
-                size={19}
-                strokeWidth={1.5}
-              />
-            </span>
-          </motion.button>
+              <Image
+                src={
+                  wedding.moments.first
+                    .image
+                }
+                alt={
+                  wedding.moments.first
+                    .alt
+                }
+                fill
+                priority
+                sizes="100vw"
+                className="
+                  object-cover
+                  object-center
 
-          {/* OVERLAY */}
+                  transition-transform
+
+                  duration-[1600ms]
+
+                  ease-out
+
+                  group-hover:scale-[1.012]
+                "
+              />
+            </motion.div>
+
+            <ZoomButton
+              large
+            />
+          </button>
+
+          {/* =============================================
+              CINEMATIC OVERLAY
+          ============================================= */}
 
           <div
             className="
               pointer-events-none
+
               absolute
               inset-0
 
+              z-[1]
+
               bg-gradient-to-b
 
-              from-black/[0.05]
-              via-black/[0.10]
-              to-black/45
+              from-black/[0.03]
+              via-black/[0.08]
+              to-black/50
             "
           />
 
-          <HeartLayer density="low" />
+          {/* =============================================
+              TRANSITION LIGHT
 
-          {/* CONTENT */}
+              Không để đầu ảnh bị cắt cứng.
+          ============================================= */}
+
+          <div
+            className="
+              pointer-events-none
+
+              absolute
+              inset-x-0
+              top-0
+
+              z-[2]
+
+              h-24
+
+              bg-gradient-to-b
+
+              from-white/[0.06]
+              to-transparent
+            "
+          />
+
+          {/* =============================================
+              WEDDING COLOR
+          ============================================= */}
+
+          <div
+            className="
+              wedding-glow-blue
+
+              pointer-events-none
+
+              absolute
+
+              -left-[24%]
+              top-[4%]
+
+              z-[2]
+
+              h-[56vw]
+              w-[56vw]
+
+              rounded-full
+
+              opacity-20
+
+              blur-[145px]
+            "
+          />
+
+          <div
+            className="
+              wedding-glow-pink
+
+              pointer-events-none
+
+              absolute
+
+              -bottom-[24%]
+              -right-[16%]
+
+              z-[2]
+
+              h-[52vw]
+              w-[52vw]
+
+              rounded-full
+
+              opacity-20
+
+              blur-[145px]
+            "
+          />
+
+          <HeartLayer
+            density="low"
+          />
+
+          {/* =============================================
+              CONTENT
+          ============================================= */}
 
           <div
             className="
               pointer-events-none
 
               relative
+
               z-10
 
               flex
+
               min-h-[100svh]
 
               items-end
 
               px-5
-              pb-16
+
+              pb-14
               pt-24
 
               sm:px-8
-              sm:pb-20
+              sm:pb-16
 
               md:min-h-dvh
               md:px-12
+              md:pb-20
 
               lg:px-16
               lg:pb-24
@@ -292,7 +396,7 @@ export default function MomentsSection() {
             <motion.div
               initial={{
                 opacity: 0,
-                y: 45,
+                y: 40,
               }}
               whileInView={{
                 opacity: 1,
@@ -300,10 +404,11 @@ export default function MomentsSection() {
               }}
               viewport={{
                 once: true,
-                amount: 0.4,
+                amount: 0.35,
               }}
               transition={{
                 duration: 1,
+
                 ease: [
                   0.22,
                   1,
@@ -313,22 +418,50 @@ export default function MomentsSection() {
               }}
               className="
                 max-w-3xl
+
                 text-white
               "
             >
-              <div
+              {/* =========================================
+                  LABEL
+              ========================================= */}
+
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  x: -16,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.05,
+                  duration: 0.75,
+                }}
                 className="
-                  mb-5
+                  mb-4
+
                   flex
+
                   items-center
+
                   gap-3
                 "
               >
                 <span
                   className="
                     h-px
+
                     w-8
-                    bg-white/70
+
+                    bg-gradient-to-r
+                    from-white/90
+                    to-white/20
+
                     sm:w-12
                   "
                 />
@@ -336,19 +469,56 @@ export default function MomentsSection() {
                 <p
                   className="
                     text-[10px]
-                    font-bold
+
+                    font-semibold
+
                     uppercase
 
                     tracking-[0.28em]
 
+                    text-white/90
+
                     sm:text-xs
                   "
                 >
-                  Những khoảnh khắc · 01
-                </p>
-              </div>
+                  {
+                    wedding.moments.first
+                      .eyebrow
+                  }
 
-              <h2
+                  {" · "}
+
+                  {
+                    wedding.moments.first
+                      .number
+                  }
+                </p>
+              </motion.div>
+
+              {/* =========================================
+                  TITLE
+              ========================================= */}
+
+              <motion.h2
+                initial={{
+                  opacity: 0,
+                  y: 18,
+                  filter:
+                    "blur(6px)",
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                  filter:
+                    "blur(0px)",
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.1,
+                  duration: 1,
+                }}
                 className="
                   font-editorial
 
@@ -356,98 +526,197 @@ export default function MomentsSection() {
 
                   font-medium
 
-                  leading-[0.9]
+                  leading-[0.88]
 
-                  tracking-[-0.035em]
+                  tracking-[-0.04em]
+
+                  drop-shadow-[0_5px_24px_rgba(0,0,0,0.25)]
                 "
               >
                 {
                   wedding.moments.first
                     .title
                 }
-              </h2>
+              </motion.h2>
 
-              <p
+              {/* =========================================
+                  DESCRIPTION
+              ========================================= */}
+
+              <motion.p
+                initial={{
+                  opacity: 0,
+                  y: 14,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.2,
+                  duration: 0.85,
+                }}
                 className="
-                  mt-6
+                  font-editorial
+
+                  mt-5
+
                   max-w-xl
 
-                  text-[15px]
+                  text-[clamp(1.2rem,2.4vw,1.65rem)]
+
                   font-medium
+                  italic
 
-                  leading-7
+                  leading-[1.35]
 
-                  sm:text-lg
-                  sm:leading-8
+                  text-white/95
 
-                  md:text-xl
+                  drop-shadow-[0_3px_14px_rgba(0,0,0,0.4)]
                 "
               >
-                “
-                {
+                “{
                   wedding.moments.first
                     .text
-                }
-                ”
-              </p>
+                }”
+              </motion.p>
 
-              <div
+              {/* HEART */}
+
+              <motion.span
+                animate={{
+                  scale: [
+                    1,
+                    1.16,
+                    1,
+                  ],
+                }}
+                transition={{
+                  duration: 2.8,
+                  repeat: Infinity,
+                  ease:
+                    "easeInOut",
+                }}
                 className="
-                  mt-7
+                  text-wedding-rose
+
+                  mt-5
+
+                  inline-block
+
                   text-xl
-                  text-[#F5DFD4]
                 "
               >
                 ♡
-              </div>
+              </motion.span>
             </motion.div>
           </div>
         </div>
 
-        {/* =============================================
-            02 - NHỮNG ĐIỀU NHỎ BÉ
-        ============================================= */}
+        {/* =================================================
+            MOMENT 02
+            NHỮNG ĐIỀU NHỎ BÉ
+        ================================================= */}
 
         <div
           className="
+            bg-wedding
+
             relative
+
             overflow-hidden
 
-            bg-[#F8F5EF]
-
             px-5
-            py-24
+            py-16
 
             sm:px-8
-            sm:py-28
+            sm:py-20
 
             md:px-10
+            md:py-24
 
             lg:px-12
-            lg:py-40
+            lg:py-28
           "
         >
-          {/* BG */}
+          {/* =============================================
+              BACKGROUND GLOW
+          ============================================= */}
 
           <div
             className="
-              pointer-events-none
-              absolute
-              -left-[20%]
-              top-[15%]
+              wedding-glow-blue
 
-              h-[40rem]
-              w-[40rem]
+              pointer-events-none
+
+              absolute
+
+              -left-[20%]
+              top-[10%]
+
+              h-[38rem]
+              w-[38rem]
 
               rounded-full
 
-              bg-[#E9D8CE]/20
+              opacity-40
+
+              blur-[135px]
+            "
+          />
+
+          <div
+            className="
+              wedding-glow-pink
+
+              pointer-events-none
+
+              absolute
+
+              -right-[20%]
+              bottom-[5%]
+
+              h-[34rem]
+              w-[34rem]
+
+              rounded-full
+
+              opacity-35
+
+              blur-[135px]
+            "
+          />
+
+          <div
+            className="
+              wedding-glow-green
+
+              pointer-events-none
+
+              absolute
+
+              left-1/2
+              top-[48%]
+
+              h-[28rem]
+              w-[28rem]
+
+              -translate-x-1/2
+
+              rounded-full
+
+              opacity-25
 
               blur-[130px]
             "
           />
 
-          <HeartLayer density="low" />
+          <HeartLayer
+            density="low"
+          />
 
           <div
             className="
@@ -455,15 +724,18 @@ export default function MomentsSection() {
               z-10
 
               mx-auto
+
               max-w-7xl
             "
           >
-            {/* HEADER */}
+            {/* =========================================
+                HEADER
+            ========================================= */}
 
             <motion.div
               initial={{
                 opacity: 0,
-                y: 30,
+                y: 26,
               }}
               whileInView={{
                 opacity: 1,
@@ -471,42 +743,106 @@ export default function MomentsSection() {
               }}
               viewport={{
                 once: true,
+                amount: 0.3,
+              }}
+              transition={{
+                duration: 0.9,
+
+                ease: [
+                  0.22,
+                  1,
+                  0.36,
+                  1,
+                ],
               }}
               className="
                 mx-auto
+
                 max-w-3xl
+
                 text-center
               "
             >
-              <div
+              <motion.span
+                animate={{
+                  scale: [
+                    1,
+                    1.14,
+                    1,
+                  ],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease:
+                    "easeInOut",
+                }}
                 className="
-                  mb-5
+                  text-wedding-rose
+
+                  inline-block
+
                   text-2xl
-                  text-[#A88D76]
                 "
               >
                 ♡
-              </div>
+              </motion.span>
 
               <p
                 className="
+                  text-wedding-blue
+
+                  mt-2
+
                   text-[10px]
-                  font-bold
+
+                  font-semibold
+
                   uppercase
+
                   tracking-[0.3em]
-                  text-[#8C7663]
 
                   sm:text-xs
                 "
               >
-                Những khoảnh khắc · 02
+                {
+                  wedding.moments.little
+                    .eyebrow
+                }
+
+                {" · "}
+
+                {
+                  wedding.moments.little
+                    .number
+                }
               </p>
 
-              <h2
+              <motion.h2
+                initial={{
+                  opacity: 0,
+                  y: 18,
+                  filter:
+                    "blur(5px)",
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                  filter:
+                    "blur(0px)",
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.08,
+                  duration: 0.95,
+                }}
                 className="
                   font-editorial
+                  text-wedding-primary
 
-                  mt-4
+                  mt-3
 
                   text-[clamp(3.2rem,9vw,7rem)]
 
@@ -514,42 +850,105 @@ export default function MomentsSection() {
 
                   leading-[0.9]
 
-                  tracking-[-0.035em]
-
-                  text-[#2D2824]
+                  tracking-[-0.04em]
                 "
               >
                 {
                   wedding.moments.little
                     .title
                 }
-              </h2>
+              </motion.h2>
 
-              <div
+              {/* DIVIDER */}
+
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  scaleX: 0,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  scaleX: 1,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.18,
+                  duration: 0.8,
+                }}
                 className="
                   mx-auto
-                  mt-6
 
-                  h-px
-                  w-16
+                  mt-4
 
-                  bg-[#B69D87]
+                  flex
+
+                  items-center
+                  justify-center
+
+                  gap-3
                 "
-              />
+              >
+                <span
+                  className="
+                    wedding-divider-left
 
-              <p
+                    h-px
+                    w-9
+                  "
+                />
+
+                <span
+                  className="
+                    text-wedding-rose
+
+                    text-xs
+                  "
+                >
+                  ♡
+                </span>
+
+                <span
+                  className="
+                    wedding-divider-right
+
+                    h-px
+                    w-9
+                  "
+                />
+              </motion.div>
+
+              <motion.p
+                initial={{
+                  opacity: 0,
+                  y: 14,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.25,
+                  duration: 0.8,
+                }}
                 className="
+                  text-wedding-soft
+
                   mx-auto
 
-                  mt-6
+                  mt-4
+
                   max-w-2xl
 
-                  text-[15px]
+                  text-[14px]
+
                   font-medium
 
                   leading-7
-
-                  text-[#615850]
 
                   sm:text-base
 
@@ -561,224 +960,202 @@ export default function MomentsSection() {
                   wedding.moments.little
                     .text
                 }
-              </p>
+              </motion.p>
             </motion.div>
 
             {/* =========================================
-                3 IMAGES
+                EDITORIAL PHOTO GROUP
             ========================================= */}
 
             <div
               className="
-                mt-16
+                mt-10
 
                 grid
+
                 gap-7
 
+                sm:mt-12
                 sm:grid-cols-2
 
-                lg:mt-24
+                lg:mt-16
                 lg:grid-cols-12
                 lg:gap-8
               "
             >
-              {/* PHOTO 01 */}
+              {/* PHOTO 1 */}
 
-              <motion.button
-                type="button"
-                onClick={() =>
-                  openLightbox(1)
-                }
+              <motion.div
                 initial={{
                   opacity: 0,
-                  x: -50,
-                  filter: "blur(8px)",
+                  x: -42,
+                  filter:
+                    "blur(7px)",
                 }}
                 whileInView={{
                   opacity: 1,
                   x: 0,
-                  filter: "blur(0px)",
+                  filter:
+                    "blur(0px)",
                 }}
                 viewport={{
                   once: true,
                 }}
                 transition={{
                   duration: 1,
+
+                  ease: [
+                    0.22,
+                    1,
+                    0.36,
+                    1,
+                  ],
                 }}
                 className="
-                  group
+                  wedding-photo-frame
+
                   relative
 
                   aspect-[4/5]
 
-                  cursor-zoom-in
-
-                  overflow-hidden
-
-                  rounded-[1.6rem]
-
-                  shadow-[0_22px_70px_rgba(63,48,38,0.10)]
+                  rounded-[1.5rem]
 
                   sm:col-span-1
-                  sm:rounded-[2rem]
+                  sm:rounded-[1.8rem]
 
                   lg:col-span-4
                 "
               >
-                <Image
-                  src={
+                <MomentPhoto
+                  image={
                     wedding.moments
                       .little.images[0]
                   }
-                  alt="Kỷ niệm 1"
-                  fill
-                  className="
-                    object-cover
-
-                    transition-transform
-                    duration-[1500ms]
-
-                    group-hover:scale-[1.04]
-                  "
+                  onClick={() =>
+                    openLightbox(1)
+                  }
                 />
+              </motion.div>
 
-                <ZoomButton />
-              </motion.button>
+              {/* PHOTO 2 */}
 
-              {/* PHOTO 02 */}
-
-              <motion.button
-                type="button"
-                onClick={() =>
-                  openLightbox(2)
-                }
+              <motion.div
                 initial={{
                   opacity: 0,
-                  y: 55,
-                  filter: "blur(8px)",
+                  y: 45,
+                  filter:
+                    "blur(7px)",
                 }}
                 whileInView={{
                   opacity: 1,
                   y: 0,
-                  filter: "blur(0px)",
+                  filter:
+                    "blur(0px)",
                 }}
                 viewport={{
                   once: true,
                 }}
                 transition={{
-                  delay: 0.15,
-                  duration: 1.1,
+                  delay: 0.12,
+                  duration: 1.05,
+
+                  ease: [
+                    0.22,
+                    1,
+                    0.36,
+                    1,
+                  ],
                 }}
                 className="
-                  group
+                  wedding-photo-frame
+                  wedding-photo-frame-bride
+
                   relative
 
                   aspect-[4/5]
 
-                  cursor-zoom-in
+                  rounded-[1.5rem]
 
-                  overflow-hidden
-
-                  rounded-[1.6rem]
-
-                  shadow-[0_28px_90px_rgba(63,48,38,0.13)]
-
-                  sm:rounded-[2rem]
+                  sm:rounded-[1.8rem]
 
                   lg:col-span-5
                 "
               >
-                <Image
-                  src={
+                <MomentPhoto
+                  image={
                     wedding.moments
                       .little.images[1]
                   }
-                  alt="Kỷ niệm 2"
-                  fill
-                  className="
-                    object-cover
-
-                    transition-transform
-                    duration-[1500ms]
-
-                    group-hover:scale-[1.04]
-                  "
+                  onClick={() =>
+                    openLightbox(2)
+                  }
                 />
+              </motion.div>
 
-                <ZoomButton />
-              </motion.button>
+              {/* PHOTO 3 */}
 
-              {/* PHOTO 03 */}
-
-              <motion.button
-                type="button"
-                onClick={() =>
-                  openLightbox(3)
-                }
+              <motion.div
                 initial={{
                   opacity: 0,
-                  x: 50,
-                  filter: "blur(8px)",
+                  x: 42,
+                  filter:
+                    "blur(7px)",
                 }}
                 whileInView={{
                   opacity: 1,
                   x: 0,
-                  filter: "blur(0px)",
+                  filter:
+                    "blur(0px)",
                 }}
                 viewport={{
                   once: true,
                 }}
                 transition={{
-                  delay: 0.25,
+                  delay: 0.2,
                   duration: 1,
+
+                  ease: [
+                    0.22,
+                    1,
+                    0.36,
+                    1,
+                  ],
                 }}
                 className="
-                  group
+                  wedding-photo-frame
+
                   relative
 
                   aspect-[4/5]
 
-                  cursor-zoom-in
-
-                  overflow-hidden
-
-                  rounded-[1.6rem]
-
-                  shadow-[0_22px_70px_rgba(63,48,38,0.10)]
+                  rounded-[1.5rem]
 
                   sm:col-span-2
-                  sm:rounded-[2rem]
+                  sm:rounded-[1.8rem]
 
                   lg:col-span-3
                 "
               >
-                <Image
-                  src={
+                <MomentPhoto
+                  image={
                     wedding.moments
                       .little.images[2]
                   }
-                  alt="Kỷ niệm 3"
-                  fill
-                  className="
-                    object-cover
-
-                    transition-transform
-                    duration-[1500ms]
-
-                    group-hover:scale-[1.04]
-                  "
+                  onClick={() =>
+                    openLightbox(3)
+                  }
                 />
-
-                <ZoomButton />
-              </motion.button>
+              </motion.div>
             </div>
 
-            {/* QUOTE */}
+            {/* =========================================
+                QUOTE
+            ========================================= */}
 
             <motion.div
               initial={{
                 opacity: 0,
-                y: 25,
+                y: 22,
               }}
               whileInView={{
                 opacity: 1,
@@ -786,49 +1163,79 @@ export default function MomentsSection() {
               }}
               viewport={{
                 once: true,
+                amount: 0.3,
+              }}
+              transition={{
+                duration: 0.9,
               }}
               className="
                 mx-auto
-                mt-16
-                max-w-2xl
+
+                mt-12
+
+                max-w-3xl
+
                 text-center
-                lg:mt-24
+
+                sm:mt-14
+
+                lg:mt-16
               "
             >
+              <motion.span
+                animate={{
+                  scale: [
+                    1,
+                    1.13,
+                    1,
+                  ],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease:
+                    "easeInOut",
+                }}
+                className="
+                  text-wedding-rose
+
+                  mb-3
+
+                  inline-block
+
+                  text-lg
+                "
+              >
+                ♡
+              </motion.span>
+
               <p
                 className="
                   font-editorial
+                  text-wedding-primary
 
                   text-[clamp(2rem,4vw,3rem)]
 
                   font-medium
 
-                  leading-[1.25]
+                  leading-[1.22]
 
-                  text-[#372F2A]
+                  tracking-[-0.025em]
                 "
               >
-                “Có những điều thật nhỏ,
-                nhưng khi có nhau lại trở
-                thành những ký ức thật lớn.”
+                “{
+                  wedding.moments.little
+                    .quote
+                }”
               </p>
-
-              <div
-                className="
-                  mt-7
-                  text-lg
-                  text-[#A78B74]
-                "
-              >
-                ♡
-              </div>
             </motion.div>
           </div>
         </div>
 
-        {/* =============================================
-            03 - BÊN NHAU
-        ============================================= */}
+        {/* =================================================
+            MOMENT 03
+            BÊN NHAU
+        ================================================= */}
 
         <div
           ref={togetherRef}
@@ -839,99 +1246,161 @@ export default function MomentsSection() {
 
             overflow-hidden
 
-            bg-[#211D1A]
+            bg-wedding
 
             md:min-h-dvh
           "
         >
-          <motion.button
+          {/* =============================================
+              IMAGE BUTTON
+          ============================================= */}
+
+          <button
             type="button"
             onClick={() =>
               openLightbox(4)
             }
-            aria-label="Phóng to ảnh bên nhau"
-            style={{
-              scale: togetherScale,
-              y: togetherY,
-            }}
+            aria-label={
+              wedding.moments.together
+                .lightboxTitle
+            }
             className="
               group
+
               absolute
               inset-0
 
+              z-0
+
               cursor-zoom-in
+
+              overflow-hidden
             "
           >
-            <Image
-              src={
-                wedding.moments
-                  .together.image
-              }
-              alt="Nguyễn Nam và Huỳnh Thư bên nhau"
-              fill
-              sizes="100vw"
-              className="
-                object-cover
-                object-center
+            {/* OVERSCAN */}
 
-                transition-transform
-                duration-[1600ms]
+            <motion.div
+              style={{
+                scale:
+                  togetherScale,
 
-                group-hover:scale-[1.015]
-              "
-            />
-
-            <span
+                y:
+                  togetherY,
+              }}
               className="
                 absolute
-                right-5
-                top-5
-                z-10
 
-                flex
-                h-11
-                w-11
-
-                items-center
-                justify-center
-
-                rounded-full
-
-                border
-                border-white/40
-
-                bg-black/15
-
-                text-white
-
-                backdrop-blur-md
-
-                sm:right-8
-                sm:top-8
+                -inset-y-[8%]
+                inset-x-0
               "
             >
-              <ZoomIn
-                size={19}
-                strokeWidth={1.5}
+              <Image
+                src={
+                  wedding.moments.together
+                    .image
+                }
+                alt={
+                  wedding.moments.together
+                    .alt
+                }
+                fill
+                sizes="100vw"
+                className="
+                  object-cover
+                  object-center
+
+                  transition-transform
+
+                  duration-[1600ms]
+
+                  ease-out
+
+                  group-hover:scale-[1.012]
+                "
               />
-            </span>
-          </motion.button>
+            </motion.div>
+
+            <ZoomButton
+              large
+            />
+          </button>
+
+          {/* =============================================
+              OVERLAY
+          ============================================= */}
 
           <div
             className="
               pointer-events-none
+
               absolute
               inset-0
 
+              z-[1]
+
               bg-gradient-to-b
 
-              from-black/[0.08]
-              via-black/[0.17]
-              to-black/40
+              from-black/[0.04]
+              via-black/[0.14]
+              to-black/46
             "
           />
 
-          <HeartLayer density="low" />
+          <div
+            className="
+              wedding-glow-blue
+
+              pointer-events-none
+
+              absolute
+
+              -left-[20%]
+              -top-[15%]
+
+              z-[2]
+
+              h-[55vw]
+              w-[55vw]
+
+              rounded-full
+
+              opacity-20
+
+              blur-[140px]
+            "
+          />
+
+          <div
+            className="
+              wedding-glow-pink
+
+              pointer-events-none
+
+              absolute
+
+              -bottom-[22%]
+              -right-[15%]
+
+              z-[2]
+
+              h-[55vw]
+              w-[55vw]
+
+              rounded-full
+
+              opacity-22
+
+              blur-[150px]
+            "
+          />
+
+          <HeartLayer
+            density="low"
+          />
+
+          {/* =============================================
+              CONTENT
+          ============================================= */}
 
           <div
             className="
@@ -941,13 +1410,17 @@ export default function MomentsSection() {
               z-10
 
               flex
+
               min-h-[100svh]
 
               items-center
               justify-center
 
               px-5
-              py-20
+              py-16
+
+              sm:px-8
+              sm:py-20
 
               md:min-h-dvh
             "
@@ -955,53 +1428,123 @@ export default function MomentsSection() {
             <motion.div
               initial={{
                 opacity: 0,
-                y: 40,
-                scale: 0.97,
+
+                y: 35,
+
+                scale: 0.98,
               }}
               whileInView={{
                 opacity: 1,
+
                 y: 0,
+
                 scale: 1,
               }}
               viewport={{
                 once: true,
+                amount: 0.3,
               }}
               transition={{
-                duration: 1.2,
+                duration: 1.1,
+
+                ease: [
+                  0.22,
+                  1,
+                  0.36,
+                  1,
+                ],
               }}
               className="
                 max-w-4xl
+
                 text-center
+
                 text-white
               "
             >
-              <div
+              <motion.span
+                animate={{
+                  scale: [
+                    1,
+                    1.14,
+                    1,
+                  ],
+                }}
+                transition={{
+                  duration: 2.8,
+                  repeat: Infinity,
+                  ease:
+                    "easeInOut",
+                }}
                 className="
-                  mb-5
+                  text-wedding-rose
+
+                  inline-block
+
                   text-2xl
                 "
               >
                 ♡
-              </div>
+              </motion.span>
 
               <p
                 className="
+                  mt-3
+
                   text-[10px]
-                  font-bold
+
+                  font-semibold
+
                   uppercase
+
                   tracking-[0.3em]
+
+                  text-white/90
 
                   sm:text-xs
                 "
               >
-                Những khoảnh khắc · 03
+                {
+                  wedding.moments.together
+                    .eyebrow
+                }
+
+                {" · "}
+
+                {
+                  wedding.moments.together
+                    .number
+                }
               </p>
 
-              <h2
+              <motion.h2
+                initial={{
+                  opacity: 0,
+
+                  y: 18,
+
+                  filter:
+                    "blur(6px)",
+                }}
+                whileInView={{
+                  opacity: 1,
+
+                  y: 0,
+
+                  filter:
+                    "blur(0px)",
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.08,
+                  duration: 1,
+                }}
                 className="
                   font-editorial
 
-                  mt-5
+                  mt-4
 
                   text-[clamp(4rem,13vw,9rem)]
 
@@ -1010,118 +1553,377 @@ export default function MomentsSection() {
                   leading-[0.85]
 
                   tracking-[-0.04em]
+
+                  drop-shadow-[0_5px_24px_rgba(0,0,0,0.28)]
                 "
               >
                 {
-                  wedding.moments
-                    .together.title
+                  wedding.moments.together
+                    .title
                 }
-              </h2>
+              </motion.h2>
 
-              <div
+              {/* DIVIDER */}
+
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  scaleX: 0,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  scaleX: 1,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.18,
+                  duration: 0.8,
+                }}
                 className="
                   mx-auto
-                  mt-7
-                  h-px
-                  w-16
-                  bg-white/80
-                "
-              />
 
-              <p
-                className="
-                  mx-auto
-                  mt-7
-                  max-w-2xl
+                  mt-5
 
-                  text-[15px]
-                  font-medium
-                  leading-7
+                  flex
 
-                  sm:text-lg
-                  sm:leading-8
+                  items-center
+                  justify-center
 
-                  md:text-xl
+                  gap-3
                 "
               >
-                “
-                {
-                  wedding.moments
-                    .together.text
-                }
-                ”
-              </p>
+                <span
+                  className="
+                    h-px
+                    w-9
 
-              <div
+                    bg-gradient-to-r
+                    from-transparent
+                    to-white/80
+                  "
+                />
+
+                <span
+                  className="
+                    text-wedding-rose
+
+                    text-xs
+                  "
+                >
+                  ♡
+                </span>
+
+                <span
+                  className="
+                    h-px
+                    w-9
+
+                    bg-gradient-to-l
+                    from-transparent
+                    to-white/80
+                  "
+                />
+              </motion.div>
+
+              <motion.p
+                initial={{
+                  opacity: 0,
+                  y: 16,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.28,
+                  duration: 0.85,
+                }}
                 className="
                   font-editorial
-                  mt-9
+
+                  mx-auto
+
+                  mt-5
+
+                  max-w-2xl
+
+                  text-[clamp(1.2rem,2.6vw,1.7rem)]
+
+                  font-medium
+                  italic
+
+                  leading-[1.35]
+
+                  text-white/95
+
+                  drop-shadow-[0_3px_14px_rgba(0,0,0,0.4)]
+                "
+              >
+                “{
+                  wedding.moments.together
+                    .text
+                }”
+              </motion.p>
+
+              {/* NAMES */}
+
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  y: 12,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: 0.4,
+                  duration: 0.85,
+                }}
+                className="
+                  font-editorial
+
+                  mt-7
+
+                  flex
+
+                  flex-col
+
+                  items-center
+                  justify-center
+
                   text-2xl
+
                   sm:text-3xl
+
+                  md:flex-row
                   md:text-4xl
                 "
               >
-                {wedding.groom}
-                <span className="mx-4">
-                  ♡
+                <span>
+                  {
+                    wedding.groom
+                  }
                 </span>
-                {wedding.bride}
-              </div>
+
+                <motion.span
+                  animate={{
+                    scale: [
+                      1,
+                      1.15,
+                      1,
+                    ],
+                  }}
+                  transition={{
+                    duration: 2.6,
+                    repeat: Infinity,
+                    ease:
+                      "easeInOut",
+                  }}
+                  className="
+                    text-wedding-rose
+
+                    my-1
+
+                    md:mx-4
+                    md:my-0
+                  "
+                >
+                  ♡
+                </motion.span>
+
+                <span>
+                  {
+                    wedding.bride
+                  }
+                </span>
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ==============================================
+      {/* =====================================================
           LIGHTBOX
-      ============================================== */}
+      ===================================================== */}
 
       <ImageLightbox
-        open={lightboxOpen}
-        images={momentImages}
-        currentIndex={lightboxIndex}
-        onChange={setLightboxIndex}
-        onClose={() =>
-          setLightboxOpen(false)
+        open={
+          lightboxOpen
         }
+        images={
+          momentImages
+        }
+        currentIndex={
+          lightboxIndex
+        }
+        onChange={
+          setLightboxIndex
+        }
+        onClose={() => {
+          setLightboxOpen(
+            false,
+          );
+        }}
       />
     </>
   );
 }
 
-/* ==============================================
-    BUTTON ZOOM TRÊN ẢNH NHỎ
-============================================== */
+/* =====================================================
+    MOMENT PHOTO
+===================================================== */
 
-function ZoomButton() {
+type MomentPhotoProps = {
+  image: {
+    src: string;
+    alt: string;
+    title: string;
+  };
+
+  onClick: () => void;
+};
+
+function MomentPhoto({
+  image,
+  onClick,
+}: MomentPhotoProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={image.title}
+      className="
+        group
+
+        absolute
+        inset-0
+
+        cursor-zoom-in
+
+        overflow-hidden
+
+        rounded-[inherit]
+      "
+    >
+      <Image
+        src={image.src}
+        alt={image.alt}
+        fill
+        sizes="
+          (max-width: 640px)
+          100vw,
+
+          (max-width: 1024px)
+          50vw,
+
+          33vw
+        "
+        className="
+          object-cover
+          object-center
+
+          transition-transform
+
+          duration-[1500ms]
+
+          ease-out
+
+          group-hover:scale-[1.04]
+        "
+      />
+
+      {/* OVERLAY */}
+
+      <div
+        className="
+          pointer-events-none
+
+          absolute
+          inset-0
+
+          bg-gradient-to-t
+
+          from-black/[0.09]
+          via-transparent
+          to-white/[0.05]
+        "
+      />
+
+      {/* SOFT LIGHT */}
+
+      <div
+        className="
+          pointer-events-none
+
+          absolute
+
+          -left-[25%]
+          -top-[20%]
+
+          h-[45%]
+          w-[65%]
+
+          rounded-full
+
+          bg-white/15
+
+          blur-[70px]
+        "
+      />
+
+      <ZoomButton />
+    </button>
+  );
+}
+
+/* =====================================================
+    ZOOM BUTTON
+===================================================== */
+
+type ZoomButtonProps = {
+  large?: boolean;
+};
+
+function ZoomButton({
+  large = false,
+}: ZoomButtonProps) {
   return (
     <>
       <div
         className="
           pointer-events-none
+
           absolute
           inset-0
 
           bg-black/0
 
           transition-colors
+
           duration-500
 
-          group-hover:bg-black/[0.05]
+          group-hover:bg-black/[0.04]
         "
       />
 
       <span
-        className="
+        className={`
           pointer-events-none
 
           absolute
-          right-4
-          top-4
+
+          z-20
 
           flex
-          h-10
-          w-10
 
           items-center
           justify-center
@@ -1129,28 +1931,55 @@ function ZoomButton() {
           rounded-full
 
           border
-          border-white/50
+          border-white/55
 
-          bg-black/15
+          bg-white/10
 
           text-white
 
           opacity-100
 
+          shadow-[0_10px_35px_rgba(0,0,0,0.12)]
+
           backdrop-blur-md
 
           transition-all
+
           duration-500
 
           group-hover:scale-105
-          group-hover:bg-black/25
+          group-hover:bg-white/20
 
           md:opacity-0
           md:group-hover:opacity-100
-        "
+
+          ${large
+            ? `
+                right-5
+                top-5
+
+                h-11
+                w-11
+
+                sm:right-8
+                sm:top-8
+              `
+            : `
+                right-4
+                top-4
+
+                h-10
+                w-10
+              `
+          }
+        `}
       >
         <ZoomIn
-          size={17}
+          size={
+            large
+              ? 19
+              : 17
+          }
           strokeWidth={1.5}
         />
       </span>

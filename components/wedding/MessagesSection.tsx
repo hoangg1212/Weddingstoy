@@ -3,70 +3,79 @@
 import Image from "next/image";
 
 import {
-  Play,
-} from "lucide-react";
-
-import {
   motion,
 } from "motion/react";
+
+import {
+  Play,
+} from "lucide-react";
 
 import {
   useState,
 } from "react";
 
-import HeartLayer from "./HeartLayer";
-import VideoModal from "./VideoModal";
-
 import {
   wedding,
 } from "@/data/wedding";
+
+import HeartLayer from "./HeartLayer";
+import VideoModal from "./VideoModal";
 
 export default function MessagesSection() {
   const [
     video,
     setVideo,
-  ] = useState<string | null>(null);
+  ] = useState<string | null>(
+    null,
+  );
 
   return (
     <>
       <section
         id="messages-for-us"
         className="
+          bg-weddingbg-wedding-rose
+  wedding-section
           relative
+
+          -mt-px
+
           overflow-hidden
 
-          bg-[#F1E9DF]
-
           px-5
-          py-24
+          py-16
 
           sm:px-8
-          sm:py-28
+          sm:py-20
 
           md:px-10
+          md:py-24
 
           lg:px-12
-          lg:py-40
+          lg:py-28
         "
       >
         {/* =================================================
-            BACKGROUND DECORATION
+            BACKGROUND
         ================================================= */}
 
         <div
           className="
+            wedding-glow-blue
+
             pointer-events-none
 
             absolute
-            -left-[18%]
-            top-[5%]
+
+            -left-[20%]
+            top-[2%]
 
             h-[42rem]
             w-[42rem]
 
             rounded-full
 
-            bg-[#E6D3C8]/35
+            opacity-40
 
             blur-[145px]
           "
@@ -74,18 +83,21 @@ export default function MessagesSection() {
 
         <div
           className="
+            wedding-glow-pink
+
             pointer-events-none
 
             absolute
-            -right-[18%]
-            bottom-[5%]
+
+            -right-[20%]
+            bottom-[4%]
 
             h-[40rem]
             w-[40rem]
 
             rounded-full
 
-            bg-[#E8DCCF]/45
+            opacity-35
 
             blur-[145px]
           "
@@ -93,22 +105,25 @@ export default function MessagesSection() {
 
         <div
           className="
+            wedding-glow-green
+
             pointer-events-none
 
             absolute
+
             left-1/2
             top-[45%]
 
-            h-[34rem]
-            w-[34rem]
+            h-[32rem]
+            w-[32rem]
 
             -translate-x-1/2
 
             rounded-full
 
-            bg-white/35
+            opacity-30
 
-            blur-[120px]
+            blur-[135px]
           "
         />
 
@@ -117,7 +132,7 @@ export default function MessagesSection() {
         ================================================= */}
 
         <HeartLayer
-          density="medium"
+          density="low"
         />
 
         {/* =================================================
@@ -141,7 +156,7 @@ export default function MessagesSection() {
           <motion.div
             initial={{
               opacity: 0,
-              y: 30,
+              y: 26,
             }}
             whileInView={{
               opacity: 1,
@@ -149,10 +164,11 @@ export default function MessagesSection() {
             }}
             viewport={{
               once: true,
-              amount: 0.45,
+              amount: 0.35,
             }}
             transition={{
               duration: 0.9,
+
               ease: [
                 0.22,
                 1,
@@ -162,13 +178,15 @@ export default function MessagesSection() {
             }}
             className="
               mx-auto
+
               max-w-3xl
+
               text-center
             "
           >
             {/* HEART */}
 
-            <motion.div
+            <motion.span
               animate={{
                 scale: [
                   1,
@@ -182,17 +200,204 @@ export default function MessagesSection() {
                 ease: "easeInOut",
               }}
               className="
-                mb-5
+                text-wedding-rose
+
+                inline-block
 
                 text-2xl
-
-                text-[#A58972]
               "
             >
               ♡
+            </motion.span>
+
+            {/* EYEBROW */}
+
+            <motion.p
+              initial={{
+                opacity: 0,
+                y: 12,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                delay: 0.05,
+                duration: 0.75,
+              }}
+              className="
+                text-wedding-blue
+
+                mt-2
+
+                text-[10px]
+
+                font-semibold
+
+                uppercase
+
+                tracking-[0.3em]
+
+                sm:text-xs
+              "
+            >
+              {
+                wedding
+                  .messagesSection
+                  .eyebrow
+              }
+            </motion.p>
+
+            {/* =================================================
+                TITLE
+            ================================================= */}
+
+            <motion.h2
+              initial={{
+                opacity: 0,
+                y: 20,
+                filter:
+                  "blur(6px)",
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                filter:
+                  "blur(0px)",
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                delay: 0.1,
+                duration: 1,
+
+                ease: [
+                  0.22,
+                  1,
+                  0.36,
+                  1,
+                ],
+              }}
+              className="
+                font-editorial
+                text-wedding-primary
+
+                mt-3
+
+                font-medium
+
+                leading-[0.88]
+
+                tracking-[-0.04em]
+              "
+            >
+              <span
+                className="
+                  block
+
+                  text-[clamp(3rem,8vw,6.4rem)]
+                "
+              >
+                {
+                  wedding
+                    .messagesSection
+                    .title
+                }
+              </span>
+
+              <span
+                className="
+                  font-script
+                  text-wedding-rose
+
+                  mt-1
+
+                  block
+
+                  text-[clamp(3rem,8vw,6rem)]
+
+                  font-normal
+
+                  leading-[0.9]
+                "
+              >
+                {
+                  wedding
+                    .messagesSection
+                    .titleAccent
+                }
+              </span>
+            </motion.h2>
+
+            {/* =================================================
+                DIVIDER
+            ================================================= */}
+
+            <motion.div
+              initial={{
+                opacity: 0,
+                scaleX: 0,
+              }}
+              whileInView={{
+                opacity: 1,
+                scaleX: 1,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                delay: 0.22,
+                duration: 0.8,
+              }}
+              className="
+                mx-auto
+
+                mt-4
+
+                flex
+
+                items-center
+                justify-center
+
+                gap-3
+              "
+            >
+              <span
+                className="
+                  wedding-divider-left
+
+                  h-px
+                  w-10
+                "
+              />
+
+              <span
+                className="
+                  text-wedding-rose
+
+                  text-xs
+                "
+              >
+                ♡
+              </span>
+
+              <span
+                className="
+                  wedding-divider-right
+
+                  h-px
+                  w-10
+                "
+              />
             </motion.div>
 
-            {/* SMALL TITLE */}
+            {/* =================================================
+                DESCRIPTION
+            ================================================= */}
 
             <motion.p
               initial={{
@@ -207,125 +412,23 @@ export default function MessagesSection() {
                 once: true,
               }}
               transition={{
-                duration: 0.8,
-              }}
-              className="
-                text-[10px]
-                font-bold
-                uppercase
-
-                tracking-[0.3em]
-
-                text-[#826B59]
-
-                sm:text-xs
-              "
-            >
-              Từ những người chúng mình yêu thương
-            </motion.p>
-
-            {/* TITLE */}
-
-          <motion.h2
-  initial={{
-    opacity: 0,
-    y: 25,
-    filter: "blur(6px)",
-  }}
-  whileInView={{
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-  }}
-  viewport={{
-    once: true,
-  }}
-  transition={{
-    delay: 0.12,
-    duration: 1,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="
-    font-editorial
-    mt-4
-
-    whitespace-nowrap
-
-    text-[clamp(2.3rem,7vw,6.5rem)]
-
-    font-medium
-    leading-[0.9]
-    tracking-[-0.04em]
-
-    text-[#2F2925]
-  "
->
-  Những lời yêu thương
-</motion.h2>
-
-            {/* LINE */}
-
-            <motion.div
-              initial={{
-                scaleX: 0,
-                opacity: 0,
-              }}
-              whileInView={{
-                scaleX: 1,
-                opacity: 1,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
                 delay: 0.3,
-                duration: 0.9,
-              }}
-              className="
-                mx-auto
-
-                mt-6
-
-                h-px
-                w-16
-
-                origin-center
-
-                bg-[#AF947D]
-              "
-            />
-
-            {/* DESCRIPTION */}
-
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: 18,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                delay: 0.4,
                 duration: 0.8,
               }}
               className="
+                text-wedding-soft
+
                 mx-auto
 
-                mt-6
+                mt-4
 
                 max-w-2xl
 
-                text-[15px]
+                text-[14px]
+
                 font-medium
 
                 leading-7
-
-                text-[#5C534C]
 
                 sm:text-base
 
@@ -333,33 +436,38 @@ export default function MessagesSection() {
                 md:leading-8
               "
             >
-              Có những lời chúc không chỉ để nghe trong
-              một ngày, mà còn là những điều chúng mình
-              muốn mang theo trên cả hành trình phía trước.
+              {
+                wedding
+                  .messagesSection
+                  .description
+              }
             </motion.p>
           </motion.div>
 
           {/* =================================================
-              MESSAGE VIDEOS
+              MESSAGE CARDS
           ================================================= */}
 
           <div
             className="
               mx-auto
 
-              mt-16
+              mt-10
 
               grid
+
               max-w-6xl
 
               gap-10
 
+              sm:mt-12
+
               md:grid-cols-2
-
               md:items-start
+              md:gap-8
 
-              lg:mt-24
-              lg:gap-14
+              lg:mt-16
+              lg:gap-12
             "
           >
             {wedding.messages.map(
@@ -367,12 +475,13 @@ export default function MessagesSection() {
                 message,
                 index,
               ) => (
-                <motion.button
-                  type="button"
-                  key={message.name}
+                <motion.article
+                  key={
+                    message.name
+                  }
                   initial={{
                     opacity: 0,
-                    y: 45,
+                    y: 42,
                     filter:
                       "blur(8px)",
                   }}
@@ -384,12 +493,14 @@ export default function MessagesSection() {
                   }}
                   viewport={{
                     once: true,
-                    amount: 0.2,
+                    amount: 0.18,
                   }}
                   transition={{
                     delay:
-                      index * 0.15,
+                      index * 0.12,
+
                     duration: 1,
+
                     ease: [
                       0.22,
                       1,
@@ -397,398 +508,568 @@ export default function MessagesSection() {
                       1,
                     ],
                   }}
-                  whileHover={{
-                    y: -5,
-                  }}
-                  whileTap={{
-                    scale: 0.995,
-                  }}
-                  onClick={() =>
-                    setVideo(
-                      message.video,
-                    )
-                  }
                   className="
-                    group
-                    block
-
-                    w-full
-
-                    text-left
+                    relative
                   "
                 >
-                  {/* =========================================
-                      VIDEO POSTER
-                  ========================================= */}
+                  {/* =====================================
+                      VIDEO FRAME
+                  ===================================== */}
 
-                  <div
-                    className="
+                  <motion.div
+                    whileHover={{
+                      y: -5,
+                    }}
+                    transition={{
+                      duration: 0.45,
+                    }}
+                    className={`
+                      wedding-photo-frame
+
+                      ${index % 2 ===
+                        1
+                        ? "wedding-photo-frame-bride"
+                        : ""
+                      }
+
                       relative
 
                       aspect-[4/5]
 
-                      overflow-hidden
+                      rounded-[1.5rem]
 
-                      rounded-[1.6rem]
+                      sm:rounded-[1.8rem]
 
-                      bg-[#DDD0C3]
-
-                      shadow-[0_25px_75px_rgba(65,49,38,0.13)]
-
-                      sm:rounded-[2rem]
-                    "
+                      lg:rounded-[2rem]
+                    `}
                   >
-                    <Image
-                      src={
-                        message.poster
-                      }
-                      alt={`Lời chúc từ ${message.name}`}
-                      fill
-                      sizes="
-                        (max-width: 768px) 100vw,
-                        50vw
-                      "
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setVideo(
+                          message.video,
+                        );
+                      }}
+                      aria-label={`Xem lời chúc từ ${message.name}`}
                       className="
-                        object-cover
-                        object-center
-
-                        transition-transform
-
-                        duration-[1500ms]
-
-                        ease-out
-
-                        group-hover:scale-[1.04]
-                      "
-                    />
-
-                    {/* OVERLAY */}
-
-                    <div
-                      className="
-                        pointer-events-none
+                        group
 
                         absolute
                         inset-0
 
-                        bg-gradient-to-b
+                        cursor-pointer
 
-                        from-black/[0.03]
-                        via-black/[0.10]
-                        to-black/35
+                        overflow-hidden
 
-                        transition-colors
-                        duration-700
+                        rounded-[inherit]
 
-                        group-hover:to-black/40
-                      "
-                    />
-
-                    {/* INNER BORDER */}
-
-                    <div
-                      className="
-                        pointer-events-none
-
-                        absolute
-                        inset-3
-
-                        rounded-[1.25rem]
-
-                        border
-                        border-white/45
-
-                        sm:inset-4
-                        sm:rounded-[1.6rem]
-                      "
-                    />
-
-                    {/* =========================================
-                        TOP LABEL
-                    ========================================= */}
-
-                    <div
-                      className="
-                        absolute
-                        left-5
-                        top-5
-
-                        z-10
-
-                        rounded-full
-
-                        border
-                        border-white/30
-
-                        bg-black/10
-
-                        px-4
-                        py-2
-
-                        text-[9px]
-                        font-semibold
-
-                        uppercase
-
-                        tracking-[0.22em]
-
-                        text-white
-
-                        backdrop-blur-md
-
-                        sm:left-6
-                        sm:top-6
-                        sm:text-[10px]
+                        text-left
                       "
                     >
-                      Lời chúc
-                    </div>
+                      {/* =================================
+                          IMAGE
+                      ================================= */}
 
-                    {/* =========================================
-                        PLAY
-                    ========================================= */}
+                      <Image
+                        src={
+                          message.poster
+                        }
+                        alt={
+                          message.posterAlt
+                        }
+                        fill
+                        sizes="
+                          (max-width: 768px)
+                          100vw,
 
-                    <div
-                      className="
-                        absolute
-                        inset-0
+                          50vw
+                        "
+                        className="
+                          object-cover
+                          object-center
 
-                        z-10
+                          transition-transform
 
-                        flex
-                        items-center
-                        justify-center
-                      "
-                    >
+                          duration-[1600ms]
+
+                          ease-out
+
+                          group-hover:scale-[1.04]
+                        "
+                      />
+
+                      {/* =================================
+                          OVERLAY
+                      ================================= */}
+
                       <div
                         className="
-                          relative
+                          pointer-events-none
+
+                          absolute
+                          inset-0
+
+                          bg-gradient-to-b
+
+                          from-black/[0.02]
+                          via-black/[0.08]
+                          to-black/45
+
+                          transition-colors
+
+                          duration-700
+
+                          group-hover:to-black/50
+                        "
+                      />
+
+                      {/* =================================
+                          SOFT BLUE LIGHT
+                      ================================= */}
+
+                      <div
+                        className="
+                          wedding-glow-blue
+
+                          pointer-events-none
+
+                          absolute
+
+                          -left-[30%]
+                          -top-[20%]
+
+                          h-[50%]
+                          w-[70%]
+
+                          rounded-full
+
+                          opacity-[0.18]
+
+                          blur-[90px]
+                        "
+                      />
+
+                      {/* =================================
+                          SOFT ROSE LIGHT
+                      ================================= */}
+
+                      <div
+                        className="
+                          wedding-glow-pink
+
+                          pointer-events-none
+
+                          absolute
+
+                          -bottom-[25%]
+                          -right-[25%]
+
+                          h-[50%]
+                          w-[70%]
+
+                          rounded-full
+
+                          opacity-[0.18]
+
+                          blur-[90px]
+                        "
+                      />
+
+                      {/* =================================
+                          BADGE
+                      ================================= */}
+
+                      <div
+                        className="
+                          absolute
+
+                          left-5
+                          top-5
+
+                          z-10
 
                           flex
+
+                          items-center
+
+                          gap-2
+
+                          rounded-full
+
+                          border
+                          border-white/40
+
+                          bg-white/10
+
+                          px-3.5
+                          py-2
+
+                          text-[8px]
+
+                          font-semibold
+
+                          uppercase
+
+                          tracking-[0.22em]
+
+                          text-white
+
+                          backdrop-blur-xl
+
+                          sm:left-6
+                          sm:top-6
+                          sm:text-[10px]
+                        "
+                      >
+                        <span
+                          className="
+                            text-wedding-rose
+
+                            text-xs
+                          "
+                        >
+                          ♡
+                        </span>
+
+                        {
+                          wedding
+                            .messagesSection
+                            .cardBadge
+                        }
+                      </div>
+
+                      {/* =================================
+                          PLAY BUTTON
+                      ================================= */}
+
+                      <div
+                        className="
+                          absolute
+                          inset-0
+
+                          z-10
+
+                          flex
+
                           items-center
                           justify-center
                         "
                       >
-                        {/* RING 1 */}
-
-                        <motion.span
-                          animate={{
-                            scale: [
-                              1,
-                              1.45,
-                            ],
-                            opacity: [
-                              0.32,
-                              0,
-                            ],
-                          }}
-                          transition={{
-                            duration: 2.8,
-                            repeat:
-                              Infinity,
-                            ease:
-                              "easeOut",
-                          }}
-                          className="
-                            absolute
-
-                            h-20
-                            w-20
-
-                            rounded-full
-
-                            border
-                            border-white/55
-
-                            sm:h-24
-                            sm:w-24
-                          "
-                        />
-
-                        {/* RING 2 */}
-
-                        <motion.span
-                          animate={{
-                            scale: [
-                              1,
-                              1.55,
-                            ],
-                            opacity: [
-                              0.18,
-                              0,
-                            ],
-                          }}
-                          transition={{
-                            duration: 2.8,
-                            delay: 0.7,
-                            repeat:
-                              Infinity,
-                            ease:
-                              "easeOut",
-                          }}
-                          className="
-                            absolute
-
-                            h-20
-                            w-20
-
-                            rounded-full
-
-                            border
-                            border-white/35
-
-                            sm:h-24
-                            sm:w-24
-                          "
-                        />
-
-                        {/* MAIN */}
-
-                        <motion.span
-                          animate={{
-                            scale: [
-                              1,
-                              1.035,
-                              1,
-                            ],
-                          }}
-                          transition={{
-                            duration: 3,
-                            repeat:
-                              Infinity,
-                            ease:
-                              "easeInOut",
-                          }}
+                        <div
                           className="
                             relative
 
                             flex
-                            h-16
-                            w-16
 
                             items-center
                             justify-center
-
-                            rounded-full
-
-                            border
-                            border-white/65
-
-                            bg-white/20
-
-                            text-white
-
-                            shadow-[0_14px_45px_rgba(0,0,0,0.20)]
-
-                            backdrop-blur-xl
-
-                            transition-all
-                            duration-500
-
-                            group-hover:bg-white/30
-
-                            sm:h-20
-                            sm:w-20
                           "
                         >
-                          <Play
-                            size={27}
-                            strokeWidth={
-                              1.6
-                            }
-                            fill="currentColor"
-                            className="ml-1"
+                          {/* RING 01 */}
+
+                          <motion.span
+                            animate={{
+                              scale: [
+                                1,
+                                1.48,
+                              ],
+
+                              opacity: [
+                                0.38,
+                                0,
+                              ],
+                            }}
+                            transition={{
+                              duration:
+                                2.8,
+
+                              repeat:
+                                Infinity,
+
+                              ease:
+                                "easeOut",
+                            }}
+                            className="
+                              absolute
+
+                              h-20
+                              w-20
+
+                              rounded-full
+
+                              border
+                              border-white/55
+
+                              sm:h-24
+                              sm:w-24
+                            "
                           />
-                        </motion.span>
+
+                          {/* RING 02 */}
+
+                          <motion.span
+                            animate={{
+                              scale: [
+                                1,
+                                1.58,
+                              ],
+
+                              opacity: [
+                                0.22,
+                                0,
+                              ],
+                            }}
+                            transition={{
+                              duration:
+                                2.8,
+
+                              delay:
+                                0.7,
+
+                              repeat:
+                                Infinity,
+
+                              ease:
+                                "easeOut",
+                            }}
+                            className="
+                              absolute
+
+                              h-20
+                              w-20
+
+                              rounded-full
+
+                              border
+                              border-white/35
+
+                              sm:h-24
+                              sm:w-24
+                            "
+                          />
+
+                          {/* MAIN PLAY */}
+
+                          <motion.span
+                            animate={{
+                              scale: [
+                                1,
+                                1.035,
+                                1,
+                              ],
+                            }}
+                            transition={{
+                              duration:
+                                3,
+
+                              repeat:
+                                Infinity,
+
+                              ease:
+                                "easeInOut",
+                            }}
+                            className="
+                              relative
+
+                              flex
+
+                              h-16
+                              w-16
+
+                              items-center
+                              justify-center
+
+                              rounded-full
+
+                              border
+                              border-white/70
+
+                              bg-white/20
+
+                              text-white
+
+                              shadow-[0_15px_45px_rgba(0,0,0,0.18)]
+
+                              backdrop-blur-xl
+
+                              transition-all
+
+                              duration-500
+
+                              group-hover:scale-105
+                              group-hover:bg-white/30
+
+                              sm:h-20
+                              sm:w-20
+                            "
+                          >
+                            <Play
+                              size={
+                                27
+                              }
+                              strokeWidth={
+                                1.5
+                              }
+                              fill="currentColor"
+                              className="
+                                ml-1
+
+                                sm:h-8
+                                sm:w-8
+                              "
+                            />
+                          </motion.span>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* =========================================
-                        BOTTOM NAME
-                    ========================================= */}
+                      {/* =================================
+                          NAME OVER IMAGE
+                      ================================= */}
 
-                    <div
-                      className="
-                        absolute
-                        bottom-6
-                        left-1/2
-
-                        z-10
-
-                        w-[90%]
-
-                        -translate-x-1/2
-
-                        text-center
-
-                        text-white
-
-                        sm:bottom-8
-                      "
-                    >
-                      <p
+                      <div
                         className="
-                          font-editorial
+                          absolute
 
-                          text-3xl
-                          font-medium
+                          bottom-6
+                          left-1/2
 
-                          drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]
+                          z-10
 
-                          sm:text-4xl
+                          w-[90%]
+
+                          -translate-x-1/2
+
+                          text-center
+
+                          text-white
+
+                          sm:bottom-8
                         "
                       >
-                        {
-                          message.name
-                        }
-                      </p>
-                    </div>
-                  </div>
+                        <p
+                          className="
+                            text-[9px]
 
-                  {/* =========================================
-                      TEXT BELOW CARD
-                  ========================================= */}
+                            font-semibold
 
-                  <div
+                            uppercase
+
+                            tracking-[0.25em]
+
+                            text-white/75
+
+                            sm:text-[10px]
+                          "
+                        >
+                          {
+                            wedding
+                              .messagesSection
+                              .cardEyebrow
+                          }
+                        </p>
+
+                        <p
+                          className="
+                            font-editorial
+
+                            mt-1
+
+                            text-3xl
+
+                            font-medium
+
+                            leading-tight
+
+                            drop-shadow-[0_3px_12px_rgba(0,0,0,0.4)]
+
+                            sm:text-4xl
+                          "
+                        >
+                          {
+                            message.name
+                          }
+                        </p>
+                      </div>
+                    </button>
+                  </motion.div>
+
+                  {/* =====================================
+                      TEXT BELOW
+                  ===================================== */}
+
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                      y: 12,
+                    }}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    viewport={{
+                      once: true,
+                    }}
+                    transition={{
+                      delay:
+                        0.18 +
+                        index * 0.08,
+
+                      duration:
+                        0.8,
+                    }}
                     className="
                       mx-auto
 
                       max-w-md
 
                       px-2
-                      pt-6
+                      pt-5
 
                       text-center
+
+                      sm:pt-6
                     "
                   >
                     <p
-                      className="
+                      className={`
+                        ${index % 2 ===
+                          0
+                          ? "text-wedding-blue"
+                          : "text-wedding-rose"
+                        }
+
                         text-[10px]
-                        font-bold
+
+                        font-semibold
+
                         uppercase
 
                         tracking-[0.28em]
 
-                        text-[#927863]
-
                         sm:text-xs
-                      "
+                      `}
                     >
-                      Một lời nhắn gửi
+                      {
+                        wedding
+                          .messagesSection
+                          .cardEyebrow
+                      }
                     </p>
 
                     <h3
                       className="
                         font-editorial
+                        text-wedding-primary
 
-                        mt-2
+                        mt-1
 
                         text-3xl
+
                         font-medium
 
                         leading-tight
 
-                        text-[#332C27]
+                        tracking-[-0.025em]
 
                         sm:text-4xl
                       "
@@ -798,29 +1079,27 @@ export default function MessagesSection() {
                       }
                     </h3>
 
-                    {"message" in message &&
-                      message.message && (
-                        <p
-                          className="
-                            mt-3
+                    <p
+                      className="
+                        text-wedding-soft
 
-                            text-sm
-                            font-medium
+                        mt-2
 
-                            leading-7
+                        text-sm
 
-                            text-[#71665E]
+                        font-medium
 
-                            sm:text-[15px]
-                          "
-                        >
-                          {
-                            message.message
-                          }
-                        </p>
-                      )}
+                        leading-7
 
-                    <motion.div
+                        sm:text-[15px]
+                      "
+                    >
+                      {
+                        message.message
+                      }
+                    </p>
+
+                    <motion.span
                       animate={{
                         scale: [
                           1,
@@ -829,36 +1108,41 @@ export default function MessagesSection() {
                         ],
                       }}
                       transition={{
-                        duration: 3,
+                        duration:
+                          3,
+
                         repeat:
                           Infinity,
+
                         ease:
                           "easeInOut",
                       }}
                       className="
-                        mt-5
+                        text-wedding-rose
+
+                        mt-3
+
+                        inline-block
 
                         text-lg
-
-                        text-[#A58972]
                       "
                     >
                       ♡
-                    </motion.div>
-                  </div>
-                </motion.button>
+                    </motion.span>
+                  </motion.div>
+                </motion.article>
               ),
             )}
           </div>
 
           {/* =================================================
-              END QUOTE
+              ENDING QUOTE
           ================================================= */}
 
           <motion.div
             initial={{
               opacity: 0,
-              y: 30,
+              y: 24,
             }}
             whileInView={{
               opacity: 1,
@@ -866,10 +1150,11 @@ export default function MessagesSection() {
             }}
             viewport={{
               once: true,
-              amount: 0.4,
+              amount: 0.3,
             }}
             transition={{
-              duration: 1,
+              duration: 0.95,
+
               ease: [
                 0.22,
                 1,
@@ -880,77 +1165,110 @@ export default function MessagesSection() {
             className="
               mx-auto
 
-              mt-20
+              mt-12
 
-              max-w-3xl
+              max-w-6xl
 
               text-center
 
-              lg:mt-28
+              sm:mt-14
+
+              lg:mt-16
             "
           >
-            {/* LINE TOP */}
+            {/* =============================================
+                DIVIDER
+            ============================================= */}
 
             <motion.div
               initial={{
                 scaleX: 0,
+                opacity: 0,
               }}
               whileInView={{
                 scaleX: 1,
+                opacity: 1,
               }}
               viewport={{
                 once: true,
               }}
               transition={{
-                duration: 0.9,
+                duration: 0.8,
               }}
               className="
                 mx-auto
 
-                h-px
-                w-14
+                flex
 
-                origin-center
+                items-center
+                justify-center
 
-                bg-[#B29A85]
-              "
-            />
-
-            {/* HEART */}
-
-            <motion.div
-              animate={{
-                scale: [
-                  1,
-                  1.14,
-                  1,
-                ],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="
-                mt-7
-
-                text-xl
-
-                text-[#A58972]
+                gap-3
               "
             >
-              ♡
+              <span
+                className="
+                  wedding-divider-left
+
+                  h-px
+                  w-10
+                "
+              />
+
+              <motion.span
+                animate={{
+                  scale: [
+                    1,
+                    1.14,
+                    1,
+                  ],
+                }}
+                transition={{
+                  duration: 3,
+
+                  repeat:
+                    Infinity,
+
+                  ease:
+                    "easeInOut",
+                }}
+                className="
+                  text-wedding-rose
+
+                  text-lg
+                "
+              >
+                ♡
+              </motion.span>
+
+              <span
+                className="
+                  wedding-divider-right
+
+                  h-px
+                  w-10
+                "
+              />
             </motion.div>
 
-            {/* QUOTE */}
+            {/* =============================================
+                MOBILE + TABLET
+
+                Giữ xuống dòng tự nhiên
+            ============================================= */}
 
             <p
               className="
                 font-editorial
+                text-wedding-primary
 
-                mt-6
+                mx-auto
 
-                text-[clamp(2.2rem,5vw,3.8rem)]
+                mt-4
+
+                max-w-3xl
+
+                text-[clamp(2rem,8vw,3rem)]
 
                 font-medium
 
@@ -958,44 +1276,127 @@ export default function MessagesSection() {
 
                 tracking-[-0.03em]
 
-                text-[#352E29]
+                lg:hidden
               "
             >
-              “Tình yêu của chúng mình không chỉ có hai người,
-              mà còn được vun đầy bởi những người luôn thương
-              và chúc phúc cho chúng mình.”
+              “{
+                wedding
+                  .messagesSection
+                  .endingQuoteLines
+                  .join(" ")
+              }”
             </p>
 
-            {/* SIGNATURE */}
+            {/* =============================================
+                DESKTOP
+
+                CỐ ĐỊNH ĐÚNG 3 HÀNG
+            ============================================= */}
+
+            <div
+              className="
+                font-editorial
+                text-wedding-primary
+
+                mx-auto
+
+                mt-4
+
+                hidden
+
+                font-medium
+
+                leading-[1.16]
+
+                tracking-[-0.03em]
+
+                lg:block
+
+                lg:text-[clamp(2.2rem,3vw,3.4rem)]
+              "
+            >
+              {/* LINE 01 */}
+
+              <p
+                className="
+                  whitespace-nowrap
+                "
+              >
+                “{
+                  wedding
+                    .messagesSection
+                    .endingQuoteLines[0]
+                }
+              </p>
+
+              {/* LINE 02 */}
+
+              <p
+                className="
+                  whitespace-nowrap
+                "
+              >
+                {
+                  wedding
+                    .messagesSection
+                    .endingQuoteLines[1]
+                }
+              </p>
+
+              {/* LINE 03 */}
+
+              <p
+                className="
+                  whitespace-nowrap
+                "
+              >
+                {
+                  wedding
+                    .messagesSection
+                    .endingQuoteLines[2]
+                }”
+              </p>
+            </div>
+
+            {/* =============================================
+                SIGNATURE
+            ============================================= */}
 
             <motion.p
               initial={{
                 opacity: 0,
+                y: 8,
               }}
               whileInView={{
                 opacity: 1,
+                y: 0,
               }}
               viewport={{
                 once: true,
               }}
               transition={{
-                delay: 0.35,
-                duration: 0.9,
+                delay: 0.25,
+                duration: 0.8,
               }}
               className="
-                mt-8
+                text-wedding-soft
+
+                mt-4
 
                 text-sm
+
                 font-medium
 
-                tracking-[0.04em]
-
-                text-[#776C63]
+                tracking-[0.03em]
 
                 sm:text-base
               "
             >
-              Cảm ơn vì đã luôn ở bên chúng mình.
+              {
+                wedding
+                  .messagesSection
+                  .endingText
+              }
             </motion.p>
           </motion.div>
         </div>
@@ -1012,9 +1413,11 @@ export default function MessagesSection() {
         src={
           video ?? ""
         }
-        onClose={() =>
-          setVideo(null)
-        }
+        onClose={() => {
+          setVideo(
+            null,
+          );
+        }}
       />
     </>
   );
