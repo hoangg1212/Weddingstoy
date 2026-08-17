@@ -226,50 +226,42 @@ export default function MessagesSection() {
 
             {/* TITLE */}
 
-            <motion.h2
-              initial={{
-                opacity: 0,
-                y: 25,
-                filter:
-                  "blur(6px)",
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-                filter:
-                  "blur(0px)",
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                delay: 0.12,
-                duration: 1,
-                ease: [
-                  0.22,
-                  1,
-                  0.36,
-                  1,
-                ],
-              }}
-              className="
-                font-editorial
+          <motion.h2
+  initial={{
+    opacity: 0,
+    y: 25,
+    filter: "blur(6px)",
+  }}
+  whileInView={{
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+  }}
+  viewport={{
+    once: true,
+  }}
+  transition={{
+    delay: 0.12,
+    duration: 1,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="
+    font-editorial
+    mt-4
 
-                mt-4
+    whitespace-nowrap
 
-                text-[clamp(3.4rem,9vw,7.5rem)]
+    text-[clamp(2.3rem,7vw,6.5rem)]
 
-                font-medium
+    font-medium
+    leading-[0.9]
+    tracking-[-0.04em]
 
-                leading-[0.9]
-
-                tracking-[-0.04em]
-
-                text-[#2F2925]
-              "
-            >
-              Những lời yêu thương
-            </motion.h2>
+    text-[#2F2925]
+  "
+>
+  Những lời yêu thương
+</motion.h2>
 
             {/* LINE */}
 

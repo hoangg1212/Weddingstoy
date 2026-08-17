@@ -207,29 +207,25 @@ export default function EndingSection() {
             ease: [0.22, 1, 0.36, 1],
           }}
           className="
-            font-editorial
+    font-editorial
+    mx-auto
+    mt-4
+    max-w-[1050px]
 
-            mx-auto
+    text-[clamp(2.5rem,6vw,6rem)]
 
-            mt-4
-
-            max-w-[1050px]
-
-            text-[clamp(3rem,6vw,6rem)]
-
-            font-medium
-
-            leading-[0.93]
-
-            tracking-[-0.045em]
-
-            text-[#302A26]
-          "
+    font-medium
+    leading-[0.98]
+    tracking-[-0.045em]
+    text-[#302A26]
+  "
         >
           Cảm ơn bạn đã trở thành
           <br className="hidden sm:block" />
+          {" "}
           một phần trong câu chuyện
           <br className="hidden sm:block" />
+          {" "}
           của chúng mình.
         </motion.h2>
 
@@ -288,27 +284,26 @@ export default function EndingSection() {
             duration: 0.8,
           }}
           className="
-            font-editorial
+    font-editorial
+    mx-auto
+    mt-6
+    max-w-2xl
 
-            mx-auto
+    text-[clamp(1.8rem,3vw,3rem)]
 
-            mt-6
+    font-medium
 
-            max-w-2xl
+    leading-[1.15]
+    sm:leading-[1.08]
 
-            text-[clamp(1.8rem,3vw,3rem)]
+    tracking-[-0.025em]
 
-            font-medium
-
-            leading-[1.08]
-
-            tracking-[-0.025em]
-
-            text-[#514741]
-          "
+    text-[#514741]
+  "
         >
           Và từ hôm nay, một hành trình mới
           <br className="hidden sm:block" />
+          {" "}
           chính thức bắt đầu.
         </motion.p>
 
@@ -437,66 +432,6 @@ export default function EndingSection() {
             FINAL MESSAGE
         ================================================= */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 8,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            delay: 0.85,
-            duration: 0.85,
-          }}
-          className="
-            mt-6
-          "
-        >
-          <p
-            className="
-              text-xs
-              font-medium
-
-              leading-5
-
-              tracking-[0.04em]
-
-              text-[#91857B]
-
-              sm:text-sm
-            "
-          >
-            Hẹn gặp lại bạn trong ngày hạnh phúc của chúng mình.
-          </p>
-
-          <motion.span
-            animate={{
-              opacity: [0.65, 1, 0.65],
-              scale: [1, 1.12, 1],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="
-              mt-5
-
-              inline-block
-
-              text-2xl
-
-              text-[#B0937A]
-            "
-          >
-            ♡
-          </motion.span>
-        </motion.div>
 
         {/* =================================================
             FINAL SMALL LINE

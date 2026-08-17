@@ -243,35 +243,31 @@ export default function MovingMemoriesSection() {
               transition={{
                 delay: 0.12,
                 duration: 1,
-                ease: [
-                  0.22,
-                  1,
-                  0.36,
-                  1,
-                ],
+                ease: [0.22, 1, 0.36, 1],
               }}
               className="
-                font-editorial
+    font-editorial
+    mt-4
 
-                mt-4
+    text-[clamp(2.8rem,7vw,6.5rem)]
 
-                text-[clamp(3.4rem,9vw,7.5rem)]
+    font-medium
+    leading-[0.9]
+    tracking-[-0.04em]
 
-                font-medium
-
-                leading-[0.9]
-
-                tracking-[-0.04em]
-
-                text-[#2E2824]
-              "
+    text-[#2E2824]
+  "
             >
-              Những khoảnh khắc
+              <span className="block whitespace-nowrap">
+                Những khoảnh khắc
+              </span>
+
               <span
                 className="
-                  block
-                  text-[#8F7460]
-                "
+      block
+      whitespace-nowrap
+      text-[#8F7460]
+    "
               >
                 còn mãi
               </span>
